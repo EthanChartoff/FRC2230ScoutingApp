@@ -11,3 +11,9 @@ enum MatchVars {
   b2_robot,
   b3_robot
 }
+
+enum MatchStates {
+  endedMatches,
+  ongoingMatches,
+  futureMatches
+}

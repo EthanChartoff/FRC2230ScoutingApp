@@ -92,3 +92,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: GalacticVanguardian
+      fonts:
+        - asset: resources/fonts/GALACTIC VANGUARDIAN NCV.otf

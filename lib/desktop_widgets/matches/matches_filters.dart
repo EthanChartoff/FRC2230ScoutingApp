@@ -1,3 +1,5 @@
+import 'package:scoute_prime/variables/enums.dart';
+
 class MatchesFilters {
 
   /// params:
@@ -8,21 +10,20 @@ class MatchesFilters {
     required Future<List<dynamic>> matches
   }) async {
     Map<String, List<dynamic>> filteredMatches = {
-      'endedMatches': [],
-      'ongoingMatches': [],
-      'futureMatches': []
+      MatchStates.endedMatches.name: [],
+      MatchStates.ongoingMatches.name: [],
+      MatchStates.futureMatches.name: []
     };
 
     for(Map match in await matches) {
-      if(match['won_alliance'] == 'OM') {
-        filteredMatches['ongoingMatches']!.add(match);
+      if(match[MatchVars.won_alliance.name] == 'OM') {
+        filteredMatches[MatchStates.ongoingMatches.name]!.add(match);
       }
       else {
-        filteredMatches['endedMatches']!.add(match);
+        filteredMatches[MatchStates.endedMatches.name]!.add(match);
       }
     }
-
-    print(filteredMatches);
+    //print(filteredMatches);
     
     return filteredMatches;
     /// TODO: need to add how to differentiate from ongoing and future

@@ -116,17 +116,17 @@ class _LoginPageState extends State<LoginPage>{
                       children: [
                         loginUserButton(
                           userType: UserTypes.Viewer,
-                          route: '/',
+                          route: '/matches',
                           context: context,
                         ),
                         loginUserButton(
                           userType: UserTypes.Scouter,
-                          route: '/',
+                          route: '/matches',
                           context: context,
                         ),
                         loginUserButton(
                           userType: UserTypes.Admin,
-                          route: '/',
+                          route: '/matches',
                           context: context,
                         ),
                       ]
@@ -160,9 +160,12 @@ class _LoginPageState extends State<LoginPage>{
           /// the corresponding permission
           if(_passwordInput == PASSWORDS[userType.index]) {
             widget.updatePermissions(userType);
-            Navigator.popAndPushNamed(context, route);
-            }
-          },
+            Navigator.popAndPushNamed(
+              context, 
+              route,
+            );
+          }
+        },
       child: Text(userType.name.toUpperCase())
     );
 

@@ -5,12 +5,16 @@ import 'dart:io' show Platform;
 // get if app is running on the World Wide Web
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:scoute_prime/custom_page_route.dart';
 
 import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches.dart';
 import 'package:scoute_prime/desktop_widgets/matches/user_specific/scouter/scouter_matches.dart';
+import 'package:scoute_prime/desktop_widgets/matches/user_specific/strategy/strategy_matches.dart';
+import 'package:scoute_prime/desktop_widgets/matches/user_specific/viewer/viewer_matches.dart';
 import 'package:scoute_prime/desktop_widgets/side_menu/screen_with_sidemenu.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_page.dart';
+import 'package:scoute_prime/routes.dart';
 import 'package:scoute_prime/user_type_builder.dart';
 import 'package:scoute_prime/variables/constants.dart';
 import 'package:scoute_prime/variables/user_types.dart';
@@ -76,7 +80,24 @@ class _AppState extends State<App>{
             subtitle1: GoogleFonts.roboto(
               fontSize: 14,
               color: Colors.grey
-            )
+            ),
+
+            /// OngoingMatchCard buttons body style
+            bodyText1: GoogleFonts.roboto(
+              fontSize: 16,
+              color: ConstColors.RED_TEAM_COLOR
+            ),
+            bodyText2: GoogleFonts.roboto(
+              fontSize: 16,
+              color: ConstColors.BLUE_TEAM_COLOR
+            ),
+
+            /// Matches page tile of state above each type of cards
+            headline2: const TextStyle(
+              fontSize: 28.0,
+              color: Colors.white,
+              fontFamily: 'GalacticVanguardian'
+            ),
           ),
         ),
 
@@ -89,54 +110,46 @@ class _AppState extends State<App>{
         /// and how the application is ran, 
         /// 
         /// computers and phones will have different widget sizes, colors, builds...
-        onGenerateRoute: (route) {
-          return MaterialPageRoute(
-            /// onGenerateRoute need to return a Route, so the buide is wrapped
-            /// with MaterialPageRoute
-            builder: ((context) {
-              if(kIsWeb) {
-                /// runs on the web
-                
-                if(user == UserTypes.noType) {
-                  return LoginPage(
-                    updatePermissions: updatePermissions,
-                  );
-                }
-                else {
-                  if(route.name == '/') {
-                  /// user logs in or wants changes type
-                  return LoginPage(
-                    updatePermissions: updatePermissions,
-                  );
-                }
-                  if(route.name == '/matches') {
-                    return UserTypeBuilder(
-                      user: user,
-                      viewerPage: DesktopSidemenuScreenBuilder(
-                        screen: MatchesPage(
-                          bodyBuilder: ScoutingMatches.builder,
-                        )
-                      ),
-                      scouterPage: DesktopSidemenuScreenBuilder(
-                        screen: MatchesPage(
-                          bodyBuilder: ScoutingMatches.builder
-                        )
-                      ),
-                      adminPage: DesktopSidemenuScreenBuilder(
-                        screen: MatchesPage(
-                          bodyBuilder: ScoutingMatches.builder
-                        )
-                      ),
-                    );
-                  }
-                }
-              }
-              return LoginPage(
-                updatePermissions: updatePermissions,
+        onGenerateRoute: (RouteSettings settings) {
+          /// Page that will be displayed corresponding to route 
+          Widget? page;
+          
+          if(kIsWeb) {
+            /// runs on the web
+            
+            if(user == UserTypes.noType) {
+              page = LoginPage(
+                updatePermissions: updatePermissions
               );
-            })
+            }
+            else {
+              if(settings.name == Routing.LOGIN) {
+                /// go to login page
+                page = LoginPage(
+                  updatePermissions: updatePermissions
+                );
+              } 
+              else if(settings.name!.startsWith(Routing.MATCHES)) {
+                /// Route after Routes.MATCHES string
+                final subRoute = settings.name!.substring(Routing.MATCHES.length);
+                page = Routing(
+                  user: user,
+                  initialRoute: Routing.MATCHES,
+                  subRoute: subRoute,
+                );
+              }
+            }
+          }
+          if(page == null){
+            /// no route was found
+            throw Exception('Uknown route ${settings.name}');
+          }
+
+          return FastPageRoute(
+            builder: (context) => page!,
+            settings: settings
           );
-        },
+        }
       ))
     );
   }

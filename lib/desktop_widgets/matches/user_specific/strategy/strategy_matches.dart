@@ -4,16 +4,19 @@ import 'package:scoute_prime/desktop_widgets/matches/match_cards/ended.dart';
 import 'package:scoute_prime/desktop_widgets/matches/match_cards/ongoing.dart';
 import 'package:scoute_prime/variables/enums.dart';
 
+/// Layout of match cards a strategy member can see 
+class StrategyMatches extends StatelessWidget{
+  /// All future matches that will be displayed
+  final List<dynamic> futureMatches;
 
-/// Layout of match cards a scouter can see 
-class ScoutingMatches extends StatelessWidget{
   /// All ongoing matches that will be displayed
   final List<dynamic> ongoingMatches;
 
   /// All ended matches that will be displayed
   final List<dynamic> endedMatches;
 
-  const ScoutingMatches({
+  const StrategyMatches({
+    required this.futureMatches,
     required this.ongoingMatches,
     required this.endedMatches
   });
@@ -24,21 +27,26 @@ class ScoutingMatches extends StatelessWidget{
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
+          child: Text("Future Matches",
+            style: Theme.of(context).textTheme.headline2
+          ),
+        ),
+        ListView.builder(
+          itemBuilder: ((context, index) => OngoingMatchCard(match: futureMatches[index])),
+          itemCount: futureMatches.length,
+          shrinkWrap: true,
+        ),
+
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Text("Ongoing Matches",
             style: Theme.of(context).textTheme.headline2
           ),
         ),
-        /// ongoing matches
         ListView.builder(
-          itemBuilder: (context, index) => OngoingMatchCard(
-            match: ongoingMatches[index],
-          ),
+          itemBuilder: ((context, index) => OngoingMatchCard(match: futureMatches[index])),
           itemCount: ongoingMatches.length,
           shrinkWrap: true,
-        ),
-
-        const SizedBox(
-          height: 150,
         ),
 
         Padding(
@@ -47,22 +55,22 @@ class ScoutingMatches extends StatelessWidget{
             style: Theme.of(context).textTheme.headline2
           ),
         ),
-        /// ended matches
         ListView.builder(
-          itemBuilder: (context, index) => EndedMatchCard(
-            match: endedMatches[index],
-          ),
+          itemBuilder: ((context, index) => EndedMatchCard(match: futureMatches[index])),
           itemCount: endedMatches.length,
           shrinkWrap: true,
         ),
+
+
       ]
     );
   }
 
   static Widget builder({required Map<String, List<dynamic>> matches}) => 
-    ScoutingMatches(
+    StrategyMatches(
+      futureMatches: matches[MatchStates.futureMatches.name]!,
       ongoingMatches: matches[MatchStates.ongoingMatches.name]!,
-      endedMatches: matches[MatchStates.endedMatches.name]!
+      endedMatches: matches[MatchStates.endedMatches.name]!,
     );
 }
 

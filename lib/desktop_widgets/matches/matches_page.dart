@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/gets_match_table.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_filters.dart';
+import 'package:scoute_prime/variables/enums.dart';
 
 /// This is the page where the user can view past/ongoing matches.
 /// 
@@ -17,7 +18,7 @@ class MatchesPage extends StatefulWidget{
   /// This is a Function and not a Widget because you cant insert required
   /// params from a child widget when inhereted from the parent, so we build
   /// the widget with the data in this widget
-  final Widget Function(List<dynamic>) bodyBuilder;
+  final Widget Function({required Map<String, List<dynamic>> matches}) bodyBuilder;
 
   MatchesPage({
     required this.bodyBuilder
@@ -44,7 +45,7 @@ class _MatchesPageState extends State<MatchesPage>{
           if(snapshot.hasData){
             /// The widget displayed when there's data to display
             return widget.bodyBuilder(
-              snapshot.data!['ongoingMatches']!
+              matches: snapshot.data!
             );
           }
           else {
