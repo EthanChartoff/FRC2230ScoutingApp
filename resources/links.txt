@@ -1,0 +1,8 @@
+- drewSQL
+https://drawsql.app/teams/ga-44/diagrams/scouting-db
+
+- figma
+https://www.figma.com/files/project/63295693/Scouting-App?fuid=1137383962294325961
+
+- drive 
+https://drive.google.com/drive/u/0/folders/15kBsRL-YwpDCpZc1ArHsUJ4yCar5Nedr
