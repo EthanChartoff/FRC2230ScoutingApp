@@ -9,5 +9,5 @@ class FastPageRoute extends MaterialPageRoute {
   FastPageRoute({builder, settings}) : super(builder: builder, settings: settings);
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 100);
+  Duration get transitionDuration => const Duration(milliseconds: 10);
 }

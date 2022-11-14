@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/desktop_widgets/matches/match_cards/ended.dart';
-import 'package:scoute_prime/desktop_widgets/matches/match_cards/ongoing.dart';
 import 'package:scoute_prime/variables/enums.dart';
 
 
@@ -10,8 +9,15 @@ class ViewerMatches extends StatelessWidget{
   /// All ended matches that will be displayed
   final List<dynamic> endedMatches;
 
+  /// What will happen when [TeamButton] is hit.
+  /// 
+  /// In the current version, this is used for routing to the 
+  /// scouting forms, and the functions are located in [Routing]
+  final void Function() onTapTeamButton;
+
   const ViewerMatches({
-    required this.endedMatches
+    required this.endedMatches,
+    required this.onTapTeamButton
   });
   
   @override
@@ -28,6 +34,7 @@ class ViewerMatches extends StatelessWidget{
         ListView.builder(
           itemBuilder: (context, index) => EndedMatchCard(
             match: endedMatches[index],
+            onTapTeamButton: onTapTeamButton,
           ),
           itemCount: endedMatches.length,
           shrinkWrap: true,
@@ -36,10 +43,14 @@ class ViewerMatches extends StatelessWidget{
     );
   }
 
-  static Widget builder({required Map<String, List<dynamic>> matches}) => 
-    ViewerMatches(
-      endedMatches: matches[MatchStates.endedMatches.name]!
-    );
+  static Widget builder({
+    required Map<String, List<dynamic>> matches,
+    required void Function() onTapTeamButton
+    }) => 
+      ViewerMatches(
+        endedMatches: matches[MatchStates.endedMatches.name]!,
+        onTapTeamButton: onTapTeamButton,
+      );
 }
 
 

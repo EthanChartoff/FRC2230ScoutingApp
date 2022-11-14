@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:scoute_prime/desktop_widgets/matches/match_cards/team_button.dart';
+import 'package:scoute_prime/routing.dart';
 import 'package:scoute_prime/variables/enums.dart';
 
 
@@ -12,8 +14,15 @@ class OngoingMatchCard extends StatelessWidget{
   /// Match information from the database
   final Map match;  
 
+  /// What will happen when [TeamButton] is hit.
+  /// 
+  /// In the current version, this is used for routing to the 
+  /// scouting forms, and the functions are located in [Routing]
+  final void Function() onTapTeamButton;
+
   const OngoingMatchCard({
     required this.match,
+    required this.onTapTeamButton
   });
 
   @override
@@ -56,7 +65,7 @@ class OngoingMatchCard extends StatelessWidget{
                               parentContext: context, 
                               /// TODO: this is confusing, change database names before 
                               teamNumber: match["r${index + 1}_robot"].toString(), 
-                              route: '/scouting-form',
+                              onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
                               height: constraints.maxHeight / 3
@@ -75,7 +84,7 @@ class OngoingMatchCard extends StatelessWidget{
                               /// TODO: this is confusing, change database names before 
                               /// adding new fetures
                               teamNumber: match["b${index + 1}_robot"].toString(), 
-                              route: '/scouting-form',
+                              onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText2!,
                               width: constraints.maxWidth / 2.5,
                               height: constraints.maxHeight / 3

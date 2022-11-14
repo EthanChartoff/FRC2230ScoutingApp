@@ -13,9 +13,16 @@ class ScoutingMatches extends StatelessWidget{
   /// All ended matches that will be displayed
   final List<dynamic> endedMatches;
 
+  /// What will happen when [TeamButton] is hit.
+  /// 
+  /// In the current version, this is used for routing to the 
+  /// scouting forms, and the functions are located in [Routing]
+  final void Function() onTapTeamButton;
+
   const ScoutingMatches({
     required this.ongoingMatches,
-    required this.endedMatches
+    required this.endedMatches,
+    required this.onTapTeamButton
   });
   
   @override
@@ -32,6 +39,7 @@ class ScoutingMatches extends StatelessWidget{
         ListView.builder(
           itemBuilder: (context, index) => OngoingMatchCard(
             match: ongoingMatches[index],
+            onTapTeamButton: onTapTeamButton,
           ),
           itemCount: ongoingMatches.length,
           shrinkWrap: true,
@@ -51,6 +59,7 @@ class ScoutingMatches extends StatelessWidget{
         ListView.builder(
           itemBuilder: (context, index) => EndedMatchCard(
             match: endedMatches[index],
+            onTapTeamButton: onTapTeamButton,
           ),
           itemCount: endedMatches.length,
           shrinkWrap: true,
@@ -59,11 +68,15 @@ class ScoutingMatches extends StatelessWidget{
     );
   }
 
-  static Widget builder({required Map<String, List<dynamic>> matches}) => 
-    ScoutingMatches(
-      ongoingMatches: matches[MatchStates.ongoingMatches.name]!,
-      endedMatches: matches[MatchStates.endedMatches.name]!
-    );
+  static Widget builder({
+    required Map<String, List<dynamic>> matches,
+    required void Function() onTapTeamButton
+    }) => 
+      ScoutingMatches(
+        ongoingMatches: matches[MatchStates.ongoingMatches.name]!,
+        endedMatches: matches[MatchStates.endedMatches.name]!,
+        onTapTeamButton: onTapTeamButton,
+      );
 }
 
 

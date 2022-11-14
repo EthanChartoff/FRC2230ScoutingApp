@@ -13,8 +13,15 @@ class EndedMatchCard extends StatelessWidget{
   /// ended matches information, filtered from all matches
   final Map match;  
 
+  /// What will happen when [TeamButton] is hit.
+  /// 
+  /// In the current version, this is used for routing to the 
+  /// scouting forms, and the functions are located in [Routing]
+  final void Function() onTapTeamButton;
+
   const EndedMatchCard({
-    required this.match
+    required this.match,
+    required this.onTapTeamButton
   });
 
   @override
@@ -57,7 +64,7 @@ class EndedMatchCard extends StatelessWidget{
                               parentContext: context, 
                               /// TODO: this is confusing, change database names before 
                               teamNumber: match["r${index + 1}_robot"].toString(), 
-                              route: '/team-info',
+                              onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
                               height: constraints.maxHeight / 3
@@ -95,7 +102,7 @@ class EndedMatchCard extends StatelessWidget{
                               /// TODO: when routing into page, page sometimes need information,
                               /// change router to have information with page 
                               /// (idealy with get url vars in php or MaterialPageRoute)
-                              route: '/team-info',
+                              onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText2!,
                               width: constraints.maxWidth / 2.5,
                               height: constraints.maxHeight / 3

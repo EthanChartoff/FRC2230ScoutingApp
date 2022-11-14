@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:scoute_prime/api/gets_match_table.dart';
-import 'package:scoute_prime/desktop_widgets/matches/matches.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_filters.dart';
-import 'package:scoute_prime/variables/enums.dart';
+import 'package:scoute_prime/desktop_widgets/matches/match_cards/team_button.dart';
+import 'package:scoute_prime/routing.dart';
 
 /// This is the page where the user can view past/ongoing matches.
 /// 
@@ -18,10 +19,20 @@ class MatchesPage extends StatefulWidget{
   /// This is a Function and not a Widget because you cant insert required
   /// params from a child widget when inhereted from the parent, so we build
   /// the widget with the data in this widget
-  final Widget Function({required Map<String, List<dynamic>> matches}) bodyBuilder;
+  final Widget Function({
+    required Map<String, List<dynamic>> matches,
+    required void Function() onTapTeamButton
+  }) bodyBuilder;
 
-  MatchesPage({
-    required this.bodyBuilder
+  /// What will happen when [TeamButton] is hit.
+  /// 
+  /// In the current version, this is used for routing to the 
+  /// scouting forms, and the functions are located in [Routing]
+  final void Function() onTapTeamButton;
+
+  const MatchesPage({
+    required this.bodyBuilder,
+    required this.onTapTeamButton
   });
 
   @override
@@ -45,7 +56,8 @@ class _MatchesPageState extends State<MatchesPage>{
           if(snapshot.hasData){
             /// The widget displayed when there's data to display
             return widget.bodyBuilder(
-              matches: snapshot.data!
+              matches: snapshot.data!,
+              onTapTeamButton: widget.onTapTeamButton
             );
           }
           else {

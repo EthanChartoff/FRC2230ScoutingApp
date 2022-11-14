@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 /// Displays a [TextButton] with a teams number, and redirect the user
 /// to another page when pressed. 
 class TeamButton extends StatelessWidget {
@@ -9,8 +10,8 @@ class TeamButton extends StatelessWidget {
   /// Team id number
   final String teamNumber;
 
-  /// Route to redirect user to 
-  final String route;
+  /// What will happen when button is tapped 
+  final void Function() onTap;
 
   /// Color of team
   final TextStyle textStyle; 
@@ -22,7 +23,7 @@ class TeamButton extends StatelessWidget {
   const TeamButton({
     required this.parentContext,
     required this.teamNumber,
-    required this.route,
+    required this.onTap,
     required this.textStyle,
     
     this.width,
@@ -36,7 +37,7 @@ class TeamButton extends StatelessWidget {
       width: width,
       height: height,
       child: TextButton(
-        onPressed: () => Navigator.pushNamed(context, route),
+        onPressed: onTap,
 
         style: TextButton.styleFrom(
           backgroundColor: Theme.of(parentContext).primaryColorDark 
