@@ -8,14 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/custom_page_route.dart';
 
 import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
-import 'package:scoute_prime/desktop_widgets/matches/matches.dart';
-import 'package:scoute_prime/desktop_widgets/matches/user_specific/scouter/scouter_matches.dart';
-import 'package:scoute_prime/desktop_widgets/matches/user_specific/strategy/strategy_matches.dart';
-import 'package:scoute_prime/desktop_widgets/matches/user_specific/viewer/viewer_matches.dart';
-import 'package:scoute_prime/desktop_widgets/side_menu/screen_with_sidemenu.dart';
-import 'package:scoute_prime/desktop_widgets/matches/matches_page.dart';
-import 'package:scoute_prime/routes.dart';
-import 'package:scoute_prime/user_type_builder.dart';
+import 'package:scoute_prime/routing.dart';
 import 'package:scoute_prime/variables/constants.dart';
 import 'package:scoute_prime/variables/user_types.dart';
 
@@ -30,15 +23,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App>{
-  UserTypes user = UserTypes.noType;
-
-  /// 
-  void updatePermissions(UserTypes permission) {
-    setState(() {
-      user = permission;
-    });
-  }
-
   /// The root [Widget] of the app.
   @override
   Widget build(BuildContext context) {
@@ -59,7 +43,7 @@ class _AppState extends State<App>{
           /// Defines a theme data, we can use the theme data to set app-wide colors, fonts, widgets
           /// that can be used throught the app.
 
-          // colors // 
+          /// # Colors #
           primaryColor: ConstColors.PRIMARY_COLOR,
           primaryColorDark: ConstColors.PRIMARY_COLOR_DARK,
           primaryColorLight: ConstColors.PRIMARY_COLOR_LIGHT,
@@ -70,6 +54,7 @@ class _AppState extends State<App>{
 
           hoverColor: ConstColors.HOVER_COLOR,
 
+          /// # Text Themes (if it wasnt obvious) #
           textTheme: TextTheme(
 
             /// OngoingMatchCard title style
@@ -104,52 +89,18 @@ class _AppState extends State<App>{
         color: Theme.of(context).primaryColor,
         
         /// Start the app with the "/" named route. In our case the app starts with LoginScreen.
-        initialRoute: '/',
+        initialRoute: Routing.LOGIN,
         
-        /// Change widgets of routes and/or routes depending on device
+        /// Change pages of routes and/or routes depending on device
         /// and how the application is ran, 
         /// 
         /// computers and phones will have different widget sizes, colors, builds...
-        onGenerateRoute: (RouteSettings settings) {
-          /// Page that will be displayed corresponding to route 
-          Widget? page;
-          
-          if(kIsWeb) {
-            /// runs on the web
-            
-            if(user == UserTypes.noType) {
-              page = LoginPage(
-                updatePermissions: updatePermissions
-              );
-            }
-            else {
-              if(settings.name == Routing.LOGIN) {
-                /// go to login page
-                page = LoginPage(
-                  updatePermissions: updatePermissions
-                );
-              } 
-              else if(settings.name!.startsWith(Routing.MATCHES)) {
-                /// Route after Routes.MATCHES string
-                final subRoute = settings.name!.substring(Routing.MATCHES.length);
-                page = Routing(
-                  user: user,
-                  initialRoute: Routing.MATCHES,
-                  subRoute: subRoute,
-                );
-              }
-            }
-          }
-          if(page == null){
-            /// no route was found
-            throw Exception('Uknown route ${settings.name}');
-          }
-
-          return FastPageRoute(
-            builder: (context) => page!,
-            settings: settings
-          );
-        }
+        onGenerateRoute: (RouteSettings settings) => FastPageRoute(
+          builder: (context) => Routing(
+            route: settings.name!
+          ),
+          settings: settings
+        )
       ))
     );
   }
