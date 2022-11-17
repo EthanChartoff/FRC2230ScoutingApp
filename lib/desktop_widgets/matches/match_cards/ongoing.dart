@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/desktop_widgets/matches/match_cards/team_button.dart';
-import 'package:scoute_prime/routing.dart';
 import 'package:scoute_prime/variables/enums.dart';
 
 
