@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/custom_page_route.dart';
 import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_page.dart';
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart';
 import 'package:scoute_prime/desktop_widgets/matches/user_specific/scouter/scouter_matches.dart';
 import 'package:scoute_prime/desktop_widgets/matches/user_specific/strategy/strategy_matches.dart';
 import 'package:scoute_prime/desktop_widgets/matches/user_specific/viewer/viewer_matches.dart';
 import 'package:scoute_prime/desktop_widgets/side_menu/screen_with_sidemenu.dart';
-import 'package:scoute_prime/user_type_builder.dart';
+import 'package:scoute_prime/misc/custom_page_route.dart';
+import 'package:scoute_prime/misc/user_type_builder.dart';
 import 'package:scoute_prime/variables/user_types.dart';
 
 
@@ -63,7 +64,7 @@ class RoutingState extends State<Routing>{
   Widget build(BuildContext context) {
     return Navigator(
       key: _navigatorKey,
-      initialRoute: Routing.MATCHES,
+      //initialRoute: Routing.MATCHES,
       onGenerateRoute: _onGenerateRoute,
     );
   }
@@ -93,9 +94,7 @@ class RoutingState extends State<Routing>{
     }
 
     else {
-      page = Container(
-        color: Theme.of(context).backgroundColor,
-      );
+      throw Exception("unknown route ${settings.name!}");
     }
 
     return FastPageRoute(
@@ -107,9 +106,8 @@ class RoutingState extends State<Routing>{
   Widget _onMatchesRoutes(String route) {
     /// Matches routes
     if(route == Routing.MATCHES_SCOUTING_FORM) {
-      return ElevatedButton(
-        child: null,
-        onPressed: _pop,
+      return ScoutingForm(
+        exit: _pop,
       );
     }
 

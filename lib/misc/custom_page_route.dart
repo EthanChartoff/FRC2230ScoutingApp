@@ -6,7 +6,13 @@ import 'package:flutter/material.dart' show MaterialPageRoute;
 /// 
 /// """inspired""" by https://stackoverflow.com/a/63561036
 class FastPageRoute extends MaterialPageRoute {
-  FastPageRoute({builder, settings}) : super(builder: builder, settings: settings);
+  FastPageRoute({
+    builder, 
+    settings
+  }) : super(
+    builder: builder, 
+    settings: settings
+  );
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 10);

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FutureMatchCard extends StatelessWidget{
 
   /// ongoing matches information, filtered from all matches
-  List<dynamic> matches;  
+  final List<dynamic> matches;  
 
-  FutureMatchCard({
+  const FutureMatchCard({
     required this.matches
   });
 

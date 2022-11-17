@@ -5,12 +5,9 @@ import 'dart:io' show Platform;
 // get if app is running on the World Wide Web
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scoute_prime/custom_page_route.dart';
-
-import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
-import 'package:scoute_prime/routing.dart';
+import 'package:scoute_prime/misc/custom_page_route.dart';
+import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/variables/constants.dart';
-import 'package:scoute_prime/variables/user_types.dart';
 
 void main() {
   /// start the app
@@ -57,7 +54,7 @@ class _AppState extends State<App>{
           /// # Text Themes (if it wasnt obvious) #
           textTheme: TextTheme(
 
-            /// OngoingMatchCard title style
+            /// ## OngoingMatchCard title style ## 
             headline1: GoogleFonts.roboto(
               fontSize: 20,
               color: Colors.white
@@ -67,7 +64,7 @@ class _AppState extends State<App>{
               color: Colors.grey
             ),
 
-            /// OngoingMatchCard buttons body style
+            /// ## OngoingMatchCard buttons body style ##
             bodyText1: GoogleFonts.roboto(
               fontSize: 16,
               color: ConstColors.RED_TEAM_COLOR
@@ -77,7 +74,7 @@ class _AppState extends State<App>{
               color: ConstColors.BLUE_TEAM_COLOR
             ),
 
-            /// Matches page tile of state above each type of cards
+            /// ## Matches page tile of state above each type of cards ##
             headline2: const TextStyle(
               fontSize: 28.0,
               color: Colors.white,

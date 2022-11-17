@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/gets_match_table.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_filters.dart';
 import 'package:scoute_prime/desktop_widgets/matches/match_cards/team_button.dart';
-import 'package:scoute_prime/routing.dart';
 
 /// This is the page where the user can view past/ongoing matches.
 /// 
