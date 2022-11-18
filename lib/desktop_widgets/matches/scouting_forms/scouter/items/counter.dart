@@ -31,39 +31,43 @@ class ScoutingShotCounter extends StatefulWidget {
 
 class _ScoutingShotCounterState extends State<ScoutingShotCounter> {
 
-  int counter = 0;
+  int _counter = 0;
+
+  IconButton get _incrementButton => IconButton(
+    onPressed: () {
+      setState(() {
+        if(_counter < widget.maxScore) _counter++;
+      });
+      widget.onChange(_counter);
+    }, 
+    icon: const Icon(
+      Icons.keyboard_arrow_up, 
+      color: Colors.lightGreen
+    )
+  );
+
+  IconButton get _decrementBtton => IconButton(
+    onPressed: () {
+      setState(() {
+        if(_counter > widget.minScore) _counter--;
+      });
+      widget.onChange(_counter);
+    }, 
+    icon: const Icon(
+      Icons.keyboard_arrow_down, 
+      color: Colors.red
+    )
+  );
+
+
 
   List<Widget> get _counterWithoutTitle => <Widget>[
-    /// Increment button
-    IconButton(
-      onPressed: () {
-        setState(() {
-          if(counter < widget.maxScore) counter++;
-        });
-        widget.onChange(counter);
-      }, 
-      icon: const Icon(
-        Icons.keyboard_arrow_up, 
-        color: Colors.lightGreen
-      )
-    ),
+    _incrementButton,
 
     /// Counter counting numbers
-    Text(counter.toString()),
+    Text(_counter.toString()),
 
-    /// Decrement button
-    IconButton(
-      onPressed: () {
-        setState(() {
-          if(counter > widget.minScore) counter--;
-        });
-        widget.onChange(counter);
-      }, 
-      icon: const Icon(
-        Icons.keyboard_arrow_down, 
-        color: Colors.red
-      )
-    ),
+    _decrementBtton    
   ];
 
   get _counterWithTitle {

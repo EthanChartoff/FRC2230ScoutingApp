@@ -10,7 +10,6 @@ class ScoutingButtonTimer extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () => _stopwatch.start(),
       onLongPressDown: (details) => _stopwatch.start(),
       onLongPressUp:() {
         _stopwatch.stop();

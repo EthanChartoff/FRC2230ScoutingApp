@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/api/gets_match_table.dart';
+import 'package:scoute_prime/api/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_filters.dart';
 import 'package:scoute_prime/desktop_widgets/matches/match_cards/team_button.dart';
 

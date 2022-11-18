@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
 import 'package:scoute_prime/desktop_widgets/matches/matches_page.dart';
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart';
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/strategy/strategy_form.dart';
 import 'package:scoute_prime/desktop_widgets/matches/user_specific/scouter/scouter_matches.dart';
-import 'package:scoute_prime/desktop_widgets/matches/user_specific/strategy/strategy_matches.dart';
 import 'package:scoute_prime/desktop_widgets/matches/user_specific/viewer/viewer_matches.dart';
-import 'package:scoute_prime/desktop_widgets/side_menu/screen_with_sidemenu.dart';
+import 'package:scoute_prime/desktop_widgets/sidemenu/screen_with_sidemenu.dart';
+import 'package:scoute_prime/desktop_widgets/team_dashboard/dashboard.dart';
 import 'package:scoute_prime/misc/custom_page_route.dart';
 import 'package:scoute_prime/misc/user_type_builder.dart';
 import 'package:scoute_prime/variables/user_types.dart';
@@ -19,6 +20,9 @@ class Routing extends StatefulWidget {
   
   static const MATCHES = '/matches';
   static const MATCHES_SCOUTING_FORM = '$MATCHES/scouting-form'; 
+
+  /// team id needs to be inputed when using route
+  static const TEAM_VIEW = '/team-dashboard?team-number=';
 
 
   /// route user is in
@@ -82,15 +86,22 @@ class RoutingState extends State<Routing>{
     /// entering, and the login page is displayed.
  
     late Widget page;
+    String? route = settings.name;
 
-    if(user == UserTypes.noType || settings.name == Routing.LOGIN) {
+    if(user == UserTypes.noType || route == Routing.LOGIN) {
       page = LoginPage(
         updatePermissions: updatePermissions
       );
     }
 
-    else if(settings.name!.startsWith(Routing.MATCHES)) {
+    else if(route!.startsWith(Routing.MATCHES)) {
       page = _onMatchesRoutes(settings.name!);
+    }
+
+    else if(route.startsWith(Routing.TEAM_VIEW)) {
+      page = TeamDashboard(
+        teamNumber: route.substring(Routing.TEAM_VIEW.length)
+      );
     }
 
     else {
@@ -106,8 +117,15 @@ class RoutingState extends State<Routing>{
   Widget _onMatchesRoutes(String route) {
     /// Matches routes
     if(route == Routing.MATCHES_SCOUTING_FORM) {
-      return ScoutingForm(
-        exit: _pop,
+      return UserTypeBuilder(
+        user: user, 
+        viewerPage: const SizedBox.expand(), 
+        scouterPage: ScoutingForm(
+          exit: _pop,
+        ), 
+        adminPage: StrategyForm(
+          exit: _pop
+        )
       );
     }
 
@@ -125,7 +143,7 @@ class RoutingState extends State<Routing>{
             onTapTeamButton: _onTapTeamButton,
           ), 
           adminPage: MatchesPage(
-            bodyBuilder: StrategyMatches.builder,
+            bodyBuilder: ScoutingMatches.builder,
             onTapTeamButton: _onTapTeamButton,
           )
         ),

@@ -62,8 +62,7 @@ class EndedMatchCard extends StatelessWidget{
                           List.generate(3, (index) => 
                             TeamButton(
                               parentContext: context, 
-                              /// TODO: this is confusing, change database names before 
-                              teamNumber: match["r${index + 1}_robot"].toString(), 
+                              teamNumber: match["red_robot_${index + 1}"].toString(), 
                               onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
@@ -98,7 +97,7 @@ class EndedMatchCard extends StatelessWidget{
                               parentContext: context, 
                               /// TODO: this is confusing, change database names before 
                               /// adding new fetures
-                              teamNumber: match["b${index + 1}_robot"].toString(), 
+                              teamNumber: match["blue_robot_${index + 1}"].toString(), 
                               /// TODO: when routing into page, page sometimes need information,
                               /// change router to have information with page 
                               /// (idealy with get url vars in php or MaterialPageRoute)

@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage>{
                           width: 700.w,
 
                           child: Material(
-                            child: TextFormField(
+                            child: TextField(
                               controller: _passwordInputController,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(vertical: 30.h)

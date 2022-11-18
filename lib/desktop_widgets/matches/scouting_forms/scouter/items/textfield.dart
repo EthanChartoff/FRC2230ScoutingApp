@@ -3,28 +3,44 @@ import 'package:flutter/material.dart';
 
 class ScoutingTextFormField extends TextFormField {
 
+  String? labelText;
+
+  String? errorText;
+
+  String? hint;
+
+  bool canBeEmpty;
+
   ScoutingTextFormField({
     super.key,
     required controller,
-    onChanged,
-    keyboardType,
-    inputFormatters,
-    maxLines,
-    minLines,
-    maxLength,
-    decoration
-  }) : super(
+    super.initialValue,
+    super.focusNode,
+    super.onChanged,
+    super.keyboardType,
+    super.inputFormatters,
+    super.maxLines,
+    super.minLines,
+    super.maxLength,
+    decoration,
+    this.labelText,
+    this.errorText,
+    this.hint,
+    this.canBeEmpty = false
+  }) : 
+  assert(controller != null, "controller can't be null"),
+  assert(
+    (maxLines == null) || (minLines == null) || (maxLines >= minLines),
+    "minLines can't be greater than maxLines",
+  ),
+  assert(maxLines == null || maxLines > 0, "maxLines can't be negative"),
+  assert(minLines == null || minLines > 0, "minLines can't be negative"),
+  super(
     controller: controller,
-    onChanged: onChanged,
-    keyboardType: keyboardType,
-    inputFormatters: inputFormatters,
-    maxLines: maxLines,
-    minLines: minLines,
-    maxLength: maxLength,
-    decoration: decoration
+    decoration: decoration ?? InputDecoration(
+      labelText: labelText,
+      errorText: canBeEmpty ? null : controller.text.isEmpty ? errorText ?? "Can't be empty" : null,
+      hintText: hint
+    )
   );
-
-
-
-
 }

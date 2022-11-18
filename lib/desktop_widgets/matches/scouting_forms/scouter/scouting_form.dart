@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scoute_prime/api/dart/insert/new_scouting_data_table.dart';
+
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/checkbox.dart';
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/counter.dart';
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
@@ -48,18 +50,6 @@ class _ScoutingFormState extends State<ScoutingForm>{
 
   @override
   void initState() {
-    _controller.addListener(() { 
-      final String _controllerText = _controller.text;
-      _controller.value = _controller.value.copyWith(
-        text: _controllerText,
-        selection: TextSelection(
-          baseOffset: _controllerText.length, 
-          extentOffset: _controllerText.length
-        ),
-        composing: TextRange.empty
-      );
-    });
-
     super.initState();
   }
 
@@ -77,19 +67,24 @@ class _ScoutingFormState extends State<ScoutingForm>{
       child: Column(
         children: [
 
-          Text(z.toString()),
+          Text(_controller.text),
 
           ScoutingDropdownButtonFormField(
+            context: context,
             items: const [
               DropdownMenuItem(value: 'comp 1', child: Text('comp 1')),
               DropdownMenuItem(value: 'comp 2', child: Text('comp 2')),
             ], 
             onChanged: paramEquelGivenVal, 
+            dropdownColor: Colors.pink,
           ),
+          
 
           ScoutingTextFormField(
             controller: _controller,
-            onChanged: (value) => setState(() {})
+            onChanged: (value) => setState(() {}),
+            hint: 'input something',
+            labelText: 'idk',
           ),
 
           ScoutingShotCounter(
@@ -103,14 +98,30 @@ class _ScoutingFormState extends State<ScoutingForm>{
             onChanged: _boolFunc
           ),
 
-          SizedBox(
-            width: 200,
-            height: 200,
-            child: ScoutingButtonTimer()
-          ),
+          ScoutingButtonTimer(),
     
           ElevatedButton(
             onPressed: widget.exit,
+            child: null
+          ),
+
+          ElevatedButton(
+            onPressed: (() => InsertScoutingDataTable.newTable(
+              matchId: 4,
+              teamId: 2230,
+              didWin: 1,
+              alliance: 'blue',
+              startingPos: 1,
+              wasRobotOnField: 0,
+              didRobotWorkInAuto: 0,
+              didRobotWorkInTP: 0, 
+              didDefend: 0, 
+              wasStrategyDifferent: 0, 
+              defenseComments: 'defence',
+              robotComments: "",
+              strategyComments: "",
+              scouterName: "dasd"
+            )), 
             child: null
           )
         ],

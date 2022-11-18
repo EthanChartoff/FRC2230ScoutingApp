@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:scoute_prime/desktop_widgets/side_menu/sidemenu.dart';
+import 'package:scoute_prime/desktop_widgets/sidemenu/sidemenu.dart';
 
 /// This [Widget] is used to build a screen with [DesktopSidemenu] and a given [Widget]
 class DesktopSidemenuScreenBuilder extends StatelessWidget {

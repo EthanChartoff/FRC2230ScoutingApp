@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scoute_prime/desktop_widgets/side_menu/sidemenu_item.dart';
+import 'package:scoute_prime/desktop_widgets/sidemenu/sidemenu_item.dart';
+import 'package:scoute_prime/misc/routing.dart';
+import 'package:scoute_prime/misc/team_searchbox.dart';
+import 'package:scoute_prime/variables/teams_data.dart';
 
 
   /// match width to [DesktopSidemenu]s toggled mode
@@ -64,27 +67,36 @@ class _DesktopSidemenuState extends State<DesktopSidemenu> {
                       onPressed: () => setState(() => widget.toggleOpen = !widget.toggleOpen), 
                       icon: const Icon(Icons.arrow_back),
                       iconSize: 30,
-                      ),
+                    ),
                   ),
                 ),
               ),
               DesktopSidemenuItem(
                 title: "title", 
                 icon: Icons.settings, 
-                route: "/",
+                route: Routing.LOGIN,
                 isExpanded: widget.toggleOpen,
               ),
               DesktopSidemenuItem(
                 title: "matches", 
                 icon: Icons.settings, 
-                route: "/matches",
+                route: Routing.MATCHES,
                 isExpanded: widget.toggleOpen,
               ),
               DesktopSidemenuItem(
                 title: "title", 
                 icon: Icons.settings, 
-                route: "/",
+                route: Routing.LOGIN,
                 isExpanded: widget.toggleOpen,
+              ),
+              Material(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TeamSearchbox(
+                    context: context,
+                    teams: TeamsData.israelTeamsDatas,
+                  ),
+                ),
               ),
             ]
           )
