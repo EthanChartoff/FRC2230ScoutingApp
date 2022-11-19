@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart' show ScoutingForm;
+
+
+
+
+/// A counter designed for [ScoutingForm].
+/// 
+/// TODO: implement a getter for [_counter], make [onChange] non-required
+/// and implement different styles
 class ScoutingShotCounter extends StatefulWidget {
 
-  final void Function(int) onChange;
+  final void Function(int) onChanged;
 
   /// Starts from zero and counts the number of increments/decrements.
   /// 
   /// Can't go below [maxScore] and above [minScore]
   // int counter;
 
-  /// [counter]'s score will always be below 
+  /// [ScoutingShotCounter]'s score will always be below 
   final int maxScore;
 
-  /// [counter]'s score will always be above
+  /// [ScoutingShotCounter]'s score will always be above
   final int minScore;
 
+  /// title above counter
   final String? title;
 
   const ScoutingShotCounter({
     super.key,
-    required this.onChange,
+    required this.onChanged,
     this.maxScore = 999,
     this.minScore = 0,
     this.title
@@ -38,7 +48,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter> {
       setState(() {
         if(_counter < widget.maxScore) _counter++;
       });
-      widget.onChange(_counter);
+      widget.onChanged(_counter);
     }, 
     icon: const Icon(
       Icons.keyboard_arrow_up, 
@@ -51,7 +61,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter> {
       setState(() {
         if(_counter > widget.minScore) _counter--;
       });
-      widget.onChange(_counter);
+      widget.onChanged(_counter);
     }, 
     icon: const Icon(
       Icons.keyboard_arrow_down, 

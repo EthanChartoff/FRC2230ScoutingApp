@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
@@ -74,7 +76,6 @@ class RoutingState extends State<Routing>{
   }
 
   Route _onGenerateRoute(RouteSettings settings) {
-    print(settings.name);
     /// if page is of type Widget? or late widget an error appears
     /// TODO: fix page '/' appears before matches 
     /// 
@@ -95,6 +96,7 @@ class RoutingState extends State<Routing>{
     }
 
     else if(route!.startsWith(Routing.MATCHES)) {
+      Navigator.pushNamed(context, Routing.MATCHES);
       page = _onMatchesRoutes(settings.name!);
     }
 

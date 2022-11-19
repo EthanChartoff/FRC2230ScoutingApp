@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart' show ScoutingForm;
 
-/// TODO
+
+/// A timed button for [ScoutingForm]
+/// 
+/// TODO: implement getter, make [onChanged] non-required
+/// and implement different styles
+
 class ScoutingButtonTimer extends StatelessWidget {
 
   final Stopwatch _stopwatch = Stopwatch();

@@ -95,8 +95,6 @@ class EndedMatchCard extends StatelessWidget{
                           List.generate(3, (index) => 
                             TeamButton(
                               parentContext: context, 
-                              /// TODO: this is confusing, change database names before 
-                              /// adding new fetures
                               teamNumber: match["blue_robot_${index + 1}"].toString(), 
                               /// TODO: when routing into page, page sometimes need information,
                               /// change router to have information with page 

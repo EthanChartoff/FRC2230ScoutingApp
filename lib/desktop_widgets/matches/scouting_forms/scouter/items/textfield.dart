@@ -1,15 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show TextFormField, InputDecoration;
 
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart' show ScoutingForm;
+
+
+/// A [TextFormField] for [ScoutingForm]
+/// 
+/// TODO: implement getter, make [onChanged] non-required
+/// and implement different styles
 
 class ScoutingTextFormField extends TextFormField {
 
-  String? labelText;
+  final String? labelText;
 
-  String? errorText;
+  final String? errorText;
 
-  String? hint;
+  final String? hint;
 
-  bool canBeEmpty;
+  final bool canBeEmpty;
 
   ScoutingTextFormField({
     super.key,

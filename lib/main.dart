@@ -57,7 +57,7 @@ class _AppState extends State<App>{
             /// ## OngoingMatchCard title style ## 
             headline1: GoogleFonts.roboto(
               fontSize: 20,
-              color: Colors.white
+              color: Colors.white,
             ),
             subtitle1: GoogleFonts.roboto(
               fontSize: 14,
@@ -81,6 +81,10 @@ class _AppState extends State<App>{
               fontFamily: 'GalacticVanguardian'
             ),
           ),
+
+          cardTheme: CardTheme(
+
+          )
         ),
 
         color: Theme.of(context).primaryColor,
@@ -92,12 +96,24 @@ class _AppState extends State<App>{
         /// and how the application is ran, 
         /// 
         /// computers and phones will have different widget sizes, colors, builds...
-        onGenerateRoute: (RouteSettings settings) => FastPageRoute(
-          builder: (context) => Routing(
-            route: settings.name!
-          ),
-          settings: settings
-        )
+        onGenerateRoute: (RouteSettings settings) {
+          if(settings.name != Routing.MATCHES) {
+            return FastPageRoute(
+              builder: (context) => Routing(
+                route: settings.name!
+              ),
+              settings: settings
+            );
+          }
+          else {
+            return FastPageRoute(
+              builder: (context) => Container(
+                color: Theme.of(context).backgroundColor,
+              ),
+              settings: settings
+            );
+          }
+        },
       ))
     );
   }

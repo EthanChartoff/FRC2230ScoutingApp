@@ -15,7 +15,7 @@ class FutureMatchCard extends StatelessWidget{
       shrinkWrap: true,
       itemBuilder: ((context, index) {
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6.0),
+          padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: Card(
             color: Theme.of(context).primaryColorDark,
             child: Theme(

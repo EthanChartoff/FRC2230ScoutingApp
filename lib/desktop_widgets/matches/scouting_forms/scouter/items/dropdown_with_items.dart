@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart' show ScoutingForm;
 
-/// TODO
+
+
+
+/// A [DropdownButtonFormField] for [ScoutingForm].
+/// 
+/// TODO: implement getter, make [onChanged] non-required
+/// and implement different styles
 class ScoutingDropdownButtonFormField extends DropdownButtonFormField<String> { 
 
-  BuildContext context; 
 
   ScoutingDropdownButtonFormField({
     super.key,
-    required this.context,
     required items,
     required void Function(String?) onChanged,
-    dropdownColor
+    super.dropdownColor
   }) : super(
     items: items,
     onChanged: onChanged,
-    dropdownColor: Theme.of(context).primaryColorDark
   );
-
-  static Widget withTheme({
-    required ScoutingDropdownButtonFormField scoutingDropdownButtonFormField
-  }) {
-    return Theme(
-      data: ThemeData(
-        hoverColor: Colors.amber
-      ), 
-      child: scoutingDropdownButtonFormField
-    );
-  }
-
 }

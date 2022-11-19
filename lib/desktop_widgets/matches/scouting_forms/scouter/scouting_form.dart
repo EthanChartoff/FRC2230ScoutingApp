@@ -8,7 +8,9 @@ import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/item
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/timed_button.dart';
 
 
-/// TODO
+/// The Scouting form, where scouters pass data to the databse.
+/// 
+/// THIS IS ONLY FOR DEBUGING AND IS NOT THE INTENDED PRODUCT
 class ScoutingForm extends StatefulWidget {
 
   final void Function() exit;
@@ -70,7 +72,6 @@ class _ScoutingFormState extends State<ScoutingForm>{
           Text(_controller.text),
 
           ScoutingDropdownButtonFormField(
-            context: context,
             items: const [
               DropdownMenuItem(value: 'comp 1', child: Text('comp 1')),
               DropdownMenuItem(value: 'comp 2', child: Text('comp 2')),
@@ -88,7 +89,7 @@ class _ScoutingFormState extends State<ScoutingForm>{
           ),
 
           ScoutingShotCounter(
-            onChange: _counterFunc,
+            onChanged: _counterFunc,
             //counter: widget.y,
             title: 'lol',
           ),
