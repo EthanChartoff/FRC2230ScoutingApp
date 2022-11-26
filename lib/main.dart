@@ -54,7 +54,7 @@ class _AppState extends State<App>{
           /// # Text Themes (if it wasnt obvious) #
           textTheme: TextTheme(
 
-            /// ## OngoingMatchCard title style ## 
+            /// ##   title style ## 
             headline1: GoogleFonts.roboto(
               fontSize: 20,
               color: Colors.white,
@@ -89,30 +89,34 @@ class _AppState extends State<App>{
 
         color: Theme.of(context).primaryColor,
         
-        /// Start the app with the "/" named route. In our case the app starts with LoginScreen.
-        initialRoute: Routing.LOGIN,
-        
+                
         /// Change pages of routes and/or routes depending on device
         /// and how the application is ran, 
         /// 
         /// computers and phones will have different widget sizes, colors, builds...
         onGenerateRoute: (RouteSettings settings) {
-          if(settings.name != Routing.MATCHES) {
-            return FastPageRoute(
-              builder: (context) => Routing(
-                route: settings.name!
-              ),
-              settings: settings
-            );
-          }
-          else {
-            return FastPageRoute(
-              builder: (context) => Container(
-                color: Theme.of(context).backgroundColor,
-              ),
-              settings: settings
-            );
-          }
+          // if(settings.name != Routing.MATCHES) {
+          //   return FastPageRoute(
+          //     builder: (context) => Routing(
+          //       route: settings.name!
+          //     ),
+          //     settings: settings
+          //   );
+          // }
+          // else {
+          //   return FastPageRoute(
+          //     builder: (context) => Container(
+          //       color: Theme.of(context).backgroundColor,
+          //     ),
+          //     settings: settings
+          //   );
+          // }
+          return FastPageRoute(
+            builder: (context) => Routing(
+              route: settings.name!
+            ),
+            settings: settings
+          );
         },
       ))
     );

@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      form_generator|scoutingFormGeneratorBuilder:
+        enabled: True
+        generate_for:
+          - lib/src/*

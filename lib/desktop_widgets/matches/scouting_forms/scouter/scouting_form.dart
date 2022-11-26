@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:scoute_prime/api/dart/insert/new_scouting_data_table.dart';
 
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/checkbox.dart';
@@ -29,6 +30,10 @@ class _ScoutingFormState extends State<ScoutingForm>{
   int y = 0;
 
   final TextEditingController _controller = TextEditingController();
+  final ValueNotifier<int> _counterController = ValueNotifier<int>(0);
+  final ValueNotifier<String> _dropdownController = ValueNotifier<String>('');
+  final ValueNotifier<bool> _checkboxController = ValueNotifier<bool>(false);
+  final ValueNotifier<double> _timedbuttonController = ValueNotifier<double>(0);
 
 
 
@@ -58,29 +63,36 @@ class _ScoutingFormState extends State<ScoutingForm>{
   @override
   void dispose() {
     _controller.dispose();
+    _counterController.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final i = ScoutingShotCounter(
+      counter: _counterController,
+    );
+    
     return Material(
       color: Theme.of(context).backgroundColor,
       child: Column(
         children: [
 
-          Text(_controller.text),
+          Text(_dropdownController.value.toString()),
+
+          i,
 
           ScoutingDropdownButtonFormField(
             items: const [
               DropdownMenuItem(value: 'comp 1', child: Text('comp 1')),
               DropdownMenuItem(value: 'comp 2', child: Text('comp 2')),
             ], 
-            onChanged: paramEquelGivenVal, 
+            controller: _dropdownController,
             dropdownColor: Colors.pink,
           ),
           
-
           ScoutingTextFormField(
             controller: _controller,
             onChanged: (value) => setState(() {}),
@@ -88,21 +100,16 @@ class _ScoutingFormState extends State<ScoutingForm>{
             labelText: 'idk',
           ),
 
-          ScoutingShotCounter(
-            onChanged: _counterFunc,
-            //counter: widget.y,
-            title: 'lol',
-          ),
-
           ScoutingCheckbox(
-            value: z,
-            onChanged: _boolFunc
+            controller: _checkboxController,
           ),
 
-          ScoutingButtonTimer(),
+          ScoutingButtonTimer(
+            controller: _timedbuttonController,
+          ),
     
           ElevatedButton(
-            onPressed: widget.exit,
+            onPressed: () => setState(() {}),
             child: null
           ),
 

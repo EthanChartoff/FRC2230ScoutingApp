@@ -1,5 +1,5 @@
 name: scoute_prime
-description: A new Flutter project.
+description: A scouting app for frc by 2230.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,6 +40,7 @@ dependencies:
   http: ^0.13.5
   google_fonts: ^3.0.1
   flutter_typeahead: ^4.1.1
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:

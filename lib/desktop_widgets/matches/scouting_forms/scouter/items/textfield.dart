@@ -5,8 +5,7 @@ import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scou
 
 /// A [TextFormField] for [ScoutingForm]
 /// 
-/// TODO: implement getter, make [onChanged] non-required
-/// and implement different styles
+/// TODO: implement different styles
 
 class ScoutingTextFormField extends TextFormField {
 

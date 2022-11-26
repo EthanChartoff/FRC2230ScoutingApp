@@ -5,10 +5,15 @@ import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scou
 
 /// A timed button for [ScoutingForm]
 /// 
-/// TODO: implement getter, make [onChanged] non-required
-/// and implement different styles
+/// TODO: implement different styles
 
 class ScoutingButtonTimer extends StatelessWidget {
+
+  final ValueNotifier<double> controller;
+
+  ScoutingButtonTimer({
+    required this.controller
+  });
 
   final Stopwatch _stopwatch = Stopwatch();
 
@@ -19,7 +24,7 @@ class ScoutingButtonTimer extends StatelessWidget {
       onLongPressDown: (details) => _stopwatch.start(),
       onLongPressUp:() {
         _stopwatch.stop();
-        print(_stopwatch.elapsedMilliseconds / 100);
+        controller.value = _stopwatch.elapsedMilliseconds / 100;
         _stopwatch.reset();
       },
 

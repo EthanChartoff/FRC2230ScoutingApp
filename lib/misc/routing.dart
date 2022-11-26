@@ -96,7 +96,7 @@ class RoutingState extends State<Routing>{
     }
 
     else if(route!.startsWith(Routing.MATCHES)) {
-      Navigator.pushNamed(context, Routing.MATCHES);
+      //Navigator.pushNamed(context, Routing.MATCHES);
       page = _onMatchesRoutes(settings.name!);
     }
 

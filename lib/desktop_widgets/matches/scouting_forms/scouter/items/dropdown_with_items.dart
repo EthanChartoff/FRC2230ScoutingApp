@@ -7,18 +7,23 @@ import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scou
 
 /// A [DropdownButtonFormField] for [ScoutingForm].
 /// 
-/// TODO: implement getter, make [onChanged] non-required
-/// and implement different styles
+/// TODO: implement different styles
 class ScoutingDropdownButtonFormField extends DropdownButtonFormField<String> { 
 
+  /// Controller from parent widget, changes to select value when chosen
+  final ValueNotifier<String> controller;
 
   ScoutingDropdownButtonFormField({
     super.key,
-    required items,
-    required void Function(String?) onChanged,
+    required List<DropdownMenuItem<String>>? items,
+    required this.controller,
     super.dropdownColor
   }) : super(
     items: items,
-    onChanged: onChanged,
+    onChanged: (String? value) {
+      if(value is String) {
+        controller.value = value;
+      }
+    }
   );
 }
