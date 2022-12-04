@@ -1,4 +1,6 @@
 
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/api/dart/insert/new_scouting_data_table.dart';
@@ -9,20 +11,18 @@ import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/item
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/textfield.dart';
 import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/timed_button.dart';
 
+
+import 'package:generators/items/items_enum.dart';
+import 'package:generators/items/items.dart';
+
+import 'package:code_builder/src/specs/field.dart';
+import 'package:code_builder/src/specs/code.dart';
+
+
 part 'generated.g.dart';
 
-const String ScoutingFormBody = '''
-      class ScoutingForm extends StatefulWidget {
 
-        final void Function() exit;
-
-        const ScoutingForm({
-          required this.exit
-        });
-
-        @override
-        State<StatefulWidget> createState() => _ScoutingFormState();
-      }
-    ''';
-
-class lol {}
+enum classNames {
+  ScoutingForm,
+  _ScoutingFormState
+}

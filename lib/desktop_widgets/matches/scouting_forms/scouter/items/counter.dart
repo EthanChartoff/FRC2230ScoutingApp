@@ -13,7 +13,7 @@ class ScoutingShotCounter extends StatefulWidget {
   /// Starts from a given value and counts the number of increments/decrements.
   /// 
   /// Can't go below [maxScore] and above [minScore]
-  final ValueNotifier<int> counter;
+  final ValueNotifier<int> controller;
 
   /// [ScoutingShotCounter]'s score will always be below 
   final int maxScore;
@@ -26,7 +26,7 @@ class ScoutingShotCounter extends StatefulWidget {
 
   const ScoutingShotCounter({
     super.key,
-    required this.counter,
+    required this.controller,
     this.maxScore = 999,
     this.minScore = 0,
     this.title
@@ -52,7 +52,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
   IconButton get _incrementButton => IconButton(
     onPressed: () {
       setState(() {
-        if(widget.counter.value < widget.maxScore) widget.counter.value++;
+        if(widget.controller.value < widget.maxScore) widget.controller.value++;
       });
     },
     
@@ -65,7 +65,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
   IconButton get _decrementBtton => IconButton(
     onPressed: () {
       setState(() {
-        if(widget.counter.value > widget.minScore) widget.counter.value--;
+        if(widget.controller.value > widget.minScore) widget.controller.value--;
       });
       //widget.onChanged(_counter);
     }, 
@@ -81,7 +81,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
     _incrementButton,
 
     /// Counter counting numbers
-    Text(widget.counter.value.toString()),
+    Text(widget.controller.value.toString()),
 
     _decrementBtton    
   ];

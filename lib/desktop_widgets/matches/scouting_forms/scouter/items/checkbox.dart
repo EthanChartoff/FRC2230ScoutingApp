@@ -10,6 +10,8 @@ class ScoutingCheckbox extends Checkbox {
 
   final ValueNotifier<bool> controller; 
 
+  ///TODO: FIX VALUE NOT CHANGING
+
   ScoutingCheckbox({
     super.key,
     required this.controller,
@@ -17,7 +19,7 @@ class ScoutingCheckbox extends Checkbox {
     void Function(dynamic)? onChanged
   }) : super(
     value: value ?? false,
-    onChanged: (bool? value) {
+    onChanged: onChanged ?? (bool? value) {
       if(value is bool) {
         controller.value = value;
       }

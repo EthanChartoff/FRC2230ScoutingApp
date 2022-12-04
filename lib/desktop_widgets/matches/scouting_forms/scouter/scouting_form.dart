@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/api/dart/insert/new_scouting_data_table.dart';
@@ -25,35 +27,16 @@ class ScoutingForm extends StatefulWidget {
 }
 
 class _ScoutingFormState extends State<ScoutingForm>{
-  bool z = true;
-  String x = 'lol';
-  int y = 0;
+  final ValueNotifier<int> _shotCounterController = ValueNotifier<int>(0);
 
-  final TextEditingController _controller = TextEditingController();
-  final ValueNotifier<int> _counterController = ValueNotifier<int>(0);
-  final ValueNotifier<String> _dropdownController = ValueNotifier<String>('');
+  final ValueNotifier<String> _dropdownButtonController =
+      ValueNotifier<String>('');
+
+  final TextEditingController _textfieldController = TextEditingController();
+
   final ValueNotifier<bool> _checkboxController = ValueNotifier<bool>(false);
-  final ValueNotifier<double> _timedbuttonController = ValueNotifier<double>(0);
 
-
-
-  void paramEquelGivenVal(String? value) {
-    setState(() {
-      x = value!;
-    });
-  }
-
-  void _counterFunc(int value) {
-    setState(() {
-      y = value;
-    });
-  }
-
-  void _boolFunc(bool? value) {
-    setState(() {
-      z = value!;
-    });
-  }
+  final ValueNotifier<double> _buttonTimerController = ValueNotifier<double>(0);
 
   @override
   void initState() {
@@ -62,76 +45,70 @@ class _ScoutingFormState extends State<ScoutingForm>{
 
   @override
   void dispose() {
-    _controller.dispose();
-    _counterController.dispose();
+    _shotCounterController.dispose();
+    _dropdownButtonController.dispose();
+    _textfieldController.dispose();
+    _checkboxController.dispose();
+    _buttonTimerController.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final i = ScoutingShotCounter(
-      counter: _counterController,
-    );
-    
     return Material(
       color: Theme.of(context).backgroundColor,
       child: Column(
         children: [
-
-          Text(_dropdownController.value.toString()),
-
-          i,
-
+          ScoutingShotCounter(
+            controller: _shotCounterController,
+          ),
+        
           ScoutingDropdownButtonFormField(
             items: const [
-              DropdownMenuItem(value: 'comp 1', child: Text('comp 1')),
-              DropdownMenuItem(value: 'comp 2', child: Text('comp 2')),
-            ], 
-            controller: _dropdownController,
-            dropdownColor: Colors.pink,
+              DropdownMenuItem(value: '1', child: Text('comp 1')),
+              DropdownMenuItem(value: '2', child: Text('comp 2')),
+              DropdownMenuItem(value: '3', child: Text('comp 3')),
+              DropdownMenuItem(value: '4', child: Text('comp 4')),
+              DropdownMenuItem(value: '5', child: Text('comp 5')),
+            ],
+            controller: _dropdownButtonController,
           ),
-          
+        
           ScoutingTextFormField(
-            controller: _controller,
+            controller: _textfieldController,
             onChanged: (value) => setState(() {}),
             hint: 'input something',
             labelText: 'idk',
           ),
-
+        
           ScoutingCheckbox(
             controller: _checkboxController,
+            value: _checkboxController.value,
+            onChanged: (value) => setState(() {
+              _checkboxController.value = value;
+            })
           ),
-
+        
           ScoutingButtonTimer(
-            controller: _timedbuttonController,
+            controller: _buttonTimerController,
           ),
-    
+        
           ElevatedButton(
-            onPressed: () => setState(() {}),
+            onPressed: widget.exit,
             child: null
           ),
-
-          ElevatedButton(
-            onPressed: (() => InsertScoutingDataTable.newTable(
-              matchId: 4,
-              teamId: 2230,
-              didWin: 1,
-              alliance: 'blue',
-              startingPos: 1,
-              wasRobotOnField: 0,
-              didRobotWorkInAuto: 0,
-              didRobotWorkInTP: 0, 
-              didDefend: 0, 
-              wasStrategyDifferent: 0, 
-              defenseComments: 'defence',
-              robotComments: "",
-              strategyComments: "",
-              scouterName: "dasd"
-            )), 
-            child: null
-          )
+      
+          // ElevatedButton(
+          //   onPressed: (() => InsertScoutingDataTable.newTable(
+          //     shotCounter: _shotCounterController,
+          //     dropdownButton: _dropdownButtonController,
+          //     textfield: _textfieldController,
+          //     checkbox: _checkboxController,
+          //     buttonTimer: _buttonTimerController,
+          //   )),
+          //   child: null
+          // )
         ],
       ),
     );

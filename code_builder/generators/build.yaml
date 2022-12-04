@@ -6,3 +6,33 @@ builders:
     build_extensions: {".dart": [".scouting_form.part"]}
     build_to: cache
     applies_builders: ["source_gen|combining_builder"]
+
+  scoutingFormStateGeneratorBuilder:
+    import: 'package:generators/builders.dart'
+    builder_factories: ['scoutingFormStateGeneratorBuilder']
+    auto_apply: dependents
+    build_extensions: {".dart": [".scouting_form_state.part"]}
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+
+  insertDartScoutingDataTableBuilder:
+    import: 'package:generators/builders.dart'
+    builder_factories: ['insertDartScoutingDataTableBuilder']
+    auto_apply: dependents
+    build_extensions: {".dart": [".g_insert_table.dart"]}
+    build_to: source
+
+  insertPhpScoutingDataTableBuilder:
+    import: 'package:generators/builders.dart'
+    builder_factories: ['insertPhpScoutingDataTableBuilder']
+    auto_apply: dependents
+    build_extensions: {".txt": [".g_insert_table.php"]}
+    build_to: source
+
+  createPhpScoutingDataTableBuilder:
+    import: 'package:generators/builders.dart'
+    builder_factories: ['createPhpScoutingDataTableBuilder']
+    auto_apply: dependents
+    build_extensions: {".txt": [".g_create_scouting_table.php"]}
+    build_to: source
+
