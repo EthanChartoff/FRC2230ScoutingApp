@@ -60,7 +60,7 @@ else {
     var buffer = StringBuffer();
 
     // TODO: make generator for table builder
-    buffer.write('\$sqlinsert = "INSERT INTO scoutingTable($paramNames) VALUES ($paramValues)"');
+    buffer.write('\$sqlinsert = "INSERT INTO scoutingTable($paramNames) VALUES ($paramValues)";');
 
     return buffer.toString();
   }
@@ -69,12 +69,9 @@ else {
     var buffer = StringBuffer();
     
     buffer.writeln();
-    buffer.writeln('    `id`,');
     formItems.forEach((element) {
       buffer.writeln('    `${element.name}`,');
     });
-    buffer.writeln('    `created_at`');
-
     return buffer.toString();
   }
 
@@ -82,11 +79,16 @@ else {
     var buffer = StringBuffer();
 
     buffer.writeln();
-    buffer.writeln('    DEFAULT,');
-    formItems.forEach((element) {
+
+    /// defualt params
+    formItems.getRange(0, 2).forEach((element) {
+      buffer.writeln('    DEFAULT,');
+    });
+
+    /// posted params
+    formItems.getRange(2, formItems.length).forEach((element) {
       buffer.writeln("    '\$${element.name}',");
     });
-    buffer.writeln('    DEFAULT');
 
     return buffer.toString();
   }

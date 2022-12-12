@@ -27,9 +27,18 @@ class ScoutingFormGenerator extends Generator {
       class $_className extends StatefulWidget {
 
         final void Function() exit;
+        
+        final String matchId;
+
+        final String teamId;
+
+        final String alliance;
 
         const $_className({
-          required this.exit
+          required this.exit,
+          required this.matchId,
+          required this.teamId,
+          required this.alliance
         });
 
         @override
@@ -37,7 +46,7 @@ class ScoutingFormGenerator extends Generator {
       }
     ''');
 
-    return DartFormatter().format(buffer.toString());
+    return buffer.toString();
   }  
 }
 
@@ -54,6 +63,11 @@ class ScoutingFormStateGenerator extends Generator {
     required this.formItems
   });
 
+  Iterable<ScoutingGenerationItem> get noFieldsFormItems =>
+    formItems.where((element) => 
+      element is! ScoutingGenerationField
+    );
+
   /// Builds the disposed item controllers
   /// 
   /// Builds in a comment because the the generator has a bug 
@@ -63,7 +77,7 @@ class ScoutingFormStateGenerator extends Generator {
     buffer.writeln('/*');
     buffer.writeln('TODO: delete /**/');
 
-    formItems.forEach((element) {
+    noFieldsFormItems.forEach((element) {
       buffer.writeln('    _${element.name}Controller.dispose();');
     });
     buffer.writeln('');
@@ -99,15 +113,23 @@ class ScoutingFormStateGenerator extends Generator {
   String get insertFormItems {
     var buffer = StringBuffer();
 
-    formItems.forEach((element) {
-      buffer.writeln
-        ('          ///${element.name}: _${element.name}Controller.value,');
+    formItems.getRange(2, formItems.length).forEach((element) {
+      if(element is! ScoutingGenerationField) {
+        buffer.writeln(
+          '          //${element.name}: _${element.name}Controller.value,'
+        );
+      } 
+      else {
+        buffer.writeln(
+          '          //${element.name}: widget.${element.name},'
+        );
+      }
     });
 
     return buffer.toString();
   }
 
-  String bodyBuilder() {
+  String bodyBuilder(Iterable<ScoutingGenerationItem> noFieldsFormItems) {
     var buffer = StringBuffer();
     final emitter = DartEmitter();
 
@@ -116,9 +138,9 @@ class ScoutingFormStateGenerator extends Generator {
     /// Wrapper widget of items
     buffer.write(bodyBuilderWrapperStart);
 
-    buffer.writeln('          ///TODO: format children to here');
+    buffer.writeln('        ///TODO: format children to here');
 
-    formItems.forEach((element) { 
+    noFieldsFormItems.forEach((element) { 
       if(element is ScoutingGenerationShotCounter) {
         buffer.writeln(buildShotCounterItem(element));
       } else if(element is ScoutingGenerationDropdownButtonFormField) {
@@ -129,8 +151,10 @@ class ScoutingFormStateGenerator extends Generator {
         buffer.writeln(buildCheckbox(element));
       } else if(element is ScoutingGenerationButtonTimer) {
         buffer.writeln(buildButtonTimer(element));
-      } else {
-        throw Exception('Cant build for ${(formItems)}');
+      } 
+       
+      else {
+        throw Exception('Cant build for ${(element)}');
       }
     });
 
@@ -224,18 +248,18 @@ $insertFormItems
     final _className = _classNamesEnum.elementAt(0).displayName;
     final _classStateName = _classNamesEnum.elementAt(1).displayName;
 
-
     final state = Class((c) => c
       ..name = '$_classStateName'
       ..extend = refer('State<$_className>')
-
-      ..fields.addAll(List.generate(formItems.length, (index) {
+      
+      ..fields.addAll(List.generate(noFieldsFormItems.length, (index) {
+        print('${noFieldsFormItems.elementAt(index).type.toString()} - ${noFieldsFormItems.elementAt(index).name}');
         String? controllerType; 
         /// TODO: make custom default assignments, for example a default counter starting number can be 4 not 0
         String? controllerAssignment;
 
         /// Selects type of controller for each field
-        switch(formItems.elementAt(index).type) {
+        switch(noFieldsFormItems.elementAt(index).type) {
             case ScoutingGenerationItemTypes.ScoutingShotCounter:
               controllerType = 'ValueNotifier<int>';
               controllerAssignment = '(0)';
@@ -259,9 +283,10 @@ $insertFormItems
             default:
               throw Exception('Cant build for type ${(formItems.elementAt(index).type)}');
           }
+
         /// Build field
         return Field(((f) => f
-          ..name = '_${formItems.elementAt(index).name}Controller'
+          ..name = '_${noFieldsFormItems.elementAt(index).name}Controller'
           ..modifier = FieldModifier.final$
           ..type = Reference(controllerType)
           ..assignment = Code('$controllerType$controllerAssignment')          
@@ -294,7 +319,7 @@ $insertFormItems
             )
           )
 
-          ..body = Code(bodyBuilder())
+          ..body = Code(bodyBuilder(noFieldsFormItems))
         )
       ])
     );

@@ -3,17 +3,24 @@ include_once 'conn.php';
 
 
 $sql = "CREATE TABLE test(
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-shotCounter TINYINT(3) UNSIGNED NOT NULL,
-shotCounter1 TINYINT(4) UNSIGNED NOT NULL,
-shotCounter1 TINYINT(8) UNSIGNED NOT NULL,
-dropdownButton CHAR(1) NOT NULL,
-textfield TEXT NOT NULL,
-checkbox TINYINT(1) NOT NULL,
-buttonTimer FLOAT NOT NULL,
-checkbox TINYINT(1) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)"
+id SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+lastChangedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+matchId SMALLINT(6) UNSIGNED NOT NULL UNIQUE KEY,
+teamId VARCHAR(4) NOT NULL UNIQUE KEY,
+didRobotWin TINYINT(1) NOT NULL,
+alliance TINYINT(1) NOT NULL,
+startingPosition CHAR(1) NOT NULL,
+wasRobotOnField TINYINT(1) NOT NULL,
+didRobotWorkInAuto TINYINT(1) NOT NULL,
+didRobotWorkInTeleOp TINYINT(1) NOT NULL,
+didRobotDefend TINYINT(1) NOT NULL,
+wasStrategyDifferent TINYINT(1) NOT NULL,
+defenseComments TINYTEXT NOT NULL,
+robotComments TINYTEXT NOT NULL,
+strategyComments TINYTEXT NOT NULL,
+scouterName TINYTEXT NOT NULL,
+CONSTRAINT teamId_fk FOREIGN KEY (teamId) REFERENCES teams(id)
+)";
 
 if ($conn->query($sql) === TRUE) {
   echo "Table created successfully :) ";

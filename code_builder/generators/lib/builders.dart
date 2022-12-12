@@ -9,91 +9,7 @@ import 'package:source_gen/source_gen.dart';
 import 'src/form_generator.dart';
 
 // import 'package:flutter/material.dart' show DropdownMenuItem, Text;
-final formitems = 
-[
-  ScoutingGenerationShotCounter(
-    name: 'shotCounter',
-    score: 2,
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'shotCounter', 
-      type: SqlParamType.TINYINT, 
-      typeLengthValue: 3,
-      attributes: Attributes.UNSIGNED
-    )
-  ),
-
-  ScoutingGenerationShotCounter(
-    name: 'shotCounter1',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'shotCounter1', 
-      type: SqlParamType.TINYINT, 
-      typeLengthValue: 4,
-      attributes: Attributes.UNSIGNED
-    )
-  ),
-
-  ScoutingGenerationShotCounter(
-    name: 'shotCounter2',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'shotCounter1', 
-      type: SqlParamType.TINYINT, 
-      typeLengthValue: 8,
-      attributes: Attributes.UNSIGNED
-    )
-  ),
-
-  ScoutingGenerationDropdownButtonFormField(
-    name: 'dropdownButton',
-    dropdownMenuItems: const {
-      'comp 1' : '1',
-      'comp 2' : '2',
-      'comp 3' : '3',
-      'comp 4' : '4',
-      'comp 5' : '5',
-    }, 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'dropdownButton', 
-      type: SqlParamType.CHAR, 
-      typeLengthValue: 1
-    )
-  ),
-
-  ScoutingGenerationTextFormField(
-    name: 'textfield',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'textfield', 
-      type: SqlParamType.TEXT, 
-    )
-  ),
-
-  ScoutingGenerationCheckbox(
-    name: 'checkbox',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'checkbox', 
-      type: SqlParamType.TINYINT,
-      typeLengthValue: 1
-    )
-  ),
-
-  ScoutingGenerationButtonTimer(
-    name: 'buttonTimer',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'buttonTimer', 
-      type: SqlParamType.FLOAT
-    )
-  ),
-
-  ScoutingGenerationCheckbox(
-    name: 'checkbox1', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'checkbox', 
-      type: SqlParamType.TINYINT,
-      typeLengthValue: 1
-    )
-  )
-];
-
-final defaultItem = 
+final defaultItems = 
 [
   ScoutingGenerationField(
     name: 'id',
@@ -108,14 +24,23 @@ final defaultItem =
   ),
 
   ScoutingGenerationField(
+    name: 'lastChangedAt', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'lastChangedAt', 
+      type: SqlParamType.TIMESTAMP,
+      defaultType: DefaultType.CURRENT_TIMESTAMP
+    )
+  ),
+
+  ScoutingGenerationField(
     name: 'matchId',
     sqlParamValue: ScoutingGenerationItem.sqlParam(
       name: 'matchId', 
       type: SqlParamType.SMALLINT,
       typeLengthValue: 6,
       key: KeyType.UNIQUE_KEY,
-      attributes: Attributes.UNSIGNED
-    )
+      attributes: Attributes.UNSIGNED,
+    ),
   ),
 
   ScoutingGenerationField(
@@ -123,7 +48,12 @@ final defaultItem =
     sqlParamValue: ScoutingGenerationItem.sqlParam(
       name: 'teamId', 
       type: SqlParamType.VARCHAR,
-      typeLengthValue: 4
+      typeLengthValue: 4,
+      key: KeyType.UNIQUE_KEY
+    ),
+    sqlConstraintsValue: ScoutingGenerationItem.sqlConstraints(
+      name: 'teamId', 
+      constraints: MapEntry(ConstraintsTables.TEAMS, 'id')
     )
   ),
 
@@ -136,17 +66,17 @@ final defaultItem =
     )
   ),
 
-  ScoutingGenerationItem(
-    name: 'allianceColor', 
+  ScoutingGenerationField(
+    name: 'alliance', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'allianceColor', 
+      name: 'alliance', 
       type: SqlParamType.TINYINT,
       typeLengthValue: 1
     )
   ),
 
   ScoutingGenerationDropdownButtonFormField(
-    name: 'startingPosition ', 
+    name: 'startingPosition', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
       name: 'startingPosition', 
       type: SqlParamType.CHAR,
@@ -238,31 +168,88 @@ final defaultItem =
       type: SqlParamType.TINYTEXT
     )
   ),
-
-  ScoutingGenerationField(
-    name: 'LastChangedAt', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'LastChangedAt', 
-      type: SqlParamType.TIMESTAMP,
-      defaultType: DefaultType.CURRENT_TIMESTAMP
-    )
-  )
 ];
+
+final formitems = 
+[
+  ScoutingGenerationShotCounter(
+    name: 'shotCounter1',
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'shotCounter1', 
+      type: SqlParamType.TINYINT, 
+      typeLengthValue: 3,
+      attributes: Attributes.UNSIGNED
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'shotCounter2',
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'shotCounter2', 
+      type: SqlParamType.TINYINT, 
+      typeLengthValue: 4,
+      attributes: Attributes.UNSIGNED
+    )
+  ),
+
+  ScoutingGenerationDropdownButtonFormField(
+    name: 'dropdownButton',
+    dropdownMenuItems: const {
+      'comp 1' : '1',
+      'comp 2' : '2',
+      'comp 3' : '3',
+      'comp 4' : '4',
+      'comp 5' : '5',
+    }, 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'dropdownButton', 
+      type: SqlParamType.CHAR, 
+      typeLengthValue: 1
+    )
+  ),
+
+  ScoutingGenerationTextFormField(
+    name: 'textfield',
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'textfield', 
+      type: SqlParamType.TEXT, 
+    )
+  ),
+
+  ScoutingGenerationCheckbox(
+    name: 'checkbox',
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'checkbox', 
+      type: SqlParamType.TINYINT,
+      typeLengthValue: 1
+    )
+  ),
+
+  ScoutingGenerationButtonTimer(
+    name: 'buttonTimer',
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'buttonTimer', 
+      type: SqlParamType.FLOAT
+    )
+  ),
+];
+
+final items = defaultItems; 
 
 Builder scoutingFormGeneratorBuilder(BuilderOptions options) =>
   SharedPartBuilder([ScoutingFormGenerator()], 'scouting_form');
 
 Builder scoutingFormStateGeneratorBuilder(BuilderOptions options) =>
-  SharedPartBuilder([ScoutingFormStateGenerator(formItems: formitems)], 'scouting_form_state');
+  SharedPartBuilder([ScoutingFormStateGenerator(formItems: items)], 'scouting_form_state');
 
 Builder insertDartScoutingDataTableBuilder(BuilderOptions options) =>
-  InsertDartScoutingDataTableBuilder(formItems: formitems);
+  InsertDartScoutingDataTableBuilder(formItems: items);
 
 Builder createPhpScoutingDataTableBuilder(BuilderOptions options) =>
-  CreatePhpScoutingDataTableBuilder(formItems: formitems);
+  CreatePhpScoutingDataTableBuilder(formItems: items);
 
 Builder insertPhpScoutingDataTableBuilder(BuilderOptions options) =>
-  InsertPhpScoutingDataTableBuilder(formItems: formitems);
+  InsertPhpScoutingDataTableBuilder(formItems: items);
   
 
 

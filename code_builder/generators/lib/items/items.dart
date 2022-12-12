@@ -9,9 +9,12 @@ class ScoutingGenerationItem {
 
   final String sqlParamValue;
 
+  final String? sqlConstraintsValue;
+
   const ScoutingGenerationItem({
     required this.name,
-    required this.sqlParamValue
+    required this.sqlParamValue,
+    this.sqlConstraintsValue
   });
 
   ScoutingGenerationItemTypes? get type => null;
@@ -25,14 +28,14 @@ class ScoutingGenerationItem {
     DefaultType? defaultType,
     String? defaultTypeValue,
     bool autoIncrement = false,
-    KeyType? key
+    KeyType? key,
   }) {
     if((defaultType == DefaultType.NULL && !isNull)) {
       throw Exception('If default is null, isNull flag must be true');
     }
     else if (autoIncrement && defaultType != null) {
-      throw Exception('If auto increment in enabled, default must be none');
-    }
+      throw Exception('If auto increment is enabled, default must be none');
+    } 
 
     var param = '$name ${type.name}';
     
@@ -79,16 +82,25 @@ class ScoutingGenerationItem {
 
     return param + ',';
   }
+
+  static String sqlConstraints({
+    required String name,
+    required MapEntry<ConstraintsTables, String> constraints,
+  }) {
+    return 'CONSTRAINT ${name}_fk FOREIGN KEY ($name) REFERENCES ${constraints.key.name.toLowerCase()}(${constraints.value})';
+  }
 }
 
 class ScoutingGenerationField extends ScoutingGenerationItem {
 
   ScoutingGenerationField({
     required String name,
-    required String sqlParamValue
+    required String sqlParamValue,
+    String? sqlConstraintsValue
   }) : super(
     name: name,
-    sqlParamValue: sqlParamValue
+    sqlParamValue: sqlParamValue,
+    sqlConstraintsValue: sqlConstraintsValue
   );
 
   @override
@@ -103,10 +115,12 @@ class ScoutingGenerationShotCounter extends ScoutingGenerationItem {
   const ScoutingGenerationShotCounter({
     required String name,
     required String sqlParamValue,
+    String? sqlConstraintsValue,
     this.score = 0
   }) : super(
     name: name,
-    sqlParamValue: sqlParamValue
+    sqlParamValue: sqlParamValue,
+    sqlConstraintsValue: sqlConstraintsValue
   );
 
   @override
@@ -123,10 +137,12 @@ class ScoutingGenerationDropdownButtonFormField extends ScoutingGenerationItem {
   const ScoutingGenerationDropdownButtonFormField({
     required String name,
     required String sqlParamValue,
+    String? sqlConstraintsValue,
     required this.dropdownMenuItems
   }) : super(
     name: name,
-    sqlParamValue: sqlParamValue
+    sqlParamValue: sqlParamValue,
+    sqlConstraintsValue: sqlConstraintsValue
   );
 
   @override
@@ -138,9 +154,11 @@ class ScoutingGenerationTextFormField extends ScoutingGenerationItem {
   const ScoutingGenerationTextFormField({
     required String name,
     required String sqlParamValue,
+    String? sqlConstraintsValue
   }) : super(
     name: name,
-    sqlParamValue: sqlParamValue
+    sqlParamValue: sqlParamValue,
+    sqlConstraintsValue: sqlConstraintsValue,
   );
 
   @override
@@ -152,9 +170,11 @@ class ScoutingGenerationCheckbox extends ScoutingGenerationItem {
   const ScoutingGenerationCheckbox({
     required String name,
     required String sqlParamValue,
+    String? sqlConstraintsValue
   }) : super(
     name: name,
-    sqlParamValue: sqlParamValue
+    sqlParamValue: sqlParamValue,
+    sqlConstraintsValue: sqlConstraintsValue
   );
 
   @override
@@ -166,9 +186,11 @@ class ScoutingGenerationButtonTimer extends ScoutingGenerationItem {
   const ScoutingGenerationButtonTimer({
     required String name,
     required String sqlParamValue,
+    String? sqlConstraintsValue
   }) : super(
     name: name,
-    sqlParamValue: sqlParamValue
+    sqlParamValue: sqlParamValue,
+    sqlConstraintsValue: sqlConstraintsValue
   );
 
   @override

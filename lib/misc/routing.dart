@@ -124,6 +124,9 @@ class RoutingState extends State<Routing>{
         viewerPage: const SizedBox.expand(), 
         scouterPage: ScoutingForm(
           exit: _pop,
+          matchId: '4',
+          teamId: '2230',
+          alliance: '1',
         ), 
         adminPage: StrategyForm(
           exit: _pop

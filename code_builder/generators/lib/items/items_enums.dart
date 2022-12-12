@@ -41,3 +41,8 @@ enum Attributes {
   UNSIGNED_ZEROFILL,
   ON_UPDATE_CURRENT_TIMESTAMP
 }
+
+enum ConstraintsTables{
+  MATCHES,
+  TEAMS,
+}

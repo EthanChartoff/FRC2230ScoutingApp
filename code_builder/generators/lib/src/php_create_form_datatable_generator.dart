@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:build/build.dart';
 import 'package:generators/items/items.dart';
-import 'package:source_gen/source_gen.dart';
-import 'package:code_builder/code_builder.dart';
-import 'package:dart_style/dart_style.dart';
 
 
 class CreatePhpScoutingDataTableBuilder extends Builder {
@@ -23,7 +20,7 @@ class CreatePhpScoutingDataTableBuilder extends Builder {
 include_once 'conn.php';
 
 
-\$sql = "CREATE TABLE $tableName($tableItems)"
+\$sql = "CREATE TABLE $tableName($tableItems)";
 
 if (\$conn->query(\$sql) === TRUE) {
   echo "Table created successfully :) ";
@@ -42,18 +39,21 @@ if (\$conn->query(\$sql) === TRUE) {
     var buffer = StringBuffer();
     
     buffer.writeln();
-    /// default type for every table 
-    buffer.writeln('id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,');
+
+    /// values
     formItems.forEach((element) {
       buffer.writeln(element.sqlParamValue);
     });
-    /// default type for every table 
-    buffer.writeln
-      ('created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
+    /// constraints
+    formItems.where((element) => element.sqlConstraintsValue != null)
+    .forEach((element) {
+      buffer.writeln(element.sqlConstraintsValue);  
+    });
+    
     return buffer.toString();
   }
-  
+    
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     var inputId = buildStep.inputId;

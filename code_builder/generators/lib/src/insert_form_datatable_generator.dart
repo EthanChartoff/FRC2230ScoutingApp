@@ -42,7 +42,7 @@ class InsertDartScoutingDataTableBuilder extends Builder {
   String get insertScoutingDataTableFields {
     var buffer = StringBuffer();
 
-    formItems.forEach((element) {
+    formItems.getRange(2, formItems.length).forEach((element) {
       buffer.writeln('required ${element.name},');
     });
 
@@ -52,13 +52,15 @@ class InsertDartScoutingDataTableBuilder extends Builder {
   String get insertScoutingDataTableBody {
     var buffer = StringBuffer();
     
-    buffer.writeln("'id' : '',");
-
-    formItems.forEach((element) { 
-      buffer.writeln("'${element.name}' : '\$${element.name}',");
+    /// defualt params
+    formItems.getRange(0, 2).forEach((element) {
+      buffer.writeln("'${element.name}' : '',");
     });
 
-    buffer.writeln("'createdAt' : ''");
+    /// required params
+    formItems.getRange(2, formItems.length).forEach((element) { 
+      buffer.writeln("'${element.name}' : '\$${element.name}',");
+    });
 
     return buffer.toString();
   }
