@@ -1,0 +1,26 @@
+targets:
+  $default:
+    builders:
+      form_generator|scoutingFormGeneratorBuilder:
+        enabled: True
+        generate_for:
+          - lib/src/generated.dart
+      form_generator|scoutingFormStateGeneratorBuilder:
+        enabled: True
+        generate_for:
+          - lib/src/generated.dart
+    
+      insert_form_datatable_generator|InsertDartScoutingDataTableBuilder:
+        enabled: True
+        generate_for:
+          - lib/src/generated.dart
+
+      insert_php_form_datatable_generator|InsertPhpScoutingDataTableBuilder:
+        enabled: True
+        generate_for:
+          - lib/src/*.txt
+
+      create_php_form_datatable_generator|CreatePhpScoutingDataTableBuilder:
+        enabled: True
+        generate_for:
+          - lib/src/*.txt

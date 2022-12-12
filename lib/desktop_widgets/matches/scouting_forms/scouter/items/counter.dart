@@ -7,16 +7,13 @@ import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scou
 
 /// A counter designed for [ScoutingForm].
 /// 
-/// TODO: implement a getter for [_counter], make [onChange] non-required
-/// and implement different styles
+/// TODO: implement different styles
 class ScoutingShotCounter extends StatefulWidget {
 
-  final void Function(int) onChanged;
-
-  /// Starts from zero and counts the number of increments/decrements.
+  /// Starts from a given value and counts the number of increments/decrements.
   /// 
   /// Can't go below [maxScore] and above [minScore]
-  // int counter;
+  final ValueNotifier<int> controller;
 
   /// [ScoutingShotCounter]'s score will always be below 
   final int maxScore;
@@ -29,27 +26,36 @@ class ScoutingShotCounter extends StatefulWidget {
 
   const ScoutingShotCounter({
     super.key,
-    required this.onChanged,
+    required this.controller,
     this.maxScore = 999,
     this.minScore = 0,
     this.title
-  }); 
+  });  
 
   @override
   State<StatefulWidget> createState() => _ScoutingShotCounterState();
 }
 
-class _ScoutingShotCounterState extends State<ScoutingShotCounter> {
+class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
 
-  int _counter = 0;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   IconButton get _incrementButton => IconButton(
     onPressed: () {
       setState(() {
-        if(_counter < widget.maxScore) _counter++;
+        if(widget.controller.value < widget.maxScore) widget.controller.value++;
       });
-      widget.onChanged(_counter);
-    }, 
+    },
+    
     icon: const Icon(
       Icons.keyboard_arrow_up, 
       color: Colors.lightGreen
@@ -59,9 +65,9 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter> {
   IconButton get _decrementBtton => IconButton(
     onPressed: () {
       setState(() {
-        if(_counter > widget.minScore) _counter--;
+        if(widget.controller.value > widget.minScore) widget.controller.value--;
       });
-      widget.onChanged(_counter);
+      //widget.onChanged(_counter);
     }, 
     icon: const Icon(
       Icons.keyboard_arrow_down, 
@@ -75,7 +81,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter> {
     _incrementButton,
 
     /// Counter counting numbers
-    Text(_counter.toString()),
+    Text(widget.controller.value.toString()),
 
     _decrementBtton    
   ];

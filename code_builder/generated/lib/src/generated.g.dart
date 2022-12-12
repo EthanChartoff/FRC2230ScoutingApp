@@ -1,12 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'generated.dart';
+
 // **************************************************************************
 // ScoutingFormGenerator
 // **************************************************************************
-
-import 'package:flutter/material.dart';
-import 'package:scoute_prime/api/dart/insert/new_scouting_data_table.dart';
-import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/checkbox.dart';
-import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
-import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/items/textfield.dart';
 
 class ScoutingForm extends StatefulWidget {
   final void Function() exit;
@@ -181,31 +179,30 @@ class _ScoutingFormState extends State<ScoutingForm> {
           ),
         
           ElevatedButton(
-            onPressed: () {
-              print(_scouterNameController.text);
-            }, 
+            onPressed: widget.exit,
             child: null
           ),
       
-          ElevatedButton(
-            onPressed: (() => InsertScoutingDataTable.newTable(
-              matchId: widget.matchId,
-              teamId: widget.teamId,
-              didRobotWin: _didRobotWinController.value ? '1' : '0',
-              alliance: widget.alliance,
-              startingPosition: _startingPositionController.value,
-              wasRobotOnField: _wasRobotOnFieldController.value ? '1' : '0',
-              didRobotWorkInAuto: _didRobotWorkInAutoController.value ? '1' : '0',
-              didRobotWorkInTeleOp: _didRobotWorkInTeleOpController.value ? '1' : '0',
-              didRobotDefend: _didRobotDefendController.value ? '1' : '0',
-              wasStrategyDifferent: _wasStrategyDifferentController.value ? '1' : '0',
-              defenseComments: _defenseCommentsController.value,
-              robotComments: _robotCommentsController.value,
-              strategyComments: _strategyCommentsController.value,
-              scouterName: _scouterNameController.value.toString(),
-            )),
-            child: null
-          )
+          // ElevatedButton(
+          //   onPressed: (() => InsertScoutingDataTable.newTable(
+          //     matchId: widget.matchId,
+          //     teamId: widget.teamId,
+          //     didRobotWin: _didRobotWinController.value,
+          //     alliance: widget.alliance,
+          //     startingPosition: _startingPositionController.value,
+          //     wasRobotOnField: _wasRobotOnFieldController.value,
+          //     didRobotWorkInAuto: _didRobotWorkInAutoController.value,
+          //     didRobotWorkInTeleOp: _didRobotWorkInTeleOpController.value,
+          //     didRobotDefend: _didRobotDefendController.value,
+          //     wasStrategyDifferent: _wasStrategyDifferentController.value,
+          //     defenseComments: _defenseCommentsController.value,
+          //     robotComments: _robotCommentsController.value,
+          //     strategyComments: _strategyCommentsController.value,
+          //     scouterName: _scouterNameController.value,
+
+          //   )),
+          //   child: null
+          // )
         ]
       )
     );

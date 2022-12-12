@@ -58,7 +58,7 @@ VALUES (
 
 if($conn->query($sqlinsert) === TRUE) {
     $response = array('status' => 'success :)', 'data' => null);
-    //echo($response);
+    echo($response);
     sendJsonResponse($response);
 
 }

@@ -96,7 +96,7 @@ class RoutingState extends State<Routing>{
     }
 
     else if(route!.startsWith(Routing.MATCHES)) {
-      Navigator.pushNamed(context, Routing.MATCHES);
+      //Navigator.pushNamed(context, Routing.MATCHES);
       page = _onMatchesRoutes(settings.name!);
     }
 
@@ -124,6 +124,9 @@ class RoutingState extends State<Routing>{
         viewerPage: const SizedBox.expand(), 
         scouterPage: ScoutingForm(
           exit: _pop,
+          matchId: '4',
+          teamId: '2230',
+          alliance: '1',
         ), 
         adminPage: StrategyForm(
           exit: _pop
