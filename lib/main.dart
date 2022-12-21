@@ -1,28 +1,122 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// get device platform
 import 'dart:io' show Platform;
 // get if app is running on the World Wide Web
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
+import 'package:scoute_prime/desktop_widgets/matches/matches_page.dart';
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart';
+import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/strategy/strategy_form.dart';
+import 'package:scoute_prime/desktop_widgets/matches/user_specific/scouter/scouter_matches.dart';
+import 'package:scoute_prime/desktop_widgets/matches/user_specific/viewer/viewer_matches.dart';
+import 'package:scoute_prime/desktop_widgets/sidemenu/screen_with_sidemenu.dart';
+import 'package:scoute_prime/desktop_widgets/team_dashboard/dashboard.dart';
 import 'package:scoute_prime/misc/custom_page_route.dart';
 import 'package:scoute_prime/misc/routing.dart';
+import 'package:scoute_prime/misc/user_type_builder.dart';
 import 'package:scoute_prime/variables/constants.dart';
+import 'package:scoute_prime/variables/user_types.dart';
 
 void main() {
   /// start the app
   runApp(App());
 }
 
-class App extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _AppState();
-}
+// ignore: must_be_immutable
+class App extends StatelessWidget {
+  
+  /// Permissions of user.
+  /// 
+  /// pages can change according to a users permission.
+  UserTypes _user = UserTypes.noType;
 
-class _AppState extends State<App>{
-  /// The root [Widget] of the app.
+  /// Change pages of routes and/or routes depending on device
+  /// and how the application is ran, 
+  /// 
+  /// computers and phones will have different widget sizes, colors, builds...
+  late final _router = GoRouter(
+
+    routes: [
+      GoRoute(
+        path: Routing.LOGIN,
+        builder: (context, state) => LoginPage(
+          updatePermissions: (UserTypes permission) => _user = permission,
+        ),
+      ),
+
+      GoRoute(
+        path: Routing.MATCHES,
+        builder: (context, state) => DesktopSidemenuScreenBuilder(
+          screen: UserTypeBuilder(
+            user: _user, 
+            viewerPage: MatchesPage(), 
+            scouterPage: MatchesPage(), 
+            adminPage: MatchesPage()
+          ),
+        ),
+
+        routes: [
+          GoRoute(
+            path: Routing.MATCHES_SCOUTING_FORM,
+            builder: (context, state) => DesktopSidemenuScreenBuilder(
+              screen: UserTypeBuilder(
+                user: _user, 
+                viewerPage: MatchesPage(),
+                scouterPage: ScoutingForm(
+                  exit: context.pop,
+                  matchId: '4',
+                  teamId: '2230',
+                  alliance: '1',
+                ), 
+                adminPage: StrategyForm(
+                  exit: context.pop,
+                )
+              ),
+            ) 
+          ),
+        ]
+
+      ),
+
+      GoRoute(
+        path: Routing.TEAM_VIEW,
+        
+        builder: (context, state) {
+          final teamId = int.parse(state.queryParams['teamId'] ?? '2230');
+
+          return DesktopSidemenuScreenBuilder(
+            
+            screen: UserTypeBuilder(
+              user: _user, 
+              viewerPage: Dashboard(
+                teamNumber: teamId,
+              ),
+              scouterPage: Dashboard(
+                teamNumber: teamId,
+              ),
+              adminPage: Dashboard(
+                teamNumber: teamId,
+              )
+            ),
+          );
+        }
+      )
+    ],
+
+    redirect: (context, state) {
+      if(state.location != Routing.LOGIN && _user == UserTypes.noType) return Routing.LOGIN;
+    },
+  );
+
+    /// The root [Widget] of the app.
   @override
   Widget build(BuildContext context) {
+
     return ScreenUtilInit( 
       /// ScreenUtilInit is a plugin that lets the program adapt ui displays and fonts to the screen size.
       /// You can read more about it here: https://pub.dev/packages/flutter_scrflutter_screenutileenutil
@@ -30,7 +124,7 @@ class _AppState extends State<App>{
       /// Configure ScreenUtils screen size so the proportions in other devices will be the same 
       designSize: SCREEN_SIZE,
 
-      builder: ((context, child) => MaterialApp(
+      builder: ((context, child) => MaterialApp.router(
         /// MaterialApp is a convenience widget that wraps a number of widgets that are commonly required for Material Design applications.
       
         /// header of the tab in the browser.
@@ -88,38 +182,13 @@ class _AppState extends State<App>{
         ),
 
         color: Theme.of(context).primaryColor,
-        
-                
-        /// Change pages of routes and/or routes depending on device
-        /// and how the application is ran, 
-        /// 
-        /// computers and phones will have different widget sizes, colors, builds...
-        onGenerateRoute: (RouteSettings settings) {
-          // if(settings.name != Routing.MATCHES) {
-          //   return FastPageRoute(
-          //     builder: (context) => Routing(
-          //       route: settings.name!
-          //     ),
-          //     settings: settings
-          //   );
-          // }
-          // else {
-          //   return FastPageRoute(
-          //     builder: (context) => Container(
-          //       color: Theme.of(context).backgroundColor,
-          //     ),
-          //     settings: settings
-          //   );
-          // }
-          return FastPageRoute(
-            builder: (context) => Routing(
-              route: settings.name!
-            ),
-            settings: settings
-          );
-        },
+
+        routerDelegate: _router.routerDelegate,
+        routeInformationParser: _router.routeInformationParser,
+        routeInformationProvider: _router.routeInformationProvider,
       ))
     );
   }
+
 }
 

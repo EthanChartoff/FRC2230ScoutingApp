@@ -54,6 +54,8 @@ class ScoutingGenerationItem {
         }
       }
     
+
+
     if(attributes != null) {
       param = param + ' ${attributes.name.replaceAll(RegExp(r'_'), ' ')}';
     }
@@ -167,14 +169,18 @@ class ScoutingGenerationTextFormField extends ScoutingGenerationItem {
 }
 
 class ScoutingGenerationCheckbox extends ScoutingGenerationItem {
+
+  final String? title;
+
   const ScoutingGenerationCheckbox({
     required String name,
     required String sqlParamValue,
-    String? sqlConstraintsValue
+    String? sqlConstraintsValue,
+    this.title
   }) : super(
     name: name,
     sqlParamValue: sqlParamValue,
-    sqlConstraintsValue: sqlConstraintsValue
+    sqlConstraintsValue: sqlConstraintsValue,
   );
 
   @override

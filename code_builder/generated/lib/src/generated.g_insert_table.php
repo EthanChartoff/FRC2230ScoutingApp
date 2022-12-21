@@ -3,6 +3,12 @@
 include_once 'conn.php';
 include_once 'constants.php';
 
+function sendJsonResponse($response)
+{
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+
 
 $id = $_POST['id'];
 $lastChangedAt = $_POST['lastChangedAt'];
@@ -20,10 +26,16 @@ $defenseComments = $_POST['defenseComments'];
 $robotComments = $_POST['robotComments'];
 $strategyComments = $_POST['strategyComments'];
 $scouterName = $_POST['scouterName'];
+$shotCounter1 = $_POST['shotCounter1'];
+$shotCounter2 = $_POST['shotCounter2'];
+$dropdownButton = $_POST['dropdownButton'];
+$textfield = $_POST['textfield'];
+$checkbox = $_POST['checkbox'];
+$buttonTimer = $_POST['buttonTimer'];
 
 
 
-$sqlinsert = "INSERT INTO scoutingTable(
+$sqlinsert = "INSERT INTO $scouting_table(
     `id`,
     `lastChangedAt`,
     `matchId`,
@@ -40,6 +52,12 @@ $sqlinsert = "INSERT INTO scoutingTable(
     `robotComments`,
     `strategyComments`,
     `scouterName`,
+    `shotCounter1`,
+    `shotCounter2`,
+    `dropdownButton`,
+    `textfield`,
+    `checkbox`,
+    `buttonTimer`
 ) VALUES (
     DEFAULT,
     DEFAULT,
@@ -57,6 +75,12 @@ $sqlinsert = "INSERT INTO scoutingTable(
     '$robotComments',
     '$strategyComments',
     '$scouterName',
+    '$shotCounter1',
+    '$shotCounter2',
+    '$dropdownButton',
+    '$textfield',
+    '$checkbox',
+    '$buttonTimer'
 )";
 
 

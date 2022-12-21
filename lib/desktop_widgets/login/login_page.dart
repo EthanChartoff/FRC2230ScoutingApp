@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:scoute_prime/misc/routing.dart';
 
 import 'package:scoute_prime/variables/constants.dart';
 import 'package:scoute_prime/variables/user_types.dart';
@@ -12,9 +14,9 @@ class LoginPage extends StatefulWidget {
 
   /// Defines what type of permissions the user will have,
   final void Function(UserTypes) updatePermissions;
-
+  
   const LoginPage({
-    required this.updatePermissions
+    required this.updatePermissions,
   });
 
   @override
@@ -146,26 +148,24 @@ class _LoginPageState extends State<LoginPage>{
     required UserTypes userType,
     required String route,
     required BuildContext context,
-    Color color = ConstColors.PRIMARY_COLOR,
-
   }) 
   {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: color,
+        backgroundColor: Theme.of(context).primaryColor,
         fixedSize: Size(200.w, 60.h),
+        elevation: 20,
+        shadowColor: Colors.black12
       ),
-        onPressed: () {
-          /// If user typed the correct password, we give the user
-          /// the corresponding permission
-          if(_passwordInput == PASSWORDS[userType.index]) {
-            widget.updatePermissions(userType);
-            Navigator.popAndPushNamed(
-              context, 
-              route,
-            );
-          }
-        },
+      onPressed: () {
+        /// If user typed the correct password, we give the user
+        /// the corresponding permission
+        if(_passwordInput == PASSWORDS[userType.index]) {
+          widget.updatePermissions(userType);
+          context.go(Routing.MATCHES);
+        }
+      },
+      
       child: Text(userType.name.toUpperCase())
     );
 

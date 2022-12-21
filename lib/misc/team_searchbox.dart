@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:go_router/go_router.dart';
 import 'package:scoute_prime/misc/routing.dart';
 
 import 'package:scoute_prime/variables/teams_data.dart';
@@ -22,15 +26,20 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
     textFieldConfiguration,
     this.hintText,
     super.debounceDuration,
-    noItemsFoundBuilder
+    noItemsFoundBuilder,
+    autoFocus,
+    onTap,
+    required bool isExpanded
   }) : super(
     textFieldConfiguration: textFieldConfiguration ?? TextFieldConfiguration(
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
         border: const OutlineInputBorder(),
         hintText: hintText,
-        fillColor: Theme.of(context).primaryColor
-      )
+        fillColor: Theme.of(context).primaryColor,
+      ),
+      onTap: onTap,
+      maxLines: 1
     ),
 
     suggestionsCallback: suggestionsCallback ?? (final String pattern) {
@@ -59,7 +68,7 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
       ),
 
     onSuggestionSelected: onSuggestionSelected ?? (suggestion) {
-      Navigator.popAndPushNamed(context, Routing.TEAM_VIEW + suggestion.number.toString());
+      context.go('${Routing.TEAM_VIEW}?teamId=${suggestion.number}');
     }
   );
 }

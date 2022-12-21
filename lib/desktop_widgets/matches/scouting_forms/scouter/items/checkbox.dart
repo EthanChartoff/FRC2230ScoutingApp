@@ -1,28 +1,25 @@
-import 'package:flutter/material.dart' show Checkbox, ValueNotifier;
+import 'package:flutter/material.dart' show 
+  Checkbox, ValueNotifier, Text, CheckboxListTile;
 
-import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart' show ScoutingForm;
+import 'package:flutter/src/widgets/framework.dart';
 
 
 /// A [Checkbox] designed for a [ScoutingForm].
 /// 
 /// TODO: implement defferent styles and constructors
-class ScoutingCheckbox extends Checkbox {
+class ScoutingCheckbox extends CheckboxListTile {
 
   final ValueNotifier<bool> controller; 
-
-  ///TODO: FIX VALUE NOT CHANGING
 
   ScoutingCheckbox({
     super.key,
     required this.controller,
-    bool? value,
-    void Function(dynamic)? onChanged
+    required onChanged,
+    String title = '',
   }) : super(
-    value: value ?? false,
-    onChanged: onChanged ?? (bool? value) {
-      if(value is bool) {
-        controller.value = value;
-      }
-    } 
+    value: controller.value,
+    onChanged: onChanged,
+    title: Text(title)
   );
+  
 }

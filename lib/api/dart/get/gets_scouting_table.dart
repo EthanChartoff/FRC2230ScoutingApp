@@ -3,14 +3,14 @@ import 'dart:convert';
 
 /// TODO: class my need to be abstract, change name to a more sutible one
 /// and add more filter getters
-class GetMatches {
+class GetScoutingData {
 
   static Future<List<dynamic>> all() async {
     var jsonData = [];
 
     try {
       final response = await http
-          .get(Uri.parse("http://localhost/2230_scouting/all_matches_tables.php"));
+          .get(Uri.parse("http://localhost/2230_scouting/all_souting_tables.php"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

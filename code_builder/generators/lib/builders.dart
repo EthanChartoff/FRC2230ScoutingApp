@@ -38,9 +38,11 @@ final defaultItems =
       name: 'matchId', 
       type: SqlParamType.SMALLINT,
       typeLengthValue: 6,
-      key: KeyType.UNIQUE_KEY,
-      attributes: Attributes.UNSIGNED,
     ),
+    sqlConstraintsValue: ScoutingGenerationItem.sqlConstraints(
+      name: 'matchId', 
+      constraints: MapEntry(ConstraintsTables.MATCHES, 'id')
+    )
   ),
 
   ScoutingGenerationField(
@@ -49,7 +51,6 @@ final defaultItems =
       name: 'teamId', 
       type: SqlParamType.VARCHAR,
       typeLengthValue: 4,
-      key: KeyType.UNIQUE_KEY
     ),
     sqlConstraintsValue: ScoutingGenerationItem.sqlConstraints(
       name: 'teamId', 
@@ -63,7 +64,8 @@ final defaultItems =
       name: 'didRobotWin', 
       type: SqlParamType.TINYINT,
       typeLengthValue: 1
-    )
+    ),
+    title: 'did robot win?'
   ),
 
   ScoutingGenerationField(
@@ -234,7 +236,7 @@ final formitems =
   ),
 ];
 
-final items = defaultItems; 
+final items = defaultItems + formitems; 
 
 Builder scoutingFormGeneratorBuilder(BuilderOptions options) =>
   SharedPartBuilder([ScoutingFormGenerator()], 'scouting_form');

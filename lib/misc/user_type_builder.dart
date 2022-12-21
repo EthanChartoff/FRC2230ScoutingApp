@@ -36,9 +36,10 @@ class UserTypeBuilder extends StatelessWidget {
         else if(user == UserTypes.Scouter) {
           return scouterPage;
         }
-        else {
+        else if(user == UserTypes.Viewer) {
           return viewerPage;
         }
+        throw Exception("user doesnt have permisisons to go here");
         /// TODO: implement what to do when user is notype
       })
     );

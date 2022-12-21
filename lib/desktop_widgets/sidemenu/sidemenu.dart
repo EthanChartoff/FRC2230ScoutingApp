@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scoute_prime/desktop_widgets/sidemenu/sidemenu_item.dart';
@@ -9,10 +11,10 @@ import 'package:scoute_prime/variables/teams_data.dart';
   /// match width to [DesktopSidemenu]s toggled mode
   double getCurrWidth(toggleOpen) {
     if(toggleOpen) {
-      return 300.w;
+      return 200;
     }
     else{
-      return 60.w;
+      return 45;
     }
   }
 
@@ -30,6 +32,27 @@ class _DesktopSidemenuState extends State<DesktopSidemenu> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget get teamSearchBox {
+    if(widget.toggleOpen) {
+      return Material(
+        child: SizedBox(
+          width: double.infinity,
+          child: TeamSearchbox(
+            context: context,
+            teams: TeamsData.israelTeamsDatas,
+            onTap: () {
+              if(widget.toggleOpen != true) {
+                setState(() => widget.toggleOpen = true);
+              }
+            },
+            isExpanded: widget.toggleOpen,
+          ),
+        )
+      );
+    }
+    return const SizedBox.shrink();
   }
 
   @override
@@ -89,15 +112,8 @@ class _DesktopSidemenuState extends State<DesktopSidemenu> {
                 route: Routing.LOGIN,
                 isExpanded: widget.toggleOpen,
               ),
-              Material(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: TeamSearchbox(
-                    context: context,
-                    teams: TeamsData.israelTeamsDatas,
-                  ),
-                ),
-              ),
+              
+              teamSearchBox
             ]
           )
         ]

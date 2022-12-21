@@ -19,10 +19,10 @@ class TeamsData {
       name: 'Voltrix',
       color: const Color.fromARGB(255, 185, 159, 12)),
   TeamsData(
-      number: 1577, name: 'STeamsDatapunk', color: Color.fromARGB(255, 218, 134, 9)),
+      number: 1577, name: 'Steamspunk', color: const Color.fromARGB(255, 218, 134, 9)),
   TeamsData(
       number: 1580,
-      name: 'TheBlueMonkeys',
+      name: 'The Blue Monkeys',
       color: const Color.fromARGB(255, 12, 148, 172)),
   TeamsData(
       number: 1657, name: 'Hamosad', color: const Color.fromARGB(255, 8, 107, 5)),
@@ -62,6 +62,7 @@ class TeamsData {
       number: 2630,
       name: 'Thunderbolts',
       color: const Color.fromARGB(255, 83, 73, 73)),
+  TeamsData(number: 2679, name: 'Tiger Team', color: const Color.fromARGB(255, 243, 158, 0)),
   TeamsData(
       number: 3065, name: 'Jatt', color: const Color.fromARGB(255, 255, 174, 0)),
   TeamsData(
@@ -108,7 +109,7 @@ class TeamsData {
       color: const Color.fromARGB(255, 41, 167, 25)),
   TeamsData(
       number: 4661,
-      name: 'The Red Piartes',
+      name: 'The Red Pirates',
       color: const Color.fromARGB(255, 107, 5, 5)),
   TeamsData(
       number: 4744, name: 'Ninjas', color: const Color.fromARGB(255, 22, 37, 5)),
@@ -202,5 +203,7 @@ class TeamsData {
       number: 8843,
       name: 'Amal Space',
       color: const Color.fromARGB(255, 33, 25, 46)),
+  TeamsData(number: 9303, name: 'PORTAL', color: const Color.fromARGB(255, 75, 23, 99)), 
+  TeamsData(number: 9304, name: 'U-Team', color: const Color.fromARGB(255, 126, 182, 37))
   ];
 }

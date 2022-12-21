@@ -114,16 +114,32 @@ class ScoutingFormStateGenerator extends Generator {
     var buffer = StringBuffer();
 
     formItems.getRange(2, formItems.length).forEach((element) {
-      if(element is! ScoutingGenerationField) {
-        buffer.writeln(
-          '          //${element.name}: _${element.name}Controller.value,'
-        );
-      } 
-      else {
-        buffer.writeln(
-          '          //${element.name}: widget.${element.name},'
-        );
+      var str;
+      switch(element.type) {
+        case ScoutingGenerationItemTypes.ScoutingShotCounter:
+          str = '_${element.name}Controller.value';
+          break;
+        case ScoutingGenerationItemTypes.ScoutingDropdownButtonFormField:
+          str = '_${element.name}Controller.value';
+          break;
+        case ScoutingGenerationItemTypes.ScoutingTextFormField:
+          str = '_${element.name}Controller.text';
+          break;
+        case ScoutingGenerationItemTypes.ScoutingCheckbox:
+          str = "_${element.name}Controller.value ? '1' : '0'";
+          break;
+        case ScoutingGenerationItemTypes.ScoutingButtonTimer:
+          str = '_${element.name}Controller.value';
+          break;
+        case ScoutingGenerationItemTypes.Field:
+          str = 'widget.${element.name}';
+          break;
+
       }
+
+      buffer.writeln(
+        '          //${element.name}: $str,'
+      );
     });
 
     return buffer.toString();
@@ -214,19 +230,29 @@ $insertFormItems
         controller: _${item.name}Controller,
         onChanged: (value) => setState(() {}),
         hint: 'input something',
-        labelText: 'idk',
+        labelText: '${item.name}',
       ),
     ''';
   }
   
   String buildCheckbox(ScoutingGenerationCheckbox item) {
-    return '''
+    return item.title != null ? 
+      '''
       ScoutingCheckbox(
         controller: _${item.name}Controller,
-        value: _${item.name}Controller.value,
         onChanged: (value) => setState(() {
-          _${item.name}Controller.value = value;
-        })
+          _${item.name}Controller.value = value!;
+        }), 
+        title: '${item.title}',
+      ),
+      '''
+      : 
+      '''
+      ScoutingCheckbox(
+        controller: _${item.name}Controller,
+        onChanged: (value) => setState(() {
+          _${item.name}Controller.value = value!;
+        }), 
       ),
     ''';
   }
@@ -253,7 +279,6 @@ $insertFormItems
       ..extend = refer('State<$_className>')
       
       ..fields.addAll(List.generate(noFieldsFormItems.length, (index) {
-        print('${noFieldsFormItems.elementAt(index).type.toString()} - ${noFieldsFormItems.elementAt(index).name}');
         String? controllerType; 
         /// TODO: make custom default assignments, for example a default counter starting number can be 4 not 0
         String? controllerAssignment;

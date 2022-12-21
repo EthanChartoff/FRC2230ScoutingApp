@@ -25,7 +25,6 @@ class TeamButton extends StatelessWidget {
     required this.teamNumber,
     required this.onTap,
     required this.textStyle,
-    
     this.width,
     this.height
   });

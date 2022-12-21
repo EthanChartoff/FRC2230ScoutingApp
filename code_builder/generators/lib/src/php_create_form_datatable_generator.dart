@@ -12,15 +12,16 @@ class CreatePhpScoutingDataTableBuilder extends Builder {
     required this.formItems
   });
 
-  String createScoutingDataTable(String tableName) {
+  String get createScoutingDataTable {
     var buffer = StringBuffer();
 
     buffer.write('''
 <?php
 include_once 'conn.php';
+include_once 'constants.php';
 
 
-\$sql = "CREATE TABLE $tableName($tableItems)";
+\$sql = "CREATE TABLE \$scouting_table($tableItems)";
 
 if (\$conn->query(\$sql) === TRUE) {
   echo "Table created successfully :) ";
@@ -46,10 +47,16 @@ if (\$conn->query(\$sql) === TRUE) {
     });
 
     /// constraints
-    formItems.where((element) => element.sqlConstraintsValue != null)
+    // ignore: omit_local_variable_types
+    Iterable<ScoutingGenerationItem> itemsWithConstraints = formItems.where((element) => 
+      element.sqlConstraintsValue != null);
+
+    itemsWithConstraints.toList().getRange(0, itemsWithConstraints.length - 1)
     .forEach((element) {
-      buffer.writeln(element.sqlConstraintsValue);  
+      buffer.writeln('${element.sqlConstraintsValue},');  
     });
+    buffer.writeln(itemsWithConstraints
+    .elementAt(itemsWithConstraints.length - 1).sqlConstraintsValue);
     
     return buffer.toString();
   }
@@ -61,7 +68,7 @@ if (\$conn->query(\$sql) === TRUE) {
 
     var contents = await buildStep.readAsString(inputId);
 
-    await buildStep.writeAsString(copyId, createScoutingDataTable(contents));
+    await buildStep.writeAsString(copyId, createScoutingDataTable);
   }
   
   @override

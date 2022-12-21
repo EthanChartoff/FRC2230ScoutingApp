@@ -21,7 +21,7 @@ class DesktopSidemenuScreenBuilder extends StatelessWidget {
         children: [
           DesktopSidemenu(),
           Container(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 60.w),
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 45),
             width: double.infinity,
             height: double.infinity,
             child: screen,

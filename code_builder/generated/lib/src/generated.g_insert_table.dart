@@ -16,6 +16,12 @@ class InsertScoutingDataTable {
     required robotComments,
     required strategyComments,
     required scouterName,
+    required shotCounter1,
+    required shotCounter2,
+    required dropdownButton,
+    required textfield,
+    required checkbox,
+    required buttonTimer,
   }) async {
     try {
       final response = await http.post(
@@ -38,6 +44,12 @@ class InsertScoutingDataTable {
             'robotComments': '$robotComments',
             'strategyComments': '$strategyComments',
             'scouterName': '$scouterName',
+            'shotCounter1': '$shotCounter1',
+            'shotCounter2': '$shotCounter2',
+            'dropdownButton': '$dropdownButton',
+            'textfield': '$textfield',
+            'checkbox': '$checkbox',
+            'buttonTimer': '$buttonTimer',
           });
     } catch (err) {
       // print('$err lol');

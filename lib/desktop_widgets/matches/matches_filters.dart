@@ -16,14 +16,13 @@ class MatchesFilters {
     };
 
     for(Map match in await matches) {
-      if(match[MatchVars.won_alliance.name] == 'OM') {
+      if(match[MatchVars.status.name] == 'OM') {
         filteredMatches[MatchStates.ongoingMatches.name]!.add(match);
       }
       else {
         filteredMatches[MatchStates.endedMatches.name]!.add(match);
       }
     }
-    //print(filteredMatches);
     
     return filteredMatches;
     /// TODO: need to add how to differentiate from ongoing and future

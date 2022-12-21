@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:scoute_prime/variables/user_types.dart';
 
 /// [DesktopSidemenuItem] is a widget that builds a button for [DesktopSidemenu]
@@ -56,11 +57,11 @@ class _DesktopSidemenuItemState extends State<DesktopSidemenuItem> {
         }),
         
         /// on tap change url route
-        onTap: () => Navigator.popAndPushNamed(context, widget.route),
+        onTap: () => context.go(widget.route),
     
         /// ui of item
         child: Container(
-          height: 70.h,
+          height: 45,
           width: double.infinity,
           decoration: BoxDecoration(
             color: _setColor(),
@@ -68,7 +69,7 @@ class _DesktopSidemenuItemState extends State<DesktopSidemenuItem> {
           child: Row(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Icon(
                   widget.icon  
                 ),

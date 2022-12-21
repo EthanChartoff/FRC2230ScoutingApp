@@ -3,7 +3,7 @@ enum MatchVars {
   competition,
   match_number,
   match_type,
-  won_alliance,
+  status,
   r1_robot,
   r2_robot,
   r3_robot,

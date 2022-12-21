@@ -21,6 +21,12 @@ class InsertPhpScoutingDataTableBuilder extends Builder {
 include_once 'conn.php';
 include_once 'constants.php';
 
+function sendJsonResponse(\$response)
+{
+    header('Content-Type: application/json');
+    echo json_encode(\$response);
+}
+
 
 $postFields
 
@@ -60,7 +66,7 @@ else {
     var buffer = StringBuffer();
 
     // TODO: make generator for table builder
-    buffer.write('\$sqlinsert = "INSERT INTO scoutingTable($paramNames) VALUES ($paramValues)";');
+    buffer.write('\$sqlinsert = "INSERT INTO \$scouting_table($paramNames) VALUES ($paramValues)";');
 
     return buffer.toString();
   }
@@ -69,9 +75,10 @@ else {
     var buffer = StringBuffer();
     
     buffer.writeln();
-    formItems.forEach((element) {
+    formItems.getRange(0, formItems.length - 1).forEach((element) {
       buffer.writeln('    `${element.name}`,');
     });
+    buffer.writeln('    `${formItems.elementAt(formItems.length - 1).name}`');
     return buffer.toString();
   }
 
@@ -80,15 +87,17 @@ else {
 
     buffer.writeln();
 
-    /// defualt params
+    /// defualt params values
     formItems.getRange(0, 2).forEach((element) {
       buffer.writeln('    DEFAULT,');
     });
 
-    /// posted params
-    formItems.getRange(2, formItems.length).forEach((element) {
+    /// posted params values
+    formItems.getRange(2, formItems.length - 1).forEach((element) {
       buffer.writeln("    '\$${element.name}',");
     });
+    buffer.writeln("    '\$${formItems.elementAt(formItems.length - 1).name}'");
+
 
     return buffer.toString();
   }
