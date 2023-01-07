@@ -35,4 +35,12 @@ builders:
     auto_apply: dependents
     build_extensions: {".txt": [".g_create_scouting_table.php"]}
     build_to: source
+  
+  # teamsBuilder:
+  #   import: 'package:generators/builders.dart'
+  #   build_factories: ['teamsBuilder']
+  #   auto_apply: dependents
+  #   build_extensions: {".txt": [".g_teams.dart"]}
+  #   build_to: source
+    
 

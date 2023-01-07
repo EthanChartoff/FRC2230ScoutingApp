@@ -24,3 +24,8 @@ targets:
         enabled: True
         generate_for:
           - lib/src/*.txt
+
+      # teams|TeamsBuilder:
+      #   enabled: True
+      #   generate_for:
+      #     - lib/src/*.txt

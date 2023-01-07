@@ -61,18 +61,26 @@ part of 'generated.dart';
 
 //   final TextEditingController _scouterNameController = TextEditingController();
 
-//   final ValueNotifier<int> _shotCounter1Controller = ValueNotifier<int>(0);
+//   final ValueNotifier<int> _autoUpShotController = ValueNotifier<int>(0);
 
-//   final ValueNotifier<int> _shotCounter2Controller = ValueNotifier<int>(0);
+//   final ValueNotifier<int> _autoUpScoredController = ValueNotifier<int>(0);
 
-//   final ValueNotifier<String> _dropdownButtonController =
+//   final ValueNotifier<int> _autoLowShotController = ValueNotifier<int>(0);
+
+//   final ValueNotifier<int> _autoLowScoredController = ValueNotifier<int>(0);
+
+//   final ValueNotifier<int> _TeleopUpShotController = ValueNotifier<int>(0);
+
+//   final ValueNotifier<int> _TeleopUpScoredController = ValueNotifier<int>(0);
+
+//   final ValueNotifier<int> _TeleopLowShotController = ValueNotifier<int>(0);
+
+//   final ValueNotifier<int> _TeleopLowScoredController = ValueNotifier<int>(0);
+
+//   final ValueNotifier<String> _triedToClimbLevelController =
 //       ValueNotifier<String>('');
 
-//   final TextEditingController _textfieldController = TextEditingController();
-
-//   final ValueNotifier<bool> _checkboxController = ValueNotifier<bool>(false);
-
-//   final ValueNotifier<double> _buttonTimerController = ValueNotifier<double>(0);
+//   final ValueNotifier<String> _ClimbLevelController = ValueNotifier<String>('');
 
 //   @override
 //   void initState() {
@@ -94,12 +102,16 @@ part of 'generated.dart';
 //     _robotCommentsController.dispose();
 //     _strategyCommentsController.dispose();
 //     _scouterNameController.dispose();
-//     _shotCounter1Controller.dispose();
-//     _shotCounter2Controller.dispose();
-//     _dropdownButtonController.dispose();
-//     _textfieldController.dispose();
-//     _checkboxController.dispose();
-//     _buttonTimerController.dispose();
+//     _autoUpShotController.dispose();
+//     _autoUpScoredController.dispose();
+//     _autoLowShotController.dispose();
+//     _autoLowScoredController.dispose();
+//     _TeleopUpShotController.dispose();
+//     _TeleopUpScoredController.dispose();
+//     _TeleopLowShotController.dispose();
+//     _TeleopLowScoredController.dispose();
+//     _triedToClimbLevelController.dispose();
+//     _ClimbLevelController.dispose();
 
 //     super.dispose();
 // */
@@ -117,7 +129,7 @@ part of 'generated.dart';
 //         onChanged: (value) => setState(() {
 //           _didRobotWinController.value = value!;
 //         }), 
-//         title: 'did robot win?'
+//         title: 'did robot win?',
 //       ),
       
 //       ScoutingDropdownButtonFormField(
@@ -196,40 +208,55 @@ part of 'generated.dart';
 //       ),
     
 //       ScoutingShotCounter(
-//         controller: _shotCounter1Controller,
+//         controller: _autoUpShotController,
 //       ),
     
 //       ScoutingShotCounter(
-//         controller: _shotCounter2Controller,
+//         controller: _autoUpScoredController,
+//       ),
+    
+//       ScoutingShotCounter(
+//         controller: _autoLowShotController,
+//       ),
+    
+//       ScoutingShotCounter(
+//         controller: _autoLowScoredController,
+//       ),
+    
+//       ScoutingShotCounter(
+//         controller: _TeleopUpShotController,
+//       ),
+    
+//       ScoutingShotCounter(
+//         controller: _TeleopUpScoredController,
+//       ),
+    
+//       ScoutingShotCounter(
+//         controller: _TeleopLowShotController,
+//       ),
+    
+//       ScoutingShotCounter(
+//         controller: _TeleopLowScoredController,
 //       ),
     
 //       ScoutingDropdownButtonFormField(
 //         items: const [
-//           //DropdownMenuItem(value: '1', child: Text('comp 1')),
-//           //DropdownMenuItem(value: '2', child: Text('comp 2')),
-//           //DropdownMenuItem(value: '3', child: Text('comp 3')),
-//           //DropdownMenuItem(value: '4', child: Text('comp 4')),
-//           //DropdownMenuItem(value: '5', child: Text('comp 5')),
+//           //DropdownMenuItem(value: '1', child: Text('1')),
+//           //DropdownMenuItem(value: '2', child: Text('2')),
+//           //DropdownMenuItem(value: '3', child: Text('3')),
+//           //DropdownMenuItem(value: '4', child: Text('4')),
 //         ],
-//         controller: _dropdownButtonController,
+//         controller: _triedToClimbLevelController,
 //       ),
     
-//       ScoutingTextFormField(
-//         controller: _textfieldController,
-//         onChanged: (value) => setState(() {}),
-//         hint: 'input something',
-//         labelText: 'textfield',
-//       ),
-    
-//       ScoutingCheckbox(
-//         controller: _checkboxController,
-//         onChanged: (value) => setState(() {
-//           _checkboxController.value = value!;
-//         }), 
-//       ),
-    
-//       ScoutingButtonTimer(
-//         controller: _buttonTimerController,
+//       ScoutingDropdownButtonFormField(
+//         items: const [
+//           //DropdownMenuItem(value: '1', child: Text('1')),
+//           //DropdownMenuItem(value: '2', child: Text('2')),
+//           //DropdownMenuItem(value: '3', child: Text('3')),
+//           //DropdownMenuItem(value: '4', child: Text('4')),
+//         ],
+//         controller: _ClimbLevelController,
 //       ),
     
 //       ElevatedButton(
@@ -253,12 +280,16 @@ part of 'generated.dart';
 //           //robotComments: _robotCommentsController.text,
 //           //strategyComments: _strategyCommentsController.text,
 //           //scouterName: _scouterNameController.text,
-//           //shotCounter1: _shotCounter1Controller.value,
-//           //shotCounter2: _shotCounter2Controller.value,
-//           //dropdownButton: _dropdownButtonController.value,
-//           //textfield: _textfieldController.text,
-//           //checkbox: _checkboxController.value ? '1' : '0',
-//           //buttonTimer: _buttonTimerController.value,
+//           //autoUpShot: _autoUpShotController.value,
+//           //autoUpScored: _autoUpScoredController.value,
+//           //autoLowShot: _autoLowShotController.value,
+//           //autoLowScored: _autoLowScoredController.value,
+//           //TeleopUpShot: _TeleopUpShotController.value,
+//           //TeleopUpScored: _TeleopUpScoredController.value,
+//           //TeleopLowShot: _TeleopLowShotController.value,
+//           //TeleopLowScored: _TeleopLowScoredController.value,
+//           //triedToClimbLevel: _triedToClimbLevelController.value,
+//           //ClimbLevel: _ClimbLevelController.value,
 
 //         )),
 //         child: null

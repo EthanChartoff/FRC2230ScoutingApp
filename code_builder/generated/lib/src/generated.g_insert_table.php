@@ -26,12 +26,16 @@ $defenseComments = $_POST['defenseComments'];
 $robotComments = $_POST['robotComments'];
 $strategyComments = $_POST['strategyComments'];
 $scouterName = $_POST['scouterName'];
-$shotCounter1 = $_POST['shotCounter1'];
-$shotCounter2 = $_POST['shotCounter2'];
-$dropdownButton = $_POST['dropdownButton'];
-$textfield = $_POST['textfield'];
-$checkbox = $_POST['checkbox'];
-$buttonTimer = $_POST['buttonTimer'];
+$autoUpShot = $_POST['autoUpShot'];
+$autoUpScored = $_POST['autoUpScored'];
+$autoLowShot = $_POST['autoLowShot'];
+$autoLowScored = $_POST['autoLowScored'];
+$TeleopUpShot = $_POST['TeleopUpShot'];
+$TeleopUpScored = $_POST['TeleopUpScored'];
+$TeleopLowShot = $_POST['TeleopLowShot'];
+$TeleopLowScored = $_POST['TeleopLowScored'];
+$triedToClimbLevel = $_POST['triedToClimbLevel'];
+$ClimbLevel = $_POST['ClimbLevel'];
 
 
 
@@ -52,12 +56,16 @@ $sqlinsert = "INSERT INTO $scouting_table(
     `robotComments`,
     `strategyComments`,
     `scouterName`,
-    `shotCounter1`,
-    `shotCounter2`,
-    `dropdownButton`,
-    `textfield`,
-    `checkbox`,
-    `buttonTimer`
+    `autoUpShot`,
+    `autoUpScored`,
+    `autoLowShot`,
+    `autoLowScored`,
+    `TeleopUpShot`,
+    `TeleopUpScored`,
+    `TeleopLowShot`,
+    `TeleopLowScored`,
+    `triedToClimbLevel`,
+    `ClimbLevel`
 ) VALUES (
     DEFAULT,
     DEFAULT,
@@ -75,12 +83,16 @@ $sqlinsert = "INSERT INTO $scouting_table(
     '$robotComments',
     '$strategyComments',
     '$scouterName',
-    '$shotCounter1',
-    '$shotCounter2',
-    '$dropdownButton',
-    '$textfield',
-    '$checkbox',
-    '$buttonTimer'
+    '$autoUpShot',
+    '$autoUpScored',
+    '$autoLowShot',
+    '$autoLowScored',
+    '$TeleopUpShot',
+    '$TeleopUpScored',
+    '$TeleopLowShot',
+    '$TeleopLowScored',
+    '$triedToClimbLevel',
+    '$ClimbLevel'
 )";
 
 

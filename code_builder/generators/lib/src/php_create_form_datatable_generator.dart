@@ -72,7 +72,6 @@ if (\$conn->query(\$sql) === TRUE) {
   }
   
   @override
-  // TODO: implement buildExtensions
   Map<String, List<String>> get buildExtensions => 
     {'.txt': ['.g_create_scouting_table.php']}; 
 }

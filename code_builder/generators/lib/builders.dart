@@ -4,6 +4,7 @@ import 'package:generators/items/items_enums.dart';
 import 'package:generators/src/php_create_form_datatable_generator.dart';
 import 'package:generators/src/insert_form_datatable_generator.dart';
 import 'package:generators/src/php_insert_form_datatable_generator.dart';
+import 'package:generators/src/teams_generator.dart';
 import 'package:source_gen/source_gen.dart';
 
 import 'src/form_generator.dart';
@@ -175,65 +176,115 @@ final defaultItems =
 final formitems = 
 [
   ScoutingGenerationShotCounter(
-    name: 'shotCounter1',
+    name: 'autoUpShot', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'shotCounter1', 
-      type: SqlParamType.TINYINT, 
+      name: 'autoUpShot',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
       typeLengthValue: 3,
-      attributes: Attributes.UNSIGNED
     )
   ),
 
   ScoutingGenerationShotCounter(
-    name: 'shotCounter2',
+    name: 'autoUpScored', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'shotCounter2', 
-      type: SqlParamType.TINYINT, 
-      typeLengthValue: 4,
-      attributes: Attributes.UNSIGNED
+      name: 'autoUpScored',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'autoLowShot', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'autoLowShot',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'autoLowScored', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'autoLowScored',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'TeleopUpShot', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'TeleopUpShot',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'TeleopUpScored', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'TeleopUpScored',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'TeleopLowShot', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'TeleopLowShot',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
+    )
+  ),
+
+  ScoutingGenerationShotCounter(
+    name: 'TeleopLowScored', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'TeleopLowScored',
+      type: SqlParamType.TINYINT,
+      attributes: Attributes.UNSIGNED,
+      typeLengthValue: 3,
     )
   ),
 
   ScoutingGenerationDropdownButtonFormField(
-    name: 'dropdownButton',
-    dropdownMenuItems: const {
-      'comp 1' : '1',
-      'comp 2' : '2',
-      'comp 3' : '3',
-      'comp 4' : '4',
-      'comp 5' : '5',
-    }, 
+    name: 'triedToClimbLevel', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'dropdownButton', 
-      type: SqlParamType.CHAR, 
-      typeLengthValue: 1
-    )
-  ),
-
-  ScoutingGenerationTextFormField(
-    name: 'textfield',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'textfield', 
-      type: SqlParamType.TEXT, 
-    )
-  ),
-
-  ScoutingGenerationCheckbox(
-    name: 'checkbox',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'checkbox', 
+      name: 'triedToClimbLevel',
       type: SqlParamType.TINYINT,
-      typeLengthValue: 1
-    )
+      typeLengthValue: 1,
+    ),  
+    dropdownMenuItems: {
+      '1' : '1',
+      '2' : '2',
+      '3' : '3',
+      '4' : '4',
+    }
   ),
 
-  ScoutingGenerationButtonTimer(
-    name: 'buttonTimer',
+  ScoutingGenerationDropdownButtonFormField(
+    name: 'ClimbLevel', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'buttonTimer', 
-      type: SqlParamType.FLOAT
-    )
-  ),
+      name: 'ClimbLevel',
+      type: SqlParamType.TINYINT,
+      typeLengthValue: 1,
+    ), 
+    dropdownMenuItems: {
+      '1' : '1',
+      '2' : '2',
+      '3' : '3',
+      '4' : '4',
+    }
+  )
+  
 ];
 
 final items = defaultItems + formitems; 
@@ -252,6 +303,9 @@ Builder createPhpScoutingDataTableBuilder(BuilderOptions options) =>
 
 Builder insertPhpScoutingDataTableBuilder(BuilderOptions options) =>
   InsertPhpScoutingDataTableBuilder(formItems: items);
+
+Builder teamsBuilder(BuilderOptions options) =>
+  TeamsBuilder();
   
 
 

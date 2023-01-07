@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// get device platform
@@ -8,19 +6,23 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:scoute_prime/desktop_widgets/login/login_page.dart';
-import 'package:scoute_prime/desktop_widgets/matches/matches_page.dart';
-import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/scouter/scouting_form.dart';
-import 'package:scoute_prime/desktop_widgets/matches/scouting_forms/strategy/strategy_form.dart';
-import 'package:scoute_prime/desktop_widgets/matches/user_specific/scouter/scouter_matches.dart';
-import 'package:scoute_prime/desktop_widgets/matches/user_specific/viewer/viewer_matches.dart';
-import 'package:scoute_prime/desktop_widgets/sidemenu/screen_with_sidemenu.dart';
-import 'package:scoute_prime/desktop_widgets/team_dashboard/dashboard.dart';
-import 'package:scoute_prime/misc/custom_page_route.dart';
+import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
+import 'package:scoute_prime/api/TBA/get_matches.dart';
+import 'package:scoute_prime/misc/teams_data.dart';
+import 'package:scoute_prime/widgets/login/login_page.dart';
+import 'package:scoute_prime/widgets/matches/matches_page.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/strategy/strategy_form.dart';
+import 'package:scoute_prime/widgets/pick_list/pick_list_page.dart';
+import 'package:scoute_prime/widgets/sidemenue/screen_with_sidemenu.dart';
+import 'package:scoute_prime/widgets/dashboards/dashboard.dart';
+import 'package:scoute_prime/widgets/matches/team_dashboard/pages/general.dart';
+import 'package:scoute_prime/widgets/not_used/custom_page_route.dart';
 import 'package:scoute_prime/misc/routing.dart';
-import 'package:scoute_prime/misc/user_type_builder.dart';
-import 'package:scoute_prime/variables/constants.dart';
-import 'package:scoute_prime/variables/user_types.dart';
+import 'package:scoute_prime/widgets/user_type_builder.dart';
+import 'package:scoute_prime/misc/constants.dart';
+import 'package:scoute_prime/misc/user_types.dart';
+
 
 void main() {
   /// start the app
@@ -34,6 +36,7 @@ class App extends StatelessWidget {
   /// 
   /// pages can change according to a users permission.
   UserTypes _user = UserTypes.noType;
+  
 
   /// Change pages of routes and/or routes depending on device
   /// and how the application is ran, 
@@ -79,6 +82,24 @@ class App extends StatelessWidget {
               ),
             ) 
           ),
+
+          GoRoute(
+            path: Routing.MATCHES_DASHBOARD,
+            builder: (context, state) {
+              final matchKey = state.queryParams['key'] ?? 'noKey';
+
+              return Dashboard(
+                future: GetMatchesTBA.matchOfKey,
+                teamNumber: 2230,
+                matchKey: matchKey,
+                dashboardPages: [
+                  GeneralDashboard(
+                    width: MediaQuery.of(context).size.width - 170
+                  ),
+                ],
+              );
+            },
+          )
         ]
 
       ),
@@ -95,16 +116,55 @@ class App extends StatelessWidget {
               user: _user, 
               viewerPage: Dashboard(
                 teamNumber: teamId,
+                dashboardPages: [
+                  GeneralDashboard(
+                    width: MediaQuery.of(context).size.width - 170
+                  ),
+                  GeneralDashboard(
+                    title: 'LL',
+                    width: MediaQuery.of(context).size.width - 170
+                  ),
+                ],
               ),
               scouterPage: Dashboard(
                 teamNumber: teamId,
+                future: GetMatchesTBA.matchOfKey,
+                matchKey: '2022aroz_f1m1',
+                dashboardPages: [
+                  GeneralDashboard(
+                    width: MediaQuery.of(context).size.width - 170
+                  ),
+                  GeneralDashboard(
+                    title: 'LL',
+                    width: MediaQuery.of(context).size.width - 170
+                  ),
+                ],
               ),
               adminPage: Dashboard(
                 teamNumber: teamId,
+                dashboardPages: [
+                  GeneralDashboard(
+                    width: MediaQuery.of(context).size.width - 170
+                  )
+                  ,
+                  GeneralDashboard(
+                    title: 'LL',
+                    width: MediaQuery.of(context).size.width - 170
+                  ),
+                ],
               )
             ),
           );
         }
+      ),
+
+      GoRoute(
+        path: Routing.PICK_LIST,
+        builder: (context, state) => const DesktopSidemenuScreenBuilder(
+          screen: PickListPage(
+            TeamsFromDb: GetTeamsData.all,
+          )
+        ),
       )
     ],
 
@@ -177,7 +237,9 @@ class App extends StatelessWidget {
           ),
 
           cardTheme: CardTheme(
-
+            color: Theme.of(context).primaryColorDark,
+            elevation: 10,
+            margin: const EdgeInsets.all(8)
           )
         ),
 

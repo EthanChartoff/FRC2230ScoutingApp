@@ -17,6 +17,7 @@ class ScoutingGenerationItem {
     this.sqlConstraintsValue
   });
 
+  /// TODO: add bit tyoe
   ScoutingGenerationItemTypes? get type => null;
 
   static String sqlParam({
