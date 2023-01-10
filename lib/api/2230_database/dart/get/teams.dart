@@ -20,6 +20,24 @@ class GetTeamsData {
     return jsonData;
   }
 
+  /// update picklist indexes
+  static void updatePicklistIndexes({
+    required List<Map<String, dynamic>> teamsPos1,
+    required List<Map<String, dynamic>> teamsPos2
+  }) async {
+    try {
+      final response = await http.post(Uri.parse("http://localhost/2230_scouting/update_picklist.php"),
+          body: {
+            'pos1': jsonEncode(teamsPos1),
+            'pos2': jsonEncode(teamsPos2),
+          });
+      print(response.body);
+    } catch (err) {
+      // print('$err lol');
+      throw Exception("$err");
+    }
+  }
+
 }
 
 

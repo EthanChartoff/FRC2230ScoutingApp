@@ -160,9 +160,13 @@ class App extends StatelessWidget {
 
       GoRoute(
         path: Routing.PICK_LIST,
-        builder: (context, state) => const DesktopSidemenuScreenBuilder(
-          screen: PickListPage(
-            TeamsFromDb: GetTeamsData.all,
+        builder: (context, state) => DesktopSidemenuScreenBuilder(
+          screen: SizedBox(
+            width: MediaQuery.of(context).size.width - 170,
+            height: MediaQuery.of(context).size.height,
+            child: const PickListPage(
+              TeamsFromDb: GetTeamsData.all,
+            )
           )
         ),
       )

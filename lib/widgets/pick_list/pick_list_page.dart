@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:reorderables/reorderables.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
+import 'package:scoute_prime/widgets/pick_list/pick_list.dart';
 
 
 class PickListPage extends StatefulWidget {
@@ -21,39 +21,27 @@ class PickListPage extends StatefulWidget {
   /// all teams in the page. each team has a card that can be reordered.
   final List<TeamsData>? teams;
 
+  /// orgenizes the teamList by the pos value of each team.
+  List<Map<String, dynamic>> orgenizedTeamList(List<Map<String, dynamic>> teamList) => 
+    List.generate(teamList.length, (index) {
+      return teamList.firstWhere((element) {
+        return element['pos'] == index.toString();
+      });
+    });
+
   @override
   State<StatefulWidget> createState() => _PickListPageState();
 }
 
 class _PickListPageState extends State<PickListPage> {
 
-  List? _teamsPos;
+  List<Map<String, dynamic>>? _pickListTeams1;
+  List<Map<String, dynamic>>? _pickListTeams2;
+
+  PickList? _pickList1;
+  PickList? _pickList2;
+
   final _pageController = PageController();
-
-  GlobalKey key = GlobalKey();
-
-  Widget sideButton({
-    required Icon icon,
-    required void Function() onPressed,
-    required double height
-  }) => SizedBox(
-    height: height,
-    width: 50,
-    child: Material(
-      color: Theme.of(context).canvasColor,
-      child: IconButton(
-        hoverColor: Theme.of(context).canvasColor.withOpacity(0.1),
-        onPressed: onPressed,
-        icon: icon,
-      ),
-    ),
-  );
-
-  Text title(var team, int pageNum) => widget.teams != null ?
-    Text('${team['id']} - ${widget.teams!.firstWhere(
-        (element) => element.number.toString() == team['id']).name}') :
-    Text('${team['id']} - ${TeamsData.allTeams.firstWhere(
-      (element) => element.number.toString() == team['id']).name}');
 
   @override
   Widget build(BuildContext context) {    
@@ -66,7 +54,30 @@ class _PickListPageState extends State<PickListPage> {
         future: widget.TeamsFromDb(),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
-            _teamsPos ??= snapshot.data!;
+
+            _pickListTeams1 ??= widget.orgenizedTeamList(
+              snapshot.data!.map((team) {
+                return {
+                  'id': team['id'],
+                  'pos': team['picklistPos1'],
+                };
+              }).toList());
+
+            _pickListTeams2 ??= widget.orgenizedTeamList(
+              snapshot.data!.map((team) {
+                return {
+                  'id': team['id'],
+                  'pos': team['picklistPos2'],
+                };
+              }).toList());
+
+            _pickList1 ??= PickList(
+              teamList: _pickListTeams1!
+            );
+
+            _pickList2 ??= PickList(
+              teamList: _pickListTeams2!
+            );
 
             return Theme(
               data: ThemeData(
@@ -77,99 +88,45 @@ class _PickListPageState extends State<PickListPage> {
                   headline2: Theme.of(context).textTheme.headline2
                 )
               ),
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: 2,
-                itemBuilder: (context, pageIndex) {
-                  return SingleChildScrollView(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+              child: Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
                 
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width - 400,
-                          child: ReorderableListView.builder(
-                            key: key,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: _teamsPos!.length,
-                            header: Text('Pick $pageIndex',
-                              style: Theme.of(context).textTheme.headline2,
-                            ),
-            
-                            itemBuilder: (context, index) => ReorderableWidget(
-                              reorderable: true,
-                              key: ValueKey(index),
-                              child: Card(
-                                color: Theme.of(context).primaryColorDark,
-                                child: ListTile(
-                                  title: title(_teamsPos![index], pageIndex),
-                                  textColor: Theme.of(context).hintColor,
-                                  leading: Switch(
-                                    value: false,
-                                    onChanged: (value) {
-                                      
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            onReorder: (oldIndex, newIndex) => setState(() {
-                              var team = _teamsPos!.removeAt(oldIndex);
-                              _teamsPos!.insert(newIndex, team);
-                            }),
-                            onReorderEnd: (index) => print(_teamsPos![0]['id']),
-                          ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: _pickList1
+                      ),
+                
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: _pickList2
+                      ),
+                
+                      // Column(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     const SizedBox(
+                      //       height: 10,
+                      //     ),
+                          
+                      //     Text('Best Option',
+                      //       style: Theme.of(context).textTheme.headline2,  
+                      //     )
+                      //   ],
+                      // ),
+                
+                      ElevatedButton(
+                        onPressed: () => GetTeamsData.updatePicklistIndexes(
+                          teamsPos1: _pickListTeams1!,
+                          teamsPos2: _pickListTeams2!
                         ),
-                
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                
-                            Text('Best Option',
-                              style: Theme.of(context).textTheme.headline2,  
-                            )
-                          ],
-                        ),
-                        
-                        pageIndex % 2 == 0 ? 
-                          sideButton(
-                            icon: const Icon(Icons.arrow_forward_ios),
-                            onPressed: () {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 400), 
-                                curve: Curves.fastOutSlowIn
-                              );
-                            },
-                            height: key.currentContext != null ? 
-                              key.currentContext!.size!.height :
-                              1000
-                          ) : 
-                          LayoutBuilder(
-                            builder: (_, constraints) {
-                              double height = key.currentContext != null ? 
-                                key.currentContext!.size!.height :
-                                1000;
-                              print(height);
-                              return sideButton(
-                                icon: const Icon(Icons.arrow_back_ios),
-                                onPressed: () {
-                                  _pageController.previousPage(
-                                    duration: const Duration(milliseconds: 400), 
-                                    curve: Curves.fastOutSlowIn
-                                  );
-                                },
-                                height: min(constraints.maxHeight, height)
-                              );
-                            }
-                          ),
-                      ],
-                    ),
-                  );
-                } 
+                        child: null
+                      ),
+                    ],
+                  ),
+                ],
               ),
             );
           }
