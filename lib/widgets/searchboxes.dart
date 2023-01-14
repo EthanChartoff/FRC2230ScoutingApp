@@ -7,6 +7,7 @@ import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 
 
+/// A searchbox for teams.
 class TeamSearchbox extends TypeAheadField<TeamsData> {
   TeamSearchbox({
     required this.context,
@@ -86,14 +87,14 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
 /// 
 /// The [hintText] parameter is the text that will be displayed in the
 /// searchbox when there is no text.
-/// 
-/// 
 class FiltersSearchbox<T> extends TypeAheadField<T> {
   FiltersSearchbox({
     required this.context,
     required this.filter,
     required bool isExpanded,
     required this.onChnage,
+    this.color,
+    this.noItemsFoundText,
     suggestionsCallback, 
     itemBuilder, 
     textFieldConfiguration,
@@ -106,9 +107,18 @@ class FiltersSearchbox<T> extends TypeAheadField<T> {
     textFieldConfiguration: textFieldConfiguration ?? TextFieldConfiguration(
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
-        border: const OutlineInputBorder(),
-        hintText: hintText,
-        fillColor: Theme.of(context).primaryColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Theme.of(context).primaryColorLight),
+        ),
+        hintText: filter.selectedItems.isNotEmpty ? 
+          filter.selectedItems.first.toString() : hintText,
+        fillColor: color ?? Theme.of(context).primaryColorDark,
+        filled: true,
+      ),
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 16
       ),
       onTap: onTap,
       maxLines: 1
@@ -126,7 +136,7 @@ class FiltersSearchbox<T> extends TypeAheadField<T> {
     },
 
     itemBuilder: itemBuilder ?? (context, suggestions) => Card(
-      color: Colors.transparent,
+      color: Theme.of(context).colorScheme.secondary,
       child: Text(suggestions.toString(),
         style: const TextStyle(
           color: Colors.black
@@ -134,12 +144,13 @@ class FiltersSearchbox<T> extends TypeAheadField<T> {
       ),
     ),
 
-    noItemsFoundBuilder: noItemsFoundBuilder ?? (final BuildContext context) => Container(
+    noItemsFoundBuilder: noItemsFoundBuilder ?? (final BuildContext context) => 
+      SizedBox(
         height: 60,
-        child: const Center(
+        child: Center(
           child: Text(
-            "No Items Found",
-            style: TextStyle(fontSize: 16),
+            noItemsFoundText ?? "No Items Found",
+            style: const TextStyle(fontSize: 16),
           ),
         ),
       ),
@@ -161,6 +172,10 @@ class FiltersSearchbox<T> extends TypeAheadField<T> {
   final Filter<T> filter;
 
   final void Function(T item) onChnage;
+
+  final Color? color;
+
+  final String? noItemsFoundText;
 }
 
 class Filter<T>{
@@ -172,6 +187,26 @@ class Filter<T>{
     if(!selectedItems.contains(item)) {
       items.remove(item);
       selectedItems.add(item);
+    }
+  }),
+  onUnselect = ((T item) {
+    if(!items.contains(item)) {
+      selectedItems.remove(item);
+      items.add(item);
+    }
+  });
+
+  Filter.maxOneSelectedItem({
+    required this.items,
+    required this.selectedItems,
+  }) : onSelect = ((T item) {
+    if(!selectedItems.contains(item)) {
+      items.remove(item);
+      selectedItems.add(item);
+    }
+    if(selectedItems.length > 1) {
+      items.add(selectedItems.first);
+      selectedItems.removeAt(0);
     }
   }),
   onUnselect = ((T item) {

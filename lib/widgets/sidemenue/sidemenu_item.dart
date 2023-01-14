@@ -74,12 +74,15 @@ class _DesktopSidemenuItemState extends State<DesktopSidemenuItem> {
                   widget.icon  
                 ),
               ),
-              if(widget.isExpanded) 
-                Expanded(
-                  child: Text(
-                    widget.title
+              Expanded(
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 24.sp,
                   ),
-                )
+                ),
+              )
             ],
           ),
         )

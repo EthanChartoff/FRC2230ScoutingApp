@@ -26,14 +26,14 @@ class GetTeamsTBA {
     return jsonData;
   }
 
-  static Future<List> yearsParticipated(String team) async {
-    var jsonData;
+  static Future<List<String>> yearsParticipated(String team) async {
+    List<String> jsonData;
 
     try {
       var response = await http.get(Uri.parse(
         'https://www.thebluealliance.com/api/v3/team/frc$team/years_participated?X-TBA-Auth-Key=kx16kzCU5g2xiADIEZfE06l8dZJ7aC2EbslUz7i9gmZfWArTiGb8RhbD0jwvHQkq'
       ));
-      jsonData = jsonDecode(response.body);
+      jsonData = jsonDecode(response.body) as List<String>;
     } catch (err) {
       throw Exception(err);
     }

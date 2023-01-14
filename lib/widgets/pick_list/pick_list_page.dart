@@ -83,7 +83,7 @@ class _PickListPageState extends State<PickListPage> {
               data: ThemeData(
                 canvasColor: Colors.transparent,
                 primaryColorDark: Theme.of(context).primaryColorDark,
-                hintColor: Theme.of(context).canvasColor,
+                hintColor: Theme.of(context).colorScheme.secondary,
                 textTheme: TextTheme(
                   headline2: Theme.of(context).textTheme.headline2
                 )
@@ -103,19 +103,6 @@ class _PickListPageState extends State<PickListPage> {
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: _pickList2
                       ),
-                
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     const SizedBox(
-                      //       height: 10,
-                      //     ),
-                          
-                      //     Text('Best Option',
-                      //       style: Theme.of(context).textTheme.headline2,  
-                      //     )
-                      //   ],
-                      // ),
                 
                       ElevatedButton(
                         onPressed: () => GetTeamsData.updatePicklistIndexes(

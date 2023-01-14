@@ -51,6 +51,25 @@ class GetEventsTBA {
     return jsonData;
   }
 
+  static Future<List<dynamic>> eventsNameInYears(List<String> years) async {
+    var jsonData = [];
+
+    try {
+      for (var element in years) {
+        var response = await http
+         .get(Uri.parse("https://www.thebluealliance.com/api/v3/events/$element/simple?X-TBA-Auth-Key=kx16kzCU5g2xiADIEZfE06l8dZJ7aC2EbslUz7i9gmZfWArTiGb8RhbD0jwvHQkq"));
+        
+        List body = jsonDecode(response.body);
+        for (var element in body) { 
+          jsonData.add('${element['name']} - ${element['key']}');
+        }} 
+    } catch (err) {
+      // print('$err lol');
+      throw Exception("$err");
+    }
+    return jsonData;
+  }
+
   /// TODO: this can be better...getting all these events is slow.
   static Future<List<String>> allYears() async {
     var jsonData = <String>[];

@@ -6,9 +6,11 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:path/path.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/api/TBA/get_matches.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
+import 'package:scoute_prime/widgets/all_teams/all_teams_page.dart';
 import 'package:scoute_prime/widgets/login/login_page.dart';
 import 'package:scoute_prime/widgets/matches/matches_page.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form.dart';
@@ -160,14 +162,17 @@ class App extends StatelessWidget {
 
       GoRoute(
         path: Routing.PICK_LIST,
-        builder: (context, state) => DesktopSidemenuScreenBuilder(
-          screen: SizedBox(
-            width: MediaQuery.of(context).size.width - 170,
-            height: MediaQuery.of(context).size.height,
-            child: const PickListPage(
-              TeamsFromDb: GetTeamsData.all,
-            )
+        builder: (context, state) => const DesktopSidemenuScreenBuilder(
+          screen: PickListPage(
+            TeamsFromDb: GetTeamsData.all,
           )
+        ),
+      ),
+
+      GoRoute(
+        path: Routing.ALL_TEAMS,
+        builder: (context, state) => const DesktopSidemenuScreenBuilder(
+          screen: AllTeamsPage()
         ),
       )
     ],
@@ -203,7 +208,21 @@ class App extends StatelessWidget {
           primaryColorDark: ConstColors.PRIMARY_COLOR_DARK,
           primaryColorLight: ConstColors.PRIMARY_COLOR_LIGHT,
 
-          canvasColor: ConstColors.SECONDERY_COLOR,
+          colorScheme: const ColorScheme(
+            primary: ConstColors.PRIMARY_COLOR,
+            secondary: ConstColors.SECONDARY_COLOR,
+            surface: ConstColors.PRIMARY_COLOR_DARK,
+            background: ConstColors.BACKGROUND_COLOR,
+            error: Colors.red,
+            onPrimary: ConstColors.PRIMARY_COLOR,
+            onSecondary: ConstColors.SECONDARY_COLOR,
+            onSurface: ConstColors.PRIMARY_COLOR_DARK,
+            onBackground: ConstColors.BACKGROUND_COLOR,
+            onError: Colors.red,
+            brightness: Brightness.light,
+          ),
+
+          canvasColor: Colors.transparent,
 
           backgroundColor: ConstColors.BACKGROUND_COLOR,
 

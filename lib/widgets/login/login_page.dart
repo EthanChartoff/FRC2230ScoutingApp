@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage>{
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Container(
-                          color: Theme.of(context).canvasColor,
+                          color: Theme.of(context).colorScheme.secondary,
                           height: 70.h,
                           width: 700.w,
 
@@ -166,7 +166,12 @@ class _LoginPageState extends State<LoginPage>{
         }
       },
       
-      child: Text(userType.name.toUpperCase())
+      child: Text(userType.name.toUpperCase(),
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.white
+        ),
+      )
     );
 
   }

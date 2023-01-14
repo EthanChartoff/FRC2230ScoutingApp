@@ -21,6 +21,26 @@ class GetMatchesTBA {
     }
     return jsonData;
   }
+  
+  /// Gets a list of events and returns all of the matches Score Breakdowns 
+  /// in the event list 
+  static Future<List<dynamic>> matchesScoreBreakdownInEvent(dynamic event) async {
+    var jsonData = [];
+
+    try {
+      final response = await http
+        .get(Uri.parse("https://www.thebluealliance.com/api/v3/event/${event['key']}/matches?X-TBA-Auth-Key=kx16kzCU5g2xiADIEZfE06l8dZJ7aC2EbslUz7i9gmZfWArTiGb8RhbD0jwvHQkq"));
+
+      final body = jsonDecode(response.body);
+      for(final element in body.first['score_breakdown']['blue'].keys) {
+        jsonData.add(element);
+      }
+      
+    } catch (err) {
+      throw Exception("$err");
+    }
+    return jsonData;
+  }
 
   /// Gets a match key and return its match.
   static Future matchOfKey(String key) async {

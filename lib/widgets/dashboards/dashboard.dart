@@ -49,19 +49,13 @@ class _DashboardState extends State<Dashboard>{
 
   dynamic _futureData;
 
-  Future get getPageData async {
+  Future get getPageData async {    
     _yearsParticipated ??= Filter<String>(
-      items: await GetTeamsTBA.yearsParticipated(widget.teamNumber!.toString())
-        .then<List<String>>((value) {
-          var list = <String>[];
-          value.forEach((element) {
-            list.add(element.toString());
-          });
-          list.remove('2022');
-          return list;
-        }),
+      items: [for (var i = 1992; i < DateTime.now().year; i++) i.toString()],
       selectedItems: ['2022']
     );    
+
+    print('getting data');
 
     if(widget.teamNumber != prevTeam) {
       _futureData = await GetMatchesTBA.matchesOfTeamInYear(
@@ -74,7 +68,7 @@ class _DashboardState extends State<Dashboard>{
   }
 
   Widget get filtersCard => Card(
-    color: Theme.of(context).canvasColor,
+    color: Theme.of(context).colorScheme.secondary,
     child: Theme(
       data: ThemeData(hoverColor: Theme.of(context).hoverColor.withOpacity(0.1)),
       child: SizedBox(

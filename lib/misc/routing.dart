@@ -9,4 +9,6 @@ class Routing {
   static const TEAM_VIEW = '/team-dashboard';
 
   static const PICK_LIST = '/pick-list';
+
+  static const ALL_TEAMS = '/all-teams';
 }

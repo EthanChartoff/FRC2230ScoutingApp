@@ -110,6 +110,12 @@ class _DesktopSidemenuState extends State<DesktopSidemenu> {
                 route: Routing.LOGIN,
                 isExpanded: widget.toggleOpen,
               ),
+              DesktopSidemenuItem(
+                title: "all teams", 
+                icon: Icons.settings, 
+                route: Routing.ALL_TEAMS,
+                isExpanded: widget.toggleOpen,
+              ),
               
               teamSearchBox
             ]
