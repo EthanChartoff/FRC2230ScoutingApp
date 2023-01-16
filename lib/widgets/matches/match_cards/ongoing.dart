@@ -39,11 +39,11 @@ class OngoingMatchCard extends StatelessWidget {
             iconColor: Colors.black,
 
             title: Text(
-              "Match Number ${match[MatchVars.match_number.name]}",
+              "Match Number ${match[MatchVars.matchNumber.name]}",
               style: Theme.of(context).textTheme.headline1,
             ),
             subtitle: Text(
-              "${match[MatchVars.competition.name]}, ${match[MatchVars.match_type.name]}",
+              "${match[MatchVars.eventKey.name]}, ${match[MatchVars.matchType.name]}",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             children: [
@@ -63,7 +63,7 @@ class OngoingMatchCard extends StatelessWidget {
                             TeamButton(
                               parentContext: context, 
                               /// TODO: this is confusing, change database names before 
-                              teamNumber: match["r${index + 1}_robot"].toString(), 
+                              teamNumber: match["redRobot${index+1}"].toString(), 
                               onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
@@ -82,7 +82,7 @@ class OngoingMatchCard extends StatelessWidget {
                               parentContext: context, 
                               /// TODO: this is confusing, change database names before 
                               /// adding new fetures
-                              teamNumber: match["b${index + 1}_robot"].toString(), 
+                              teamNumber: match["blueRobot${index+1}"].toString(), 
                               onTap: onTapTeamButton,
                               textStyle: Theme.of(context).textTheme.bodyText2!,
                               width: constraints.maxWidth / 2.5,

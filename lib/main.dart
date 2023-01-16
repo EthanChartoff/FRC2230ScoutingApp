@@ -13,7 +13,8 @@ import 'package:scoute_prime/misc/teams_data.dart';
 import 'package:scoute_prime/widgets/all_teams/all_teams_page.dart';
 import 'package:scoute_prime/widgets/login/login_page.dart';
 import 'package:scoute_prime/widgets/matches/matches_page.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2022.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2023.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/strategy/strategy_form.dart';
 import 'package:scoute_prime/widgets/pick_list/pick_list_page.dart';
 import 'package:scoute_prime/widgets/sidemenue/screen_with_sidemenu.dart';
@@ -72,11 +73,11 @@ class App extends StatelessWidget {
               screen: UserTypeBuilder(
                 user: _user, 
                 viewerPage: MatchesPage(),
-                scouterPage: ScoutingForm(
+                scouterPage: ScoutingForm2023(
                   exit: context.pop,
-                  matchId: '4',
-                  teamId: '2230',
-                  alliance: '1',
+                  matchId: '1',
+                  teamId: '1690',
+                  alliance: 'R',
                 ), 
                 adminPage: StrategyForm(
                   exit: context.pop,

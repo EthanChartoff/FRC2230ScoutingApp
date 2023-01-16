@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-class InsertScoutingDataTable {
+class InsertScoutingDataTable2023 {
   static void newTable({
     required matchId,
     required teamId,
@@ -99,8 +99,9 @@ class InsertScoutingDataTable {
                 '$numOfRobotsOnChargeStationAtEnd',
             'autoDidRobotComeOutOfComunity': '$autoDidRobotComeOutOfComunity',
           });
+        print('${response.body}');
     } catch (err) {
-      // print('$err lol');
+      print('$err lol');
       throw Exception('$err');
     }
   }

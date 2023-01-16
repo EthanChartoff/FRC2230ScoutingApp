@@ -34,11 +34,11 @@ class EndedMatchCard extends StatelessWidget{
             iconColor: Colors.black,
 
             title: Text(
-              "Match Number ${match[MatchVars.match_number.name]}",
+              "Match Number ${match[MatchVars.matchNumber.name]}",
               style: Theme.of(context).textTheme.headline1,
             ),
             subtitle: Text(
-              "${match[MatchVars.competition.name]}, ${match[MatchVars.match_type.name]}",
+              "${match[MatchVars.eventKey.name]}, ${match[MatchVars.matchType.name]}",
               style: Theme.of(context).textTheme.subtitle1,
             ),
             children: [
@@ -57,7 +57,7 @@ class EndedMatchCard extends StatelessWidget{
                           List.generate(3, (index) => 
                             TeamButton(
                               parentContext: context, 
-                              teamNumber: match["red_robot_${index + 1}"].toString(), 
+                              teamNumber: match["redRobot${index+1}"].toString(), 
                               onTap: () => context.go('${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}'),
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
@@ -90,7 +90,7 @@ class EndedMatchCard extends StatelessWidget{
                           List.generate(3, (index) => 
                             TeamButton(
                               parentContext: context, 
-                              teamNumber: match["blue_robot_${index + 1}"].toString(), 
+                              teamNumber: match["blueRobot${index+1}"].toString(), 
                               /// TODO: when routing into page, page sometimes need information,
                               /// change router to have information with page 
                               /// (idealy with get url vars in php or MaterialPageRoute)

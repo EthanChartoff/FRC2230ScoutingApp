@@ -14,28 +14,46 @@ $id = $_POST['id'];
 $lastChangedAt = $_POST['lastChangedAt'];
 $matchId = $_POST['matchId'];
 $teamId = $_POST['teamId'];
-$didRobotWin = $_POST['didRobotWin'];
 $alliance = $_POST['alliance'];
+$winLoseOrTie = $_POST['winLoseOrTie'];
 $startingPosition = $_POST['startingPosition'];
 $wasRobotOnField = $_POST['wasRobotOnField'];
 $didRobotWorkInAuto = $_POST['didRobotWorkInAuto'];
 $didRobotWorkInTeleOp = $_POST['didRobotWorkInTeleOp'];
-$didRobotDefend = $_POST['didRobotDefend'];
-$wasStrategyDifferent = $_POST['wasStrategyDifferent'];
 $defenseComments = $_POST['defenseComments'];
 $robotComments = $_POST['robotComments'];
-$strategyComments = $_POST['strategyComments'];
 $scouterName = $_POST['scouterName'];
-$autoUpShot = $_POST['autoUpShot'];
-$autoUpScored = $_POST['autoUpScored'];
-$autoLowShot = $_POST['autoLowShot'];
-$autoLowScored = $_POST['autoLowScored'];
-$TeleopUpShot = $_POST['TeleopUpShot'];
-$TeleopUpScored = $_POST['TeleopUpScored'];
-$TeleopLowShot = $_POST['TeleopLowShot'];
-$TeleopLowScored = $_POST['TeleopLowScored'];
-$triedToClimbLevel = $_POST['triedToClimbLevel'];
-$ClimbLevel = $_POST['ClimbLevel'];
+$didDefendTeleOp = $_POST['didDefendTeleOp'];
+$didGetDefendedTeleOp = $_POST['didGetDefendedTeleOp'];
+$didDefendEndGame = $_POST['didDefendEndGame'];
+$didGetDefendedEndGame = $_POST['didGetDefendedEndGame'];
+$startingItemOnRobot = $_POST['startingItemOnRobot'];
+$rowOneCubes = $_POST['rowOneCubes'];
+$tryRowOneCubes = $_POST['tryRowOneCubes'];
+$rowTwoCubes = $_POST['rowTwoCubes'];
+$tryRowTwoCubes = $_POST['tryRowTwoCubes'];
+$rowThreeCubes = $_POST['rowThreeCubes'];
+$tryRowThreeCubes = $_POST['tryRowThreeCubes'];
+$rowOneCones = $_POST['rowOneCones'];
+$tryRowOneCones = $_POST['tryRowOneCones'];
+$rowTwoCones = $_POST['rowTwoCones'];
+$tryRowTwoCones = $_POST['tryRowTwoCones'];
+$rowThreeCones = $_POST['rowThreeCones'];
+$tryRowThreeCones = $_POST['tryRowThreeCones'];
+$didFeed = $_POST['didFeed'];
+$numOfCubesGatheredIntoComunity = $_POST['numOfCubesGatheredIntoComunity'];
+$numOfConesGatheredIntoComunity = $_POST['numOfConesGatheredIntoComunity'];
+$numOfSecondsOnChargeStation = $_POST['numOfSecondsOnChargeStation'];
+$numSecondsBeforeEndPivotedToChargeStation = $_POST['numSecondsBeforeEndPivotedToChargeStation'];
+$didGoOnChargeStation = $_POST['didGoOnChargeStation'];
+$autoChargeStationStatus = $_POST['autoChargeStationStatus'];
+$endGameChargeStationStatus = $_POST['endGameChargeStationStatus'];
+$teleopWasRobotParked = $_POST['teleopWasRobotParked'];
+$autoNumOfSecondsUntilBalanced = $_POST['autoNumOfSecondsUntilBalanced'];
+$endgameNumOfSecondsUntilBalanced = $_POST['endgameNumOfSecondsUntilBalanced'];
+$fromWhereRobotDroveToChargeStation = $_POST['fromWhereRobotDroveToChargeStation'];
+$numOfRobotsOnChargeStationAtEnd = $_POST['numOfRobotsOnChargeStationAtEnd'];
+$autoDidRobotComeOutOfComunity = $_POST['autoDidRobotComeOutOfComunity'];
 
 
 
@@ -44,55 +62,91 @@ $sqlinsert = "INSERT INTO $scouting_table(
     `lastChangedAt`,
     `matchId`,
     `teamId`,
-    `didRobotWin`,
     `alliance`,
+    `winLoseOrTie`,
     `startingPosition`,
     `wasRobotOnField`,
     `didRobotWorkInAuto`,
     `didRobotWorkInTeleOp`,
-    `didRobotDefend`,
-    `wasStrategyDifferent`,
     `defenseComments`,
     `robotComments`,
-    `strategyComments`,
     `scouterName`,
-    `autoUpShot`,
-    `autoUpScored`,
-    `autoLowShot`,
-    `autoLowScored`,
-    `TeleopUpShot`,
-    `TeleopUpScored`,
-    `TeleopLowShot`,
-    `TeleopLowScored`,
-    `triedToClimbLevel`,
-    `ClimbLevel`
+    `didDefendTeleOp`,
+    `didGetDefendedTeleOp`,
+    `didDefendEndGame`,
+    `didGetDefendedEndGame`,
+    `startingItemOnRobot`,
+    `rowOneCubes`,
+    `tryRowOneCubes`,
+    `rowTwoCubes`,
+    `tryRowTwoCubes`,
+    `rowThreeCubes`,
+    `tryRowThreeCubes`,
+    `rowOneCones`,
+    `tryRowOneCones`,
+    `rowTwoCones`,
+    `tryRowTwoCones`,
+    `rowThreeCones`,
+    `tryRowThreeCones`,
+    `didFeed`,
+    `numOfCubesGatheredIntoComunity`,
+    `numOfConesGatheredIntoComunity`,
+    `numOfSecondsOnChargeStation`,
+    `numSecondsBeforeEndPivotedToChargeStation`,
+    `didGoOnChargeStation`,
+    `autoChargeStationStatus`,
+    `endGameChargeStationStatus`,
+    `teleopWasRobotParked`,
+    `autoNumOfSecondsUntilBalanced`,
+    `endgameNumOfSecondsUntilBalanced`,
+    `fromWhereRobotDroveToChargeStation`,
+    `numOfRobotsOnChargeStationAtEnd`,
+    `autoDidRobotComeOutOfComunity`
 ) VALUES (
     DEFAULT,
     DEFAULT,
     '$matchId',
     '$teamId',
-    '$didRobotWin',
     '$alliance',
+    '$winLoseOrTie',
     '$startingPosition',
     '$wasRobotOnField',
     '$didRobotWorkInAuto',
     '$didRobotWorkInTeleOp',
-    '$didRobotDefend',
-    '$wasStrategyDifferent',
     '$defenseComments',
     '$robotComments',
-    '$strategyComments',
     '$scouterName',
-    '$autoUpShot',
-    '$autoUpScored',
-    '$autoLowShot',
-    '$autoLowScored',
-    '$TeleopUpShot',
-    '$TeleopUpScored',
-    '$TeleopLowShot',
-    '$TeleopLowScored',
-    '$triedToClimbLevel',
-    '$ClimbLevel'
+    '$didDefendTeleOp',
+    '$didGetDefendedTeleOp',
+    '$didDefendEndGame',
+    '$didGetDefendedEndGame',
+    '$startingItemOnRobot',
+    '$rowOneCubes',
+    '$tryRowOneCubes',
+    '$rowTwoCubes',
+    '$tryRowTwoCubes',
+    '$rowThreeCubes',
+    '$tryRowThreeCubes',
+    '$rowOneCones',
+    '$tryRowOneCones',
+    '$rowTwoCones',
+    '$tryRowTwoCones',
+    '$rowThreeCones',
+    '$tryRowThreeCones',
+    '$didFeed',
+    '$numOfCubesGatheredIntoComunity',
+    '$numOfConesGatheredIntoComunity',
+    '$numOfSecondsOnChargeStation',
+    '$numSecondsBeforeEndPivotedToChargeStation',
+    '$didGoOnChargeStation',
+    '$autoChargeStationStatus',
+    '$endGameChargeStationStatus',
+    '$teleopWasRobotParked',
+    '$autoNumOfSecondsUntilBalanced',
+    '$endgameNumOfSecondsUntilBalanced',
+    '$fromWhereRobotDroveToChargeStation',
+    '$numOfRobotsOnChargeStationAtEnd',
+    '$autoDidRobotComeOutOfComunity'
 )";
 
 

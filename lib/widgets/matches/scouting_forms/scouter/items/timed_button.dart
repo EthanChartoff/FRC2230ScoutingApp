@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form.dart' show ScoutingForm;
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2022.dart' show ScoutingForm2022;
 
 
-/// A timed button for [ScoutingForm]
+/// A timed button for [ScoutingForm2022]
 /// 
 /// TODO: implement different styles
 

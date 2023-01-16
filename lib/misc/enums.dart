@@ -1,15 +1,16 @@
 enum MatchVars {
   id,
-  competition,
-  match_number,
-  match_type,
-  status,
-  r1_robot,
-  r2_robot,
-  r3_robot,
-  b1_robot,
-  b2_robot,
-  b3_robot
+  lastChangedAt,
+  eventKey,
+  matchNumber ,
+  matchType,
+  wonAlliance,
+  redRobot1,
+  redRobot2,
+  redRobot3,
+  blueRobot1,
+  blueRobot2,
+  blueRobot3,
 }
 
 enum MatchStates {

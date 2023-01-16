@@ -59,16 +59,6 @@ final defaultItems =
     )
   ),
 
-  ScoutingGenerationCheckbox(
-    name: 'didRobotWin', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'didRobotWin', 
-      type: SqlParamType.TINYINT,
-      typeLengthValue: 1
-    ),
-    title: 'did robot win?'
-  ),
-
   ScoutingGenerationField(
     name: 'alliance', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
@@ -76,6 +66,16 @@ final defaultItems =
       type: SqlParamType.TINYINT,
       typeLengthValue: 1
     )
+  ),
+
+  ScoutingGenerationCheckbox(
+    name: 'winLoseOrTie', 
+    sqlParamValue: ScoutingGenerationItem.sqlParam(
+      name: 'winLoseOrTie', 
+      type: SqlParamType.TINYINT,
+      typeLengthValue: 1
+    ),
+    title: 'did robot win, lose or tie?'
   ),
 
   ScoutingGenerationDropdownButtonFormField(
@@ -122,24 +122,6 @@ final defaultItems =
     )
   ),
 
-  ScoutingGenerationCheckbox(
-    name: 'didRobotDefend',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'didRobotDefend', 
-      type: SqlParamType.TINYINT,
-      typeLengthValue:  1
-    )
-  ),
-
-  ScoutingGenerationCheckbox(
-    name: 'wasStrategyDifferent',
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'wasStrategyDifferent', 
-      type: SqlParamType.TINYINT,
-      typeLengthValue:  1
-    )
-  ),
-
   ScoutingGenerationTextFormField(
     name: 'defenseComments', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
@@ -157,14 +139,6 @@ final defaultItems =
   ),
 
   ScoutingGenerationTextFormField(
-    name: 'strategyComments', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'strategyComments', 
-      type: SqlParamType.TINYTEXT
-    )
-  ),
-
-  ScoutingGenerationTextFormField(
     name: 'scouterName', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
       name: 'scouterName', 
@@ -175,117 +149,318 @@ final defaultItems =
 
 final formitems = 
 [
-  ScoutingGenerationShotCounter(
-    name: 'autoUpShot', 
+  ScoutingGenerationCheckbox(
+    name: 'didDefendTeleOp', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'autoUpShot',
+      name: 'didDefendTeleOp', 
       type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
+      typeLengthValue: 1
+    ),
+    title: 'did robot defend in teleop?'
   ),
 
-  ScoutingGenerationShotCounter(
-    name: 'autoUpScored', 
+  ScoutingGenerationCheckbox(
+    name: 'didGetDefendedTeleOp', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'autoUpScored',
+      name: 'didGetDefendedTeleOp', 
       type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
+      typeLengthValue: 1
+    ),
+    title: 'did robot get defended in teleop?'
   ),
 
-  ScoutingGenerationShotCounter(
-    name: 'autoLowShot', 
+  ScoutingGenerationCheckbox(
+    name: 'didDefendEndGame', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'autoLowShot',
+      name: 'didDefendEndGame', 
       type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
+      typeLengthValue: 1
+    ),
+    title: 'did robot defend in endgame?'
   ),
 
-  ScoutingGenerationShotCounter(
-    name: 'autoLowScored', 
+  ScoutingGenerationCheckbox(
+    name: 'didGetDefendedEndGame', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'autoLowScored',
+      name: 'didGetDefendedEndGame', 
       type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
+      typeLengthValue: 1
+    ),
+    title: 'did robot get defended in endgame?'
   ),
 
-  ScoutingGenerationShotCounter(
-    name: 'TeleopUpShot', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'TeleopUpShot',
-      type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
-  ),
-
-  ScoutingGenerationShotCounter(
-    name: 'TeleopUpScored', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'TeleopUpScored',
-      type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
-  ),
-
-  ScoutingGenerationShotCounter(
-    name: 'TeleopLowShot', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'TeleopLowShot',
-      type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
-  ),
-
-  ScoutingGenerationShotCounter(
-    name: 'TeleopLowScored', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'TeleopLowScored',
-      type: SqlParamType.TINYINT,
-      attributes: Attributes.UNSIGNED,
-      typeLengthValue: 3,
-    )
-  ),
-
+  /// TODO: make a convention for naming cube/cones/none, maybe:
+  /// Cube: b,
+  /// Cone: c,
+  /// None: n
   ScoutingGenerationDropdownButtonFormField(
-    name: 'triedToClimbLevel', 
+    name: 'startingItemOnRobot', 
     sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'triedToClimbLevel',
-      type: SqlParamType.TINYINT,
-      typeLengthValue: 1,
-    ),  
+      name: 'startingItemOnRobot', 
+      type: SqlParamType.CHAR,
+      typeLengthValue: 1
+    ),
     dropdownMenuItems: {
-      '1' : '1',
-      '2' : '2',
-      '3' : '3',
-      '4' : '4',
-    }
-  ),
+      'cube' : 'b',
+      'cone' : 'c',
+      'none' : 'n',
+    }),
 
-  ScoutingGenerationDropdownButtonFormField(
-    name: 'ClimbLevel', 
-    sqlParamValue: ScoutingGenerationItem.sqlParam(
-      name: 'ClimbLevel',
-      type: SqlParamType.TINYINT,
-      typeLengthValue: 1,
-    ), 
-    dropdownMenuItems: {
-      '1' : '1',
-      '2' : '2',
-      '3' : '3',
-      '4' : '4',
-    }
-  )
-  
-];
+    /// game items counters
+    ScoutingGenerationShotCounter(
+      name: 'rowOneCubes', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'rowOneCubes', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'tryRowOneCubes', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'tryRowOneCubes', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+    
+    ScoutingGenerationShotCounter(
+      name: 'rowTwoCubes', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'rowTwoCubes', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'tryRowTwoCubes', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'tryRowTwoCubes', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'rowThreeCubes', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'rowThreeCubes', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'tryRowThreeCubes', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'tryRowThreeCubes', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'rowOneCones', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'rowOneCones', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'tryRowOneCones', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'tryRowOneCones', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'rowTwoCones', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'rowTwoCones', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'tryRowTwoCones', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'tryRowTwoCones', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'rowThreeCones', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'rowThreeCones', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'tryRowThreeCones', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'tryRowThreeCones', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationCheckbox(
+      name: 'didFeed', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'didFeed', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+      title: 'did robot feed?'
+    ),
+    
+    ScoutingGenerationShotCounter(
+      name: 'numOfCubesGatheredIntoComunity', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'numOfCubesGatheredToComunity', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationShotCounter(
+      name: 'numOfConesGatheredIntoComunity', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'numOfConesGatheredToComunity', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 2
+      ),
+    ),
+
+    ScoutingGenerationButtonTimer(
+      name: 'numOfSecondsOnChargeStation',
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'numOfSecondsOnChargeStation', 
+        type: SqlParamType.FLOAT,
+      ),
+    ),
+     
+    ScoutingGenerationButtonTimer(
+      name: 'numSecondsBeforeEndPivotedToChargeStation', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'numSecondsBeforeEndPivotedToChargeStation', 
+        type: SqlParamType.FLOAT,
+      ),
+    ),
+
+    ScoutingGenerationCheckbox(
+      name: 'didGoOnChargeStation', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'didGoOnChargeStation', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+    
+    ScoutingGenerationDropdownButtonFormField(
+      name: 'autoChargeStationStatus', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'autoChargeStationStatus', 
+        type: SqlParamType.CHAR,
+        typeLengthValue: 1
+      ),
+      dropdownMenuItems: {
+        'docked' : 'd',
+        'parked' : 'p',
+        'none' : 'n',
+      },
+    ),
+
+    ScoutingGenerationDropdownButtonFormField(
+      name: 'endGameChargeStationStatus', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'endGameChargeStationStatus', 
+        type: SqlParamType.CHAR,
+        typeLengthValue: 1
+      ),
+      dropdownMenuItems: {
+        'docked' : 'd',
+        'parked' : 'p',
+        'none' : 'n',
+      },
+    ),
+
+    ScoutingGenerationCheckbox(
+      name: 'teleopWasRobotParked', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'teleopWasRobotParked', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+      title: 'was robot parked in teleop?'
+    ),
+
+    ScoutingGenerationButtonTimer(
+      name: 'autoNumOfSecondsUntilBalanced',
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'autoNumOfSecondsUntilBalanced', 
+        type: SqlParamType.FLOAT,
+      ),
+    ),
+
+    ScoutingGenerationButtonTimer(
+      name: 'endgameNumOfSecondsUntilBalanced',
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'endgameNumOfSecondsUntilBalanced', 
+        type: SqlParamType.FLOAT,
+      ),
+    ),
+
+    ScoutingGenerationDropdownButtonFormField(
+      name: 'fromWhereRobotDroveToChargeStation', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'fromWhereRobotDroveToChargeStation', 
+        type: SqlParamType.CHAR,
+        typeLengthValue: 1
+      ),
+      dropdownMenuItems: {
+        'comunity' : 'c',
+        'out' : 'o',
+      }
+    ),
+
+    ScoutingGenerationDropdownButtonFormField(
+      name: 'numOfRobotsOnChargeStationAtEnd', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'numOfRobotsOnChargeStationAtEnd', 
+        type: SqlParamType.CHAR,
+        typeLengthValue: 1
+      ),
+      dropdownMenuItems: {
+        '0' : '0',
+        '1' : '1',
+        '2' : '2',
+        '3' : '3',
+      }
+    ),
+
+    ScoutingGenerationCheckbox(
+      name: 'autoDidRobotComeOutOfComunity', 
+      sqlParamValue: ScoutingGenerationItem.sqlParam(
+        name: 'autoDidRobotComeOutOfComunity', 
+        type: SqlParamType.TINYINT,
+        typeLengthValue: 1
+      ),
+    ),
+
+    /// # auto route by hand
+];  
 
 final items = defaultItems + formitems; 
 
@@ -304,8 +479,8 @@ Builder createPhpScoutingDataTableBuilder(BuilderOptions options) =>
 Builder insertPhpScoutingDataTableBuilder(BuilderOptions options) =>
   InsertPhpScoutingDataTableBuilder(formItems: items);
 
-Builder teamsBuilder(BuilderOptions options) =>
-  TeamsBuilder();
+// Builder teamsBuilder(BuilderOptions options) =>
+//   TeamsBuilder();
   
 
 

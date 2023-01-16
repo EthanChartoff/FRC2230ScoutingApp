@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-class InsertScoutingDataTable {
+class InsertScoutingDataTable2022 {
   static void newTable({
     required matchId,
     required teamId,

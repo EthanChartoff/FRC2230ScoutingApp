@@ -26,6 +26,20 @@ class GetTeamsTBA {
     return jsonData;
   }
 
+  static Future<List<dynamic>> teamsByEventKey(String eventKey) async{
+    var jsonData = [];
+
+    try {
+      var response = await http
+       .get(Uri.parse("https://www.thebluealliance.com/api/v3/event/$eventKey/teams/simple?X-TBA-Auth-Key=kx16kzCU5g2xiADIEZfE06l8dZJ7aC2EbslUz7i9gmZfWArTiGb8RhbD0jwvHQkq"));
+      
+      jsonData = jsonDecode(response.body);
+    } catch (err) {
+      throw Exception('$err');
+    }
+    return jsonData;
+  }
+
   static Future<List<String>> yearsParticipated(String team) async {
     List<String> jsonData;
 

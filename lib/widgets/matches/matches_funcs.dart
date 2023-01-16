@@ -16,7 +16,7 @@ class MatchesFuncs {
     };
 
     for(Map match in await matches) {
-      if(match[MatchVars.status.name] == 'OM') {
+      if(match[MatchVars.wonAlliance.name] == 'OM') {
         filteredMatches[MatchStates.ongoingMatches.name]!.add(match);
       }
       else {

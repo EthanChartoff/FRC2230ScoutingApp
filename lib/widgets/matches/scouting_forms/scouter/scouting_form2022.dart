@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table.dart';
+import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table2022.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
@@ -11,7 +11,7 @@ import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_
 // ScoutingFormGenerator
 // **************************************************************************
 
-class ScoutingForm extends StatefulWidget {
+class ScoutingForm2022 extends StatefulWidget {
   final void Function() exit;
 
   final String matchId;
@@ -20,21 +20,21 @@ class ScoutingForm extends StatefulWidget {
 
   final String alliance;
 
-  const ScoutingForm(
+  const ScoutingForm2022(
       {required this.exit,
       required this.matchId,
       required this.teamId,
       required this.alliance});
 
   @override
-  State<StatefulWidget> createState() => _ScoutingFormState();
+  State<StatefulWidget> createState() => _ScoutingForm2022State();
 }
 
 // **************************************************************************
 // ScoutingFormStateGenerator
 // **************************************************************************
 
-class _ScoutingFormState extends State<ScoutingForm> {
+class _ScoutingForm2022State extends State<ScoutingForm2022> {
   final ValueNotifier<bool> _didRobotWinController = ValueNotifier<bool>(false);
 
   final ValueNotifier<String> _startingPositionController =
@@ -266,7 +266,7 @@ class _ScoutingFormState extends State<ScoutingForm> {
             ),
         
             ElevatedButton(
-              onPressed: (() => InsertScoutingDataTable.newTable(
+              onPressed: (() => InsertScoutingDataTable2022.newTable(
                 matchId: widget.matchId,
                 teamId: widget.teamId,
                 didRobotWin: _didRobotWinController.value ? '1' : '0',
