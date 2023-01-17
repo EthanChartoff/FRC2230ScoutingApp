@@ -38,7 +38,6 @@ class InsertScoutingDataTable2023 {
     required didGoOnChargeStation,
     required autoChargeStationStatus,
     required endGameChargeStationStatus,
-    required teleopWasRobotParked,
     required autoNumOfSecondsUntilBalanced,
     required endgameNumOfSecondsUntilBalanced,
     required fromWhereRobotDroveToChargeStation,
@@ -89,7 +88,6 @@ class InsertScoutingDataTable2023 {
             'didGoOnChargeStation': '$didGoOnChargeStation',
             'autoChargeStationStatus': '$autoChargeStationStatus',
             'endGameChargeStationStatus': '$endGameChargeStationStatus',
-            'teleopWasRobotParked': '$teleopWasRobotParked',
             'autoNumOfSecondsUntilBalanced': '$autoNumOfSecondsUntilBalanced',
             'endgameNumOfSecondsUntilBalanced':
                 '$endgameNumOfSecondsUntilBalanced',

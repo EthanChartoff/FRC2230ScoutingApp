@@ -17,13 +17,15 @@ class ScoutingDropdownButtonFormField extends DropdownButtonFormField<String> {
     super.key,
     required List<DropdownMenuItem<String>>? items,
     required this.controller,
-    super.dropdownColor
+    super.dropdownColor,
+    String? title,
   }) : super(
     items: items,
     onChanged: (String? value) {
       if(value is String) {
         controller.value = value;
       }
-    }
+    },
+    hint: title != null ? Text(title) : null,
   );
 }

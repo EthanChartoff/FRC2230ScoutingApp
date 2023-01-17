@@ -8,6 +8,7 @@ import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counte
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/title.dart';
 
 
 class ScoutingForm2023 extends StatefulWidget {
@@ -19,11 +20,12 @@ class ScoutingForm2023 extends StatefulWidget {
 
   final String alliance;
 
-  const ScoutingForm2023(
-      {required this.exit,
-      required this.matchId,
-      required this.teamId,
-      required this.alliance});
+  const ScoutingForm2023({
+    required this.exit,
+    required this.matchId,
+    required this.teamId,
+    required this.alliance
+    });
 
   @override
   State<StatefulWidget> createState() => _ScoutingForm2023State();
@@ -37,7 +39,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
       ValueNotifier<String>('');
 
   final ValueNotifier<bool> _wasRobotOnFieldController =
-      ValueNotifier<bool>(false);
+      ValueNotifier<bool>(true);
 
   final ValueNotifier<bool> _didRobotWorkInAutoController =
       ValueNotifier<bool>(false);
@@ -116,9 +118,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
   final ValueNotifier<String> _endGameChargeStationStatusController =
       ValueNotifier<String>('');
 
-  final ValueNotifier<bool> _teleopWasRobotParkedController =
-      ValueNotifier<bool>(false);
-
   final ValueNotifier<double> _autoNumOfSecondsUntilBalancedController =
       ValueNotifier<double>(0);
 
@@ -174,7 +173,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
     _didGoOnChargeStationController.dispose();
     _autoChargeStationStatusController.dispose();
     _endGameChargeStationStatusController.dispose();
-    _teleopWasRobotParkedController.dispose();
     _autoNumOfSecondsUntilBalancedController.dispose();
     _endgameNumOfSecondsUntilBalancedController.dispose();
     _fromWhereRobotDroveToChargeStationController.dispose();
@@ -187,17 +185,29 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Material(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).primaryColor,
         child: Column(
           children: [
-            ScoutingCheckbox(
-              controller: _winLoseOrTieController,
-              onChanged: (value) => setState(() {
-                _winLoseOrTieController.value = value!;
-              }), 
-              title: 'did robot win, lose or tie?',
+            /// # Information about the match and basic data points.
+            const ScoutingTitle(
+              title: 'MATCH INFO'
             ),
-            
+
+            ScoutingTextFormField(
+              controller: _scouterNameController,
+              onChanged: (value) => setState(() {}),
+              hint: 'input something',
+              labelText: 'scouterName',
+            ),
+
+            ScoutingCheckbox(
+              controller: _wasRobotOnFieldController,
+              onChanged: (value) => setState(() {
+                _wasRobotOnFieldController.value = value!;
+              }),
+              title: 'was robot on field?', 
+            ),
+
             ScoutingDropdownButtonFormField(
               items: const [
                 DropdownMenuItem(value: '1', child: Text('blue 1')),
@@ -209,14 +219,21 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               ],
               controller: _startingPositionController,
             ),
-          
-            ScoutingCheckbox(
-              controller: _wasRobotOnFieldController,
-              onChanged: (value) => setState(() {
-                _wasRobotOnFieldController.value = value!;
-              }), 
+
+            ScoutingDropdownButtonFormField(
+              items: const [
+                DropdownMenuItem(value: 'b', child: Text('cube')),
+                DropdownMenuItem(value: 'c', child: Text('cone')),
+                DropdownMenuItem(value: 'n', child: Text('none')),
+              ],
+              controller: _startingItemOnRobotController,
             ),
-          
+
+            /// # Data points specific for the autonomous period.
+            const ScoutingTitle(
+              title: 'AUTO'
+            ),
+
             ScoutingCheckbox(
               controller: _didRobotWorkInAutoController,
               onChanged: (value) => setState(() {
@@ -224,35 +241,31 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               }), 
               title: 'did robot work in auto?',
             ),
-          
+
+            ScoutingDropdownButtonFormField(
+              items: const [
+                DropdownMenuItem(value: 'd', child: Text('docked')),
+                DropdownMenuItem(value: 'e', child: Text('engaged')),
+                DropdownMenuItem(value: 'p', child: Text('parked')),
+                DropdownMenuItem(value: 'n', child: Text('none')),
+              ],
+              controller: _autoChargeStationStatusController,
+              title: 'auto charge station status',
+            ),
+
+            /// # Data points specific for the teleoperated period.
+            const ScoutingTitle(
+              title: 'TELEOPERATOR'
+            ),
+
             ScoutingCheckbox(
               controller: _didRobotWorkInTeleOpController,
               onChanged: (value) => setState(() {
                 _didRobotWorkInTeleOpController.value = value!;
               }), 
+              title: 'did robot work in teleop?',
             ),
-          
-            ScoutingTextFormField(
-              controller: _defenseCommentsController,
-              onChanged: (value) => setState(() {}),
-              hint: 'input something',
-              labelText: 'defenseComments',
-            ),
-          
-            ScoutingTextFormField(
-              controller: _robotCommentsController,
-              onChanged: (value) => setState(() {}),
-              hint: 'input something',
-              labelText: 'robotComments',
-            ),
-          
-            ScoutingTextFormField(
-              controller: _scouterNameController,
-              onChanged: (value) => setState(() {}),
-              hint: 'input something',
-              labelText: 'scouterName',
-            ),
-          
+
             ScoutingCheckbox(
               controller: _didDefendTeleOpController,
               onChanged: (value) => setState(() {
@@ -268,32 +281,16 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               }), 
               title: 'did robot get defended in teleop?',
             ),
-            
+
             ScoutingCheckbox(
-              controller: _didDefendEndGameController,
+              controller: _didFeedController,
               onChanged: (value) => setState(() {
-                _didDefendEndGameController.value = value!;
+                _didFeedController.value = value!;
               }), 
-              title: 'did robot defend in endgame?',
+              title: 'did robot feed?',
             ),
-            
-            ScoutingCheckbox(
-              controller: _didGetDefendedEndGameController,
-              onChanged: (value) => setState(() {
-                _didGetDefendedEndGameController.value = value!;
-              }), 
-              title: 'did robot get defended in endgame?',
-            ),
-            
-            ScoutingDropdownButtonFormField(
-              items: const [
-                DropdownMenuItem(value: 'b', child: Text('cube')),
-                DropdownMenuItem(value: 'c', child: Text('cone')),
-                DropdownMenuItem(value: 'n', child: Text('none')),
-              ],
-              controller: _startingItemOnRobotController,
-            ),
-          
+
+            /// ## game items scored.
             ScoutingShotCounter(
               controller: _rowOneCubesController,
             ),
@@ -341,15 +338,8 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ScoutingShotCounter(
               controller: _tryRowThreeConesController,
             ),
-          
-            ScoutingCheckbox(
-              controller: _didFeedController,
-              onChanged: (value) => setState(() {
-                _didFeedController.value = value!;
-              }), 
-              title: 'did robot feed?',
-            ),
-            
+
+
             ScoutingShotCounter(
               controller: _numOfCubesGatheredIntoComunityController,
             ),
@@ -357,48 +347,73 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ScoutingShotCounter(
               controller: _numOfConesGatheredIntoComunityController,
             ),
-          
-            ScoutingButtonTimer(
-              controller: _numOfSecondsOnChargeStationController,
+
+            /// # Data points specific for the endgame period.
+            const ScoutingTitle(
+              title: 'ENDGAME'
             ),
-          
-            ScoutingButtonTimer(
-              controller: _numSecondsBeforeEndPivotedToChargeStationController,
+
+            ScoutingCheckbox(
+              controller: _didDefendEndGameController,
+              onChanged: (value) => setState(() {
+                _didDefendEndGameController.value = value!;
+              }), 
+              title: 'did robot defend in endgame?',
             ),
-          
+            
+            ScoutingCheckbox(
+              controller: _didGetDefendedEndGameController,
+              onChanged: (value) => setState(() {
+                _didGetDefendedEndGameController.value = value!;
+              }), 
+              title: 'did robot get defended in endgame?',
+            ),
+
             ScoutingCheckbox(
               controller: _didGoOnChargeStationController,
               onChanged: (value) => setState(() {
                 _didGoOnChargeStationController.value = value!;
               }), 
+              title: 'did robot go on charge station?',
             ),
-          
+
             ScoutingDropdownButtonFormField(
               items: const [
                 DropdownMenuItem(value: 'd', child: Text('docked')),
-                DropdownMenuItem(value: 'p', child: Text('parked')),
-                DropdownMenuItem(value: 'n', child: Text('none')),
-              ],
-              controller: _autoChargeStationStatusController,
-            ),
-          
-            ScoutingDropdownButtonFormField(
-              items: const [
-                DropdownMenuItem(value: 'd', child: Text('docked')),
+                DropdownMenuItem(value: 'e', child: Text('engaged')),
                 DropdownMenuItem(value: 'p', child: Text('parked')),
                 DropdownMenuItem(value: 'n', child: Text('none')),
               ],
               controller: _endGameChargeStationStatusController,
             ),
+
+            /// # Data for when the match is done.
+            const ScoutingTitle(
+              title: 'COMMENTS'
+            ),
+
+            ScoutingTextFormField(
+              controller: _defenseCommentsController,
+              onChanged: (value) => setState(() {}),
+              hint: 'input something',
+              labelText: 'defenseComments',
+            ),
           
-            ScoutingCheckbox(
-              controller: _teleopWasRobotParkedController,
-              onChanged: (value) => setState(() {
-                _teleopWasRobotParkedController.value = value!;
-              }), 
-              title: 'was robot parked in teleop?',
+            ScoutingTextFormField(
+              controller: _robotCommentsController,
+              onChanged: (value) => setState(() {}),
+              hint: 'input something',
+              labelText: 'robotComments',
             ),
             
+            ScoutingCheckbox(
+              controller: _winLoseOrTieController,
+              onChanged: (value) => setState(() {
+                _winLoseOrTieController.value = value!;
+              }), 
+              title: 'did robot win, lose or tie?',
+            ),
+
             ScoutingButtonTimer(
               controller: _autoNumOfSecondsUntilBalancedController,
             ),
@@ -433,55 +448,12 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ),
           
             ElevatedButton(
-              onPressed: /* widget.exit */ () => print("""
-${widget.matchId},
-${widget.teamId},
-${widget.alliance},
-${_winLoseOrTieController.value ? '1' : '0'},
-${_startingPositionController.value},
-${_wasRobotOnFieldController.value ? '1' : '0'},
-${_didRobotWorkInAutoController.value ? '1' : '0'},
-${_didRobotWorkInTeleOpController.value ? '1' : '0'},
-${_defenseCommentsController.text},
-${_robotCommentsController.text},
-${_scouterNameController.text},
-${_didDefendTeleOpController.value ? '1' : '0'},
-${_didGetDefendedTeleOpController.value ? '1' : '0'},
-${_didDefendEndGameController.value ? '1' : '0'},
-${_didGetDefendedEndGameController.value ? '1' : '0'},
-${_startingItemOnRobotController.value},
-${_rowOneCubesController.value},
-${_tryRowOneCubesController.value},
-${_rowTwoCubesController.value},
-${_tryRowTwoCubesController.value},
-${_rowThreeCubesController.value},
-${_tryRowThreeCubesController.value},
-${_rowOneConesController.value},
-${_tryRowOneConesController.value},
-${_rowTwoConesController.value},
-${_tryRowTwoConesController.value},
-${_rowThreeConesController.value},
-${_tryRowThreeConesController.value},
-${_didFeedController.value ? '1' : '0'},
-${_numOfCubesGatheredIntoComunityController.value},
-${_numOfConesGatheredIntoComunityController.value},
-${_numOfSecondsOnChargeStationController.value},
-${_numSecondsBeforeEndPivotedToChargeStationController.value},
-${_didGoOnChargeStationController.value ? '1' : '0'},
-${_autoChargeStationStatusController.value},
-${_endGameChargeStationStatusController.value},
-${_teleopWasRobotParkedController.value ? '1' : '0'},
-${_autoNumOfSecondsUntilBalancedController.value},
-${_endgameNumOfSecondsUntilBalancedController.value},
-${_fromWhereRobotDroveToChargeStationController.value},
-${_numOfRobotsOnChargeStationAtEndController.value},
-${_autoDidRobotComeOutOfComunityController.value ? '1' : '0'},
-"""),
+              onPressed: widget.exit,
               child: null
             ),
         
             ElevatedButton(
-              onPressed: (() => InsertScoutingDataTable2023.newTable(
+              onPressed: () => InsertScoutingDataTable2023.newTable(
                 matchId: widget.matchId,
                 teamId: widget.teamId,
                 alliance: widget.alliance,
@@ -518,13 +490,12 @@ ${_autoDidRobotComeOutOfComunityController.value ? '1' : '0'},
                 didGoOnChargeStation: _didGoOnChargeStationController.value ? '1' : '0',
                 autoChargeStationStatus: _autoChargeStationStatusController.value,
                 endGameChargeStationStatus: _endGameChargeStationStatusController.value,
-                teleopWasRobotParked: _teleopWasRobotParkedController.value ? '1' : '0',
                 autoNumOfSecondsUntilBalanced: _autoNumOfSecondsUntilBalancedController.value,
                 endgameNumOfSecondsUntilBalanced: _endgameNumOfSecondsUntilBalancedController.value,
                 fromWhereRobotDroveToChargeStation: _fromWhereRobotDroveToChargeStationController.value,
                 numOfRobotsOnChargeStationAtEnd: _numOfRobotsOnChargeStationAtEndController.value,
                 autoDidRobotComeOutOfComunity: _autoDidRobotComeOutOfComunityController.value ? '1' : '0',
-              )),
+              ),
               child: null
             )
           

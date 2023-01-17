@@ -15,11 +15,11 @@ class ScoutingCheckbox extends CheckboxListTile {
     super.key,
     required this.controller,
     required onChanged,
-    String title = '',
+    String? title,
   }) : super(
     value: controller.value,
     onChanged: onChanged,
-    title: Text(title)
+    title: title != null ? Text(title) : null,
   );
   
 }

@@ -31,7 +31,7 @@ class ScoutingButtonTimer extends StatelessWidget {
       child: Container(
         height: 100,
         width: 100,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).primaryColorDark,
       ),
     );
   }

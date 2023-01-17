@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
 
-/// TODO
+/// Text field for strategy form. 
 class StrategyExpandableTextField extends StatefulWidget {
 
   final String title;
+
+  /// Should display the last value of type of scouting data entered.
+  /// 
+  /// For example, if at round 1 strategy typed 'robot can climb' at round 2 the 
+  /// same card will have a hint 'robot can climb'. 
+  final String? hint;
 
   final TextEditingController controller = TextEditingController();
 
   StrategyExpandableTextField({
     required this.title,
+    this.hint
   });
 
   String? get getControllerText => controller.text;

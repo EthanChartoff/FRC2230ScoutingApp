@@ -58,7 +58,14 @@ class EndedMatchCard extends StatelessWidget{
                             TeamButton(
                               parentContext: context, 
                               teamNumber: match["redRobot${index+1}"].toString(), 
-                              onTap: () => context.go('${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}'),
+                              onTap: () {
+                                String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                String matchId = 'matchId=${match['id']}';
+                                String teamId = 'teamId=${match["redRobot${index+1}"]}';
+                                String alliance = 'alliance=R';
+
+                                return context.go('$path?$matchId&$teamId&$alliance');
+                              },
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
                               height: constraints.maxHeight / 3
@@ -91,10 +98,14 @@ class EndedMatchCard extends StatelessWidget{
                             TeamButton(
                               parentContext: context, 
                               teamNumber: match["blueRobot${index+1}"].toString(), 
-                              /// TODO: when routing into page, page sometimes need information,
-                              /// change router to have information with page 
-                              /// (idealy with get url vars in php or MaterialPageRoute)
-                              onTap: () => context.go('${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}'),
+                              onTap: () {
+                                String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                String matchId = 'matchId=${match['id']}';
+                                String teamId = 'teamId=${match["blueRobot${index+1}"]}';
+                                String alliance = 'alliance=B';
+
+                                return context.go('$path?$matchId&$teamId&$alliance');
+                              },
                               textStyle: Theme.of(context).textTheme.bodyText2!,
                               width: constraints.maxWidth / 2.5,
                               height: constraints.maxHeight / 3
