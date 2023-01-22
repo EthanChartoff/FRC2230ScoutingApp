@@ -97,7 +97,7 @@ class InsertScoutingDataTable2023 {
                 '$numOfRobotsOnChargeStationAtEnd',
             'autoDidRobotComeOutOfComunity': '$autoDidRobotComeOutOfComunity',
           });
-        print('${response.body}');
+        // print(response.body);
     } catch (err) {
       print('$err lol');
       throw Exception('$err');

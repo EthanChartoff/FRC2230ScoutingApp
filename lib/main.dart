@@ -69,21 +69,30 @@ class App extends StatelessWidget {
         routes: [
           GoRoute(
             path: Routing.MATCHES_SCOUTING_FORM,
-            builder: (context, state) => DesktopSidemenuScreenBuilder(
-              screen: UserTypeBuilder(
-                user: _user, 
-                viewerPage: MatchesPage(),
-                scouterPage: ScoutingForm2023(
-                  exit: context.pop,
-                  matchId: state.queryParams['matchId'] ?? 'noMatchId',
-                  teamId: state.queryParams['teamId'] ?? 'noTeamId',
-                  alliance: state.queryParams['alliance'] ?? 'noAlliance',
-                ), 
-                adminPage: StrategyForm(
-                  exit: context.pop,
-                )
-              ),
-            ) 
+            builder: (context, state) {
+              final matchId = state.queryParams['matchId'] ?? 'noMatchId';
+              final teamId = state.queryParams['teamId'] ?? 'noTeamId';
+              final alliance = state.queryParams['alliance'] ?? 'noAlliance';
+
+              return DesktopSidemenuScreenBuilder(
+                screen: UserTypeBuilder(
+                  user: _user, 
+                  viewerPage: MatchesPage(),
+                  scouterPage: ScoutingForm2023(
+                    exit: context.pop,
+                    matchId: matchId,
+                    teamId: teamId,
+                    alliance: alliance,
+                  ), 
+                  adminPage: StrategyForm(
+                    exit: context.pop,
+                    matchId: matchId,
+                    teamId: teamId,
+                    alliance: alliance,
+                  )
+                ),
+              );
+            } 
           ),
 
           GoRoute(

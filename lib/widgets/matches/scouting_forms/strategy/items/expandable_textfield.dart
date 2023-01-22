@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 /// Text field for strategy form. 
 class StrategyExpandableTextField extends StatefulWidget {
 
+  StrategyExpandableTextField({
+    required this.title,
+    this.hint,
+    this.pastInfo
+  });
+
   final String title;
 
   /// Should display the last value of type of scouting data entered.
@@ -14,12 +20,10 @@ class StrategyExpandableTextField extends StatefulWidget {
 
   final TextEditingController controller = TextEditingController();
 
-  StrategyExpandableTextField({
-    required this.title,
-    this.hint
-  });
-
   String? get getControllerText => controller.text;
+
+  /// All of the strategy data entered for this specific team and data type.
+  final List<String>? pastInfo;
   
   @override
   State<StatefulWidget> createState() => _StrategyExpandableTextFieldState();
@@ -32,15 +36,30 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
       color: Theme.of(context).primaryColorDark,
       child: Theme(
         data: ThemeData(
-          hoverColor: null
+          hoverColor: null,
         ),
     
         child: ExpansionTile(
           title: Center(
-            child: Text(widget.title),
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 20,
+              )
+            ),
           ),
     
           children: [
+            widget.pastInfo != null ? SizedBox(
+              height: 30,
+              child: PageView(
+                children: widget.pastInfo!.map((e) => 
+                  Center(child: Text(e))
+                ).toList()
+              ),
+            ) : const Text('no past informaton'),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -48,8 +67,17 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
                 onChanged: (value) => setState(() {}),
                 maxLines: 5,
                 minLines: 1,
-                decoration:  const InputDecoration(
-                  border: OutlineInputBorder()
+                decoration: InputDecoration(
+                  hintText: widget.hint,
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontSize: 16,
+                  ),
+                  border: const OutlineInputBorder()
+                ),
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 16,
                 ),
               ),
             )
