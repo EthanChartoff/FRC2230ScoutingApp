@@ -87,7 +87,9 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
   ];
 
   get _counterWithTitle {
-    List<Widget> counterWithTitle = [Text(widget.title.toString())];
+    List<Widget> counterWithTitle = [Text(widget.title.toString(), 
+      style: Theme.of(context).textTheme.subtitle1,
+    )];
     counterWithTitle.addAll(_counterWithoutTitle);
     return counterWithTitle;
   }

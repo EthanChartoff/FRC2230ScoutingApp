@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:scoute_prime/misc/constants.dart';
 
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2022.dart' show ScoutingForm2022;
-
-
 
 
 /// A [DropdownButtonFormField] for [ScoutingForm2022].
@@ -18,7 +17,7 @@ class ScoutingDropdownButtonFormField extends DropdownButtonFormField<String> {
     required List<DropdownMenuItem<String>>? items,
     required this.controller,
     super.dropdownColor,
-    String? title,
+    String? hint,
   }) : super(
     items: items,
     onChanged: (String? value) {
@@ -26,6 +25,22 @@ class ScoutingDropdownButtonFormField extends DropdownButtonFormField<String> {
         controller.value = value;
       }
     },
-    hint: title != null ? Text(title) : null,
+    hint: hint != null ? Text(
+      hint,
+      style: const TextStyle(
+        color: ConstColors.SECONDARY_COLOR,
+      )
+    ) : null,
+    decoration: const InputDecoration(
+      border: OutlineInputBorder(
+        borderSide: BorderSide(
+          width: 40,
+          style: BorderStyle.solid,
+        )
+      ),
+    ),
+    style: const TextStyle(
+      color: ConstColors.SECONDARY_COLOR,
+    ),
   );
 }

@@ -28,11 +28,9 @@ class TeamsBuilder extends Builder {
     var buffer = StringBuffer();
     var teams = await GetTeamsTBA.allSimple();
 
-    if(teams != null) {
       buffer.write('''
 List<TeamsData> get allTeams => <TeamsData>[${TeamsDataList(teams)}];
 ''');
-    }
 
   return buffer.toString();
   }

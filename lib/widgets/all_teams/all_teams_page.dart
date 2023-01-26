@@ -91,7 +91,7 @@ class _AllTeamsPageState extends State<AllTeamsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).backgroundColor,
       child: FutureBuilder(
         future: _getPageData,
         builder: (context, snapshot) {

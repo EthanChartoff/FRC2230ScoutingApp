@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 
-class DashboardContainer extends StatelessWidget {
+class DashboardContainer<T extends Widget> extends StatelessWidget {
 
   const DashboardContainer({
+    required this.children,
     this.width,
     this.height,
-    this.child
   });
 
   final double? width;
   final double? height;
 
-  final Widget? child;
+  final List<T> children;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -25,7 +25,9 @@ class DashboardContainer extends StatelessWidget {
         height: height,
         width: width,
         color: Theme.of(context).primaryColorDark,
-        child: child,
+        child: PageView(
+          children: children,
+        ),
       ),
     ),
   );

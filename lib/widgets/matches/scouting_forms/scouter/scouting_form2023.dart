@@ -7,7 +7,6 @@ import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkb
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/title.dart';
 
 
@@ -218,6 +217,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: '6', child: Text('red 3')),
               ],
               controller: _startingPositionController,
+              hint: 'starting position',
             ),
 
             ScoutingDropdownButtonFormField(
@@ -227,6 +227,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'n', child: Text('none')),
               ],
               controller: _startingItemOnRobotController,
+              hint: 'starting item on robot',
             ),
 
             /// # Data points specific for the autonomous period.
@@ -250,12 +251,20 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'n', child: Text('none')),
               ],
               controller: _autoChargeStationStatusController,
-              title: 'auto charge station status',
+              hint: 'auto charge station status',
+            ),
+
+            ScoutingCheckbox(
+              controller: _autoDidRobotComeOutOfComunityController,
+              onChanged: (value) => setState(() {
+                _autoDidRobotComeOutOfComunityController.value = value!;
+              }), 
+              title: 'did robot come out of comunity in auto?',
             ),
 
             /// # Data points specific for the teleoperated period.
             const ScoutingTitle(
-              title: 'TELEOPERATOR'
+              title: 'TELEOP'
             ),
 
             ScoutingCheckbox(
@@ -291,61 +300,120 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ),
 
             /// ## game items scored.
-            ScoutingShotCounter(
-              controller: _rowOneCubesController,
+            
+            Container(
+              width: double.infinity,
+              height: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: GridView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 6,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.5
+                ),
+                children: [
+                  Container(
+                    height: 10,
+                    child: ScoutingShotCounter(
+                      controller: _rowOneCubesController,
+                      title: 'scored cubes in row 1',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _tryRowOneCubesController,
+                      title: 'tried to score cubes in row 1',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _rowTwoCubesController,
+                      title: 'scored cubes in row 2',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _tryRowTwoCubesController,
+                      title: 'tried to score cubes in row 2',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _rowThreeCubesController,
+                      title: 'scored cubes in row 3',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _tryRowThreeCubesController,
+                      title: 'tried to score cubes in row 3',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _rowOneConesController,
+                      title: 'scored cones in row 1',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _tryRowOneConesController,
+                      title: 'tried to score cones in row 1',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _rowTwoConesController,
+                      title: 'scored cones in row 2',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _tryRowTwoConesController,
+                      title: 'tried to score cones in row 2',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _rowThreeConesController,
+                      title: 'scored cones in row 3',
+                    ),
+                  ),
+                
+                  Container(
+                    child: ScoutingShotCounter(
+                      controller: _tryRowThreeConesController,
+                      title: 'tried to score cones in row 3',
+                    ),
+                  ),
+                ],
+              ),
             ),
-          
-            ScoutingShotCounter(
-              controller: _tryRowOneCubesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _rowTwoCubesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _tryRowTwoCubesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _rowThreeCubesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _tryRowThreeCubesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _rowOneConesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _tryRowOneConesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _rowTwoConesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _tryRowTwoConesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _rowThreeConesController,
-            ),
-          
-            ScoutingShotCounter(
-              controller: _tryRowThreeConesController,
-            ),
-
 
             ScoutingShotCounter(
               controller: _numOfCubesGatheredIntoComunityController,
+              title: 'number of cubes gathered into comunity',
             ),
           
             ScoutingShotCounter(
               controller: _numOfConesGatheredIntoComunityController,
+              title: 'number of cones gathered into comunity',
             ),
 
             /// # Data points specific for the endgame period.
@@ -385,6 +453,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'n', child: Text('none')),
               ],
               controller: _endGameChargeStationStatusController,
+              hint: 'end game charge station status',
             ),
 
             /// # Data for when the match is done.
@@ -414,13 +483,13 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               title: 'did robot win, lose or tie?',
             ),
 
-            ScoutingButtonTimer(
-              controller: _autoNumOfSecondsUntilBalancedController,
-            ),
+            // ScoutingButtonTimer(
+            //   controller: _autoNumOfSecondsUntilBalancedController,
+            // ),
           
-            ScoutingButtonTimer(
-              controller: _endgameNumOfSecondsUntilBalancedController,
-            ),
+            // ScoutingButtonTimer(
+            //   controller: _endgameNumOfSecondsUntilBalancedController,
+            // ),
           
             ScoutingDropdownButtonFormField(
               items: const [
@@ -428,6 +497,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'o', child: Text('out')),
               ],
               controller: _fromWhereRobotDroveToChargeStationController,
+              hint: 'from where robot drove to charge station',
             ),
           
             ScoutingDropdownButtonFormField(
@@ -438,18 +508,20 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: '3', child: Text('3')),
               ],
               controller: _numOfRobotsOnChargeStationAtEndController,
-            ),
-          
-            ScoutingCheckbox(
-              controller: _autoDidRobotComeOutOfComunityController,
-              onChanged: (value) => setState(() {
-                _autoDidRobotComeOutOfComunityController.value = value!;
-              }), 
+              hint: 'number of robots on charge station at end',
             ),
           
             ElevatedButton(
               onPressed: widget.exit,
-              child: null
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColorDark,
+              ),
+              child: const Text(
+                'EXIT',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
             ),
         
             ElevatedButton(
@@ -496,9 +568,16 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 numOfRobotsOnChargeStationAtEnd: _numOfRobotsOnChargeStationAtEndController.value,
                 autoDidRobotComeOutOfComunity: _autoDidRobotComeOutOfComunityController.value ? '1' : '0',
               ),
-              child: null
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColorDark,
+              ),
+              child: const Text(
+                'SUBMIT',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )
             )
-          
           ]
         )
       ),

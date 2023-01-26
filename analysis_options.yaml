@@ -26,5 +26,6 @@ linter:
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
     constant_identifier_names : false
     use_key_in_widget_constructors: false
+    curly_braces_in_flow_control_structures : false
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

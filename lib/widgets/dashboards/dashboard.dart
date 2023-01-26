@@ -3,9 +3,8 @@ import 'dart:math' show max;
 import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/TBA/get_matches.dart';
 
-import 'package:scoute_prime/api/TBA/get_team.dart';
 import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/matches/team_dashboard/filters_dialog.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/filters_dialog.dart';
 import 'package:scoute_prime/widgets/searchboxes.dart';
 import 'package:scoute_prime/misc/enums.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
@@ -19,7 +18,6 @@ class Dashboard extends StatefulWidget {
     required this.dashboardPages,
     this.matchKey,
     this.teamNumber,
-    this.future,
   }) : 
   assert(matchKey != null || teamNumber != null,
    'dashboard must get a match key or a team number to get data');
@@ -28,8 +26,6 @@ class Dashboard extends StatefulWidget {
 
   final String? matchKey;
   final int? teamNumber;
-
-  final Future<dynamic> Function(String)? future;
   
   @override
   State<StatefulWidget> createState() => _DashboardState();
@@ -38,30 +34,38 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>{
   final _pageController = PageController();
 
+  final key = GlobalKey();
+
   /// Used to check page index and give page its name,
-  /// TODO: change name to first page title 
-  String pageName = 'GENERAL';
+  late String pageName;
 
   int? prevTeam;
 
   /// Filters for filters dialog
   Filter<String>? _yearsParticipated;
 
-  dynamic _futureData;
+  List<Map<String, dynamic>>? _futureData;
 
-  Future get getPageData async {    
+  Future get getPageData async {  
     _yearsParticipated ??= Filter<String>(
       items: [for (var i = 1992; i < DateTime.now().year; i++) i.toString()],
-      selectedItems: ['2022']
-    );    
+      selectedItems: [DateTime.now().year.toString()]
+    );        
 
-    print('getting data');
+    _futureData ??= List.generate(widget.dashboardPages.length, (index) => 
+      widget.dashboardPages[index].data!.map((key, value) => 
+        MapEntry(key, null)
+      )
+    );
+      
 
     if(widget.teamNumber != prevTeam) {
-      _futureData = await GetMatchesTBA.matchesOfTeamInYear(
-        widget.teamNumber.toString(), 
-        _yearsParticipated!.selectedItems.last
-      );
+      for (var element in _futureData!) {
+        element.forEach((key, value) async {
+          element[key] = await widget.dashboardPages[_futureData!.indexOf(element)]
+            .data![key]!();
+        });
+      }
       prevTeam = widget.teamNumber;
     }
     return Future.value('done');
@@ -77,14 +81,12 @@ class _DashboardState extends State<Dashboard>{
         child: TextButton(
           onPressed: () => showDialog(
             context: context, 
-            builder: (context) => TeamsFiltersDialog(
+            builder: (context) => TeamsFiltersDialog( 
               yearsParticipated: _yearsParticipated!,
               onChange: (item) async {
                 _yearsParticipated!.onUnselect(_yearsParticipated!.selectedItems.first);
-                _futureData = await GetMatchesTBA.matchesOfTeamInYear(
-                  widget.teamNumber.toString(), 
-                  _yearsParticipated!.selectedItems.last
-                );
+                _futureData = 
+                  await widget.dashboardPages.first.data!['allData']!();
                 setState(() {});
               }
             )
@@ -152,12 +154,16 @@ class _DashboardState extends State<Dashboard>{
     final pageTitles = List.generate(widget.dashboardPages.length, 
       (index) => widget.dashboardPages[index].title);
 
+    pageName = pageTitles[0];
+
     return Container(
       color: Theme.of(context).backgroundColor,
       child: FutureBuilder(
         future: getPageData,
         builder: (context, snapshot) {
-          if(snapshot.hasData && _futureData != null) {
+          if(snapshot.connectionState == ConnectionState.done 
+            && _futureData?.last.values.last != null 
+          ) {
             /// The widget displayed when there's data to display.
             return Column(
               children: [
@@ -195,11 +201,14 @@ class _DashboardState extends State<Dashboard>{
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {     
                           return SingleChildScrollView(
-                            child: widget.dashboardPages[index % widget.dashboardPages.length]
-                              .buildDashboard(
-                                context: context, 
-                                data: _futureData
-                              ),
+                            child: widget.dashboardPages
+                              [index % widget.dashboardPages.length]
+                                .buildDashboard(
+                                  context: context, 
+                                  data: _futureData![index % widget.dashboardPages.length],
+                                  width: MediaQuery.of(context).size.width 
+                                    - 170,
+                                ),
                           );
                         }
                       ),

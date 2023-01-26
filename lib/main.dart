@@ -19,7 +19,8 @@ import 'package:scoute_prime/widgets/matches/scouting_forms/strategy/strategy_fo
 import 'package:scoute_prime/widgets/pick_list/pick_list_page.dart';
 import 'package:scoute_prime/widgets/sidemenue/screen_with_sidemenu.dart';
 import 'package:scoute_prime/widgets/dashboards/dashboard.dart';
-import 'package:scoute_prime/widgets/matches/team_dashboard/pages/general.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/auto.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/general.dart';
 import 'package:scoute_prime/widgets/not_used/custom_page_route.dart';
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/widgets/user_type_builder.dart';
@@ -101,13 +102,10 @@ class App extends StatelessWidget {
               final matchKey = state.queryParams['key'] ?? 'noKey';
 
               return Dashboard(
-                future: GetMatchesTBA.matchOfKey,
                 teamNumber: 2230,
                 matchKey: matchKey,
                 dashboardPages: [
-                  GeneralDashboard(
-                    width: MediaQuery.of(context).size.width - 170
-                  ),
+                  AutoDashboard2023()
                 ],
               );
             },
@@ -122,48 +120,26 @@ class App extends StatelessWidget {
         builder: (context, state) {
           final teamId = int.parse(state.queryParams['teamId'] ?? '2230');
 
+          final dashboard = [
+            AutoDashboard2023(),
+          ];
+
           return DesktopSidemenuScreenBuilder(
             
             screen: UserTypeBuilder(
               user: _user, 
               viewerPage: Dashboard(
                 teamNumber: teamId,
-                dashboardPages: [
-                  GeneralDashboard(
-                    width: MediaQuery.of(context).size.width - 170
-                  ),
-                  GeneralDashboard(
-                    title: 'LL',
-                    width: MediaQuery.of(context).size.width - 170
-                  ),
-                ],
+                dashboardPages: dashboard,
               ),
               scouterPage: Dashboard(
                 teamNumber: teamId,
-                future: GetMatchesTBA.matchOfKey,
                 matchKey: '2022aroz_f1m1',
-                dashboardPages: [
-                  GeneralDashboard(
-                    width: MediaQuery.of(context).size.width - 170
-                  ),
-                  GeneralDashboard(
-                    title: 'LL',
-                    width: MediaQuery.of(context).size.width - 170
-                  ),
-                ],
+                dashboardPages: dashboard,
               ),
               adminPage: Dashboard(
                 teamNumber: teamId,
-                dashboardPages: [
-                  GeneralDashboard(
-                    width: MediaQuery.of(context).size.width - 170
-                  )
-                  ,
-                  GeneralDashboard(
-                    title: 'LL',
-                    width: MediaQuery.of(context).size.width - 170
-                  ),
-                ],
+                dashboardPages: dashboard,
               )
             ),
           );
@@ -221,13 +197,13 @@ class App extends StatelessWidget {
           colorScheme: const ColorScheme(
             primary: ConstColors.PRIMARY_COLOR,
             secondary: ConstColors.SECONDARY_COLOR,
-            surface: ConstColors.PRIMARY_COLOR_DARK,
+            surface: ConstColors.PRIMARY_COLOR,
             background: ConstColors.BACKGROUND_COLOR,
             error: Colors.red,
             onPrimary: ConstColors.PRIMARY_COLOR,
-            onSecondary: ConstColors.SECONDARY_COLOR,
-            onSurface: ConstColors.PRIMARY_COLOR_DARK,
-            onBackground: ConstColors.BACKGROUND_COLOR,
+            onSecondary: ConstColors.PRIMARY_COLOR,
+            onSurface: ConstColors.PRIMARY_COLOR,
+            onBackground: ConstColors.PRIMARY_COLOR,
             onError: Colors.red,
             brightness: Brightness.light,
           ),

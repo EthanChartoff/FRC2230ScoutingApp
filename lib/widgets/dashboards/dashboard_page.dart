@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 abstract class DashboardPage extends StatelessWidget {
 
   const DashboardPage({
-    required this.title
+    required this.title,
+    this.data,
   });
 
   /// Page title.
   final String title;
 
+  final Map<String, dynamic Function()>? data;
+
   Widget buildDashboard({
     required BuildContext context,
-    required data
+    required Map<String, dynamic> data,
+    required double width,
+    Key? key,
   });
 
   @override
