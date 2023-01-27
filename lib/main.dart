@@ -150,7 +150,7 @@ class App extends StatelessWidget {
         path: Routing.PICK_LIST,
         builder: (context, state) => const DesktopSidemenuScreenBuilder(
           screen: PickListPage(
-            TeamsFromDb: GetTeamsData.all,
+            teamsFromDb: GetTeamsData.all,
           )
         ),
       ),

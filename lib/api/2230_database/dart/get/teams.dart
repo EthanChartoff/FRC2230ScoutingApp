@@ -10,7 +10,7 @@ class GetTeamsData {
 
     try {
       final response = await http
-          .get(Uri.parse("http://localhost/2230_scouting/teams.php"));
+          .get(Uri.parse("http://172.16.14.79/2230_scouting/teams.php"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
@@ -26,7 +26,7 @@ class GetTeamsData {
     required List<Map<String, dynamic>> teamsPos2
   }) async {
     try {
-      final response = await http.post(Uri.parse("http://localhost/2230_scouting/update_picklist.php"),
+      final response = await http.post(Uri.parse("http://172.16.14.79/2230_scouting/update_picklist.php"),
           body: {
             'pos1': jsonEncode(teamsPos1),
             'pos2': jsonEncode(teamsPos2),

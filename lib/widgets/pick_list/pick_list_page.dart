@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:reorderables/reorderables.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 import 'package:scoute_prime/widgets/pick_list/pick_list.dart';
@@ -11,12 +10,12 @@ import 'package:scoute_prime/widgets/pick_list/pick_list.dart';
 class PickListPage extends StatefulWidget {
   const PickListPage({
     super.key,
-    required this.TeamsFromDb,
+    required this.teamsFromDb,
     this.teams,
   });
 
   /// future that gets all the teams from a db that stores the teams positions. 
-  final Future<List> Function() TeamsFromDb;
+  final Future<List> Function() teamsFromDb;
 
   /// all teams in the page. each team has a card that can be reordered.
   final List<TeamsData>? teams;
@@ -51,9 +50,9 @@ class _PickListPageState extends State<PickListPage> {
       color: Theme.of(context).backgroundColor,
       
       child: FutureBuilder(
-        future: widget.TeamsFromDb(),
+        future: widget.teamsFromDb(),
         builder: (context, snapshot) {
-          if(snapshot.hasData) {
+          if(snapshot.connectionState == ConnectionState.done) {
 
             _pickListTeams1 ??= widget.orgenizedTeamList(
               snapshot.data!.map((team) {
@@ -62,6 +61,7 @@ class _PickListPageState extends State<PickListPage> {
                   'pos': team['picklistPos1'],
                 };
               }).toList());
+
 
             _pickListTeams2 ??= widget.orgenizedTeamList(
               snapshot.data!.map((team) {
@@ -78,6 +78,7 @@ class _PickListPageState extends State<PickListPage> {
             _pickList2 ??= PickList(
               teamList: _pickListTeams2!
             );
+
 
             return Theme(
               data: ThemeData(

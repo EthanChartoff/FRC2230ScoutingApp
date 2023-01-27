@@ -9,7 +9,7 @@ class GetStrategyData {
 
     try {
       final response = await http
-          .get(Uri.parse("http://localhost/2230_scouting/strategy_data_of_team.php?teamId=$team"));
+          .get(Uri.parse("http://172.16.14.79/2230_scouting/strategy_data_of_team.php?teamId=$team"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

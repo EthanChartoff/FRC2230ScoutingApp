@@ -47,7 +47,7 @@ class InsertScoutingDataTable2023 {
     try {
       final response = await http.post(
           Uri.parse(
-              'http://localhost/2230_scouting/new_scouting_data_table.php'),
+              'http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
           body: {
             'id': '',
             'lastChangedAt': '',

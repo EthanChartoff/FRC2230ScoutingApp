@@ -10,7 +10,7 @@ class GetMatches {
 
     try {
       final response = await http
-          .get(Uri.parse("http://localhost/2230_scouting/all_matches_tables.php"));
+          .get(Uri.parse("http://172.16.14.79/2230_scouting/all_matches_tables.php"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
