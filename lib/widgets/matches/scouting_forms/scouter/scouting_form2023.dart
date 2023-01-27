@@ -303,7 +303,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             
             Container(
               width: double.infinity,
-              height: 300,
+              height: 320,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
