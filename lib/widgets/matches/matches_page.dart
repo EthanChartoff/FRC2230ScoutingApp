@@ -49,9 +49,9 @@ class _MatchesPageState extends State<MatchesPage> {
       child: ListView.builder(
         shrinkWrap: true,
         
-        itemCount: _scoutingMatches![MatchStates.endedMatches.name]!.length,
+        itemCount: _scoutingMatches![MatchStates.ongoingMatches.name]!.length,
         itemBuilder: (context, index) => EndedMatchCard(
-          match: _scoutingMatches![MatchStates.endedMatches.name]![index],
+          match: _scoutingMatches![MatchStates.ongoingMatches.name]![index],
         ),
       ),
     ) : Flexible(

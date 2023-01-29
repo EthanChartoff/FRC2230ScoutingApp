@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 
+
 class InsertScoutingDataTable2023 {
+
   static void newTable({
     required matchId,
     required teamId,
@@ -35,7 +37,6 @@ class InsertScoutingDataTable2023 {
     required numOfConesGatheredIntoComunity,
     required numOfSecondsOnChargeStation,
     required numSecondsBeforeEndPivotedToChargeStation,
-    required didGoOnChargeStation,
     required autoChargeStationStatus,
     required endGameChargeStationStatus,
     required autoNumOfSecondsUntilBalanced,
@@ -45,62 +46,62 @@ class InsertScoutingDataTable2023 {
     required autoDidRobotComeOutOfComunity,
   }) async {
     try {
+      /// inserts scouting data 
       final response = await http.post(
-          Uri.parse(
-              'http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
-          body: {
-            'id': '',
-            'lastChangedAt': '',
-            'matchId': '$matchId',
-            'teamId': '$teamId',
-            'alliance': '$alliance',
-            'winLoseOrTie': '$winLoseOrTie',
-            'startingPosition': '$startingPosition',
-            'wasRobotOnField': '$wasRobotOnField',
-            'didRobotWorkInAuto': '$didRobotWorkInAuto',
-            'didRobotWorkInTeleOp': '$didRobotWorkInTeleOp',
-            'defenseComments': '$defenseComments',
-            'robotComments': '$robotComments',
-            'scouterName': '$scouterName',
-            'didDefendTeleOp': '$didDefendTeleOp',
-            'didGetDefendedTeleOp': '$didGetDefendedTeleOp',
-            'didDefendEndGame': '$didDefendEndGame',
-            'didGetDefendedEndGame': '$didGetDefendedEndGame',
-            'startingItemOnRobot': '$startingItemOnRobot',
-            'rowOneCubes': '$rowOneCubes',
-            'tryRowOneCubes': '$tryRowOneCubes',
-            'rowTwoCubes': '$rowTwoCubes',
-            'tryRowTwoCubes': '$tryRowTwoCubes',
-            'rowThreeCubes': '$rowThreeCubes',
-            'tryRowThreeCubes': '$tryRowThreeCubes',
-            'rowOneCones': '$rowOneCones',
-            'tryRowOneCones': '$tryRowOneCones',
-            'rowTwoCones': '$rowTwoCones',
-            'tryRowTwoCones': '$tryRowTwoCones',
-            'rowThreeCones': '$rowThreeCones',
-            'tryRowThreeCones': '$tryRowThreeCones',
-            'didFeed': '$didFeed',
-            'numOfCubesGatheredIntoComunity': '$numOfCubesGatheredIntoComunity',
-            'numOfConesGatheredIntoComunity': '$numOfConesGatheredIntoComunity',
-            'numOfSecondsOnChargeStation': '$numOfSecondsOnChargeStation',
-            'numSecondsBeforeEndPivotedToChargeStation':
-                '$numSecondsBeforeEndPivotedToChargeStation',
-            'didGoOnChargeStation': '$didGoOnChargeStation',
-            'autoChargeStationStatus': '$autoChargeStationStatus',
-            'endGameChargeStationStatus': '$endGameChargeStationStatus',
-            'autoNumOfSecondsUntilBalanced': '$autoNumOfSecondsUntilBalanced',
-            'endgameNumOfSecondsUntilBalanced':
-                '$endgameNumOfSecondsUntilBalanced',
-            'fromWhereRobotDroveToChargeStation':
-                '$fromWhereRobotDroveToChargeStation',
-            'numOfRobotsOnChargeStationAtEnd':
-                '$numOfRobotsOnChargeStationAtEnd',
-            'autoDidRobotComeOutOfComunity': '$autoDidRobotComeOutOfComunity',
-          });
-        // print(response.body);
+        Uri.parse(
+            'http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
+        body: {
+          'id': '',
+          'lastChangedAt': '',
+          'matchId': '$matchId',
+          'teamId': '$teamId',
+          'alliance': '$alliance',
+          'winLoseOrTie': '$winLoseOrTie',
+          'startingPosition': '$startingPosition',
+          'wasRobotOnField': '$wasRobotOnField',
+          'didRobotWorkInAuto': '$didRobotWorkInAuto',
+          'didRobotWorkInTeleOp': '$didRobotWorkInTeleOp',
+          'defenseComments': '$defenseComments',
+          'robotComments': '$robotComments',
+          'scouterName': '$scouterName',
+          'didDefendTeleOp': '$didDefendTeleOp',
+          'didGetDefendedTeleOp': '$didGetDefendedTeleOp',
+          'didDefendEndGame': '$didDefendEndGame',
+          'didGetDefendedEndGame': '$didGetDefendedEndGame',
+          'startingItemOnRobot': '$startingItemOnRobot',
+          'rowOneCubes': '$rowOneCubes',
+          'tryRowOneCubes': '$tryRowOneCubes',
+          'rowTwoCubes': '$rowTwoCubes',
+          'tryRowTwoCubes': '$tryRowTwoCubes',
+          'rowThreeCubes': '$rowThreeCubes',
+          'tryRowThreeCubes': '$tryRowThreeCubes',
+          'rowOneCones': '$rowOneCones',
+          'tryRowOneCones': '$tryRowOneCones',
+          'rowTwoCones': '$rowTwoCones',
+          'tryRowTwoCones': '$tryRowTwoCones',
+          'rowThreeCones': '$rowThreeCones',
+          'tryRowThreeCones': '$tryRowThreeCones',
+          'didFeed': '$didFeed',
+          'numOfCubesGatheredIntoComunity': '$numOfCubesGatheredIntoComunity',
+          'numOfConesGatheredIntoComunity': '$numOfConesGatheredIntoComunity',
+          'numOfSecondsOnChargeStation': '$numOfSecondsOnChargeStation',
+          'numSecondsBeforeEndPivotedToChargeStation':
+              '$numSecondsBeforeEndPivotedToChargeStation',
+          'autoChargeStationStatus': '$autoChargeStationStatus',
+          'endGameChargeStationStatus': '$endGameChargeStationStatus',
+          'autoNumOfSecondsUntilBalanced': '$autoNumOfSecondsUntilBalanced',
+          'endgameNumOfSecondsUntilBalanced':
+              '$endgameNumOfSecondsUntilBalanced',
+          'fromWhereRobotDroveToChargeStation':
+              '$fromWhereRobotDroveToChargeStation',
+          'numOfRobotsOnChargeStationAtEnd':
+              '$numOfRobotsOnChargeStationAtEnd',
+          'autoDidRobotComeOutOfComunity': '$autoDidRobotComeOutOfComunity',
+        });
+      print(response.body);
     } catch (err) {
-      print('$err lol');
+      // print('$err lol');
       throw Exception('$err');
     }
-  }
+  } 
 }

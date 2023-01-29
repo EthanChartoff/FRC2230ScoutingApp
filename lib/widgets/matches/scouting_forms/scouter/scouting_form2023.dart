@@ -2,7 +2,11 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
+import 'package:scoute_prime/api/2230_database/dart/insert/matches.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table2023.dart';
+import 'package:scoute_prime/misc/enums.dart';
+import 'package:scoute_prime/misc/teams_data.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
@@ -31,8 +35,8 @@ class ScoutingForm2023 extends StatefulWidget {
 }
 
 class _ScoutingForm2023State extends State<ScoutingForm2023> {
-  final ValueNotifier<bool> _winLoseOrTieController =
-      ValueNotifier<bool>(false);
+  final ValueNotifier<String> _winLoseOrTieController =
+      ValueNotifier<String>('');
 
   final ValueNotifier<String> _startingPositionController =
       ValueNotifier<String>('');
@@ -108,9 +112,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
       _numSecondsBeforeEndPivotedToChargeStationController =
       ValueNotifier<double>(0);
 
-  final ValueNotifier<bool> _didGoOnChargeStationController =
-      ValueNotifier<bool>(false);
-
   final ValueNotifier<String> _autoChargeStationStatusController =
       ValueNotifier<String>('');
 
@@ -169,7 +170,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
     _numOfConesGatheredIntoComunityController.dispose();
     _numOfSecondsOnChargeStationController.dispose();
     _numSecondsBeforeEndPivotedToChargeStationController.dispose();
-    _didGoOnChargeStationController.dispose();
     _autoChargeStationStatusController.dispose();
     _endGameChargeStationStatusController.dispose();
     _autoNumOfSecondsUntilBalancedController.dispose();
@@ -192,6 +192,29 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               title: 'MATCH INFO'
             ),
 
+            Container(
+              width: double.infinity,
+              color: Theme.of(context).backgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        '#${widget.teamId} ${TeamsData.allTeams.
+                          firstWhere((element) => element.number.toString() 
+                            == widget.teamId).name}',
+                        style: Theme.of(context).textTheme.headline2!.copyWith(
+                          color: widget.alliance == 'R' ?
+                           Colors.red : Colors.blue,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             ScoutingTextFormField(
               controller: _scouterNameController,
               onChanged: (value) => setState(() {}),
@@ -208,10 +231,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ),
 
             ScoutingDropdownButtonFormField(
-              items: const [
+              items: widget.alliance == 'B' ? const [
                 DropdownMenuItem(value: '1', child: Text('blue 1')),
                 DropdownMenuItem(value: '2', child: Text('blue 2')),
                 DropdownMenuItem(value: '3', child: Text('blue 3')),
+              ] : const [
                 DropdownMenuItem(value: '4', child: Text('red 1')),
                 DropdownMenuItem(value: '5', child: Text('red 2')),
                 DropdownMenuItem(value: '6', child: Text('red 3')),
@@ -308,7 +332,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: GridView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -318,89 +342,64 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   childAspectRatio: 1.5
                 ),
                 children: [
-                  Container(
-                    height: 10,
-                    child: ScoutingShotCounter(
-                      controller: _rowOneCubesController,
-                      title: 'scored cubes in row 1',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _rowOneCubesController,
+                    title: 'scored cubes in row 1',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _tryRowOneCubesController,
-                      title: 'tried to score cubes in row 1',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _tryRowOneCubesController,
+                    title: 'tried to score cubes in row 1',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _rowTwoCubesController,
-                      title: 'scored cubes in row 2',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _rowTwoCubesController,
+                    title: 'scored cubes in row 2',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _tryRowTwoCubesController,
-                      title: 'tried to score cubes in row 2',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _tryRowTwoCubesController,
+                    title: 'tried to score cubes in row 2',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _rowThreeCubesController,
-                      title: 'scored cubes in row 3',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _rowThreeCubesController,
+                    title: 'scored cubes in row 3',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _tryRowThreeCubesController,
-                      title: 'tried to score cubes in row 3',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _tryRowThreeCubesController,
+                    title: 'tried to score cubes in row 3',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _rowOneConesController,
-                      title: 'scored cones in row 1',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _rowOneConesController,
+                    title: 'scored cones in row 1',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _tryRowOneConesController,
-                      title: 'tried to score cones in row 1',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _tryRowOneConesController,
+                    title: 'tried to score cones in row 1',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _rowTwoConesController,
-                      title: 'scored cones in row 2',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _rowTwoConesController,
+                    title: 'scored cones in row 2',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _tryRowTwoConesController,
-                      title: 'tried to score cones in row 2',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _tryRowTwoConesController,
+                    title: 'tried to score cones in row 2',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _rowThreeConesController,
-                      title: 'scored cones in row 3',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _rowThreeConesController,
+                    title: 'scored cones in row 3',
                   ),
                 
-                  Container(
-                    child: ScoutingShotCounter(
-                      controller: _tryRowThreeConesController,
-                      title: 'tried to score cones in row 3',
-                    ),
+                  ScoutingShotCounter(
+                    controller: _tryRowThreeConesController,
+                    title: 'tried to score cones in row 3',
                   ),
                 ],
               ),
@@ -437,14 +436,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               title: 'did robot get defended in endgame?',
             ),
 
-            ScoutingCheckbox(
-              controller: _didGoOnChargeStationController,
-              onChanged: (value) => setState(() {
-                _didGoOnChargeStationController.value = value!;
-              }), 
-              title: 'did robot go on charge station?',
-            ),
-
             ScoutingDropdownButtonFormField(
               items: const [
                 DropdownMenuItem(value: 'd', child: Text('docked')),
@@ -475,12 +466,14 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               labelText: 'robotComments',
             ),
             
-            ScoutingCheckbox(
+            ScoutingDropdownButtonFormField(
               controller: _winLoseOrTieController,
-              onChanged: (value) => setState(() {
-                _winLoseOrTieController.value = value!;
-              }), 
-              title: 'did robot win, lose or tie?',
+              items: const [
+                DropdownMenuItem(value: 'w', child: Text('win')),
+                DropdownMenuItem(value: 'l', child: Text('lose')),
+                DropdownMenuItem(value: 't', child: Text('tie')),
+              ],
+              hint: 'did robot win, lose or tie?',
             ),
 
             // ScoutingButtonTimer(
@@ -525,49 +518,115 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ),
         
             ElevatedButton(
-              onPressed: () => InsertScoutingDataTable2023.newTable(
-                matchId: widget.matchId,
-                teamId: widget.teamId,
-                alliance: widget.alliance,
-                winLoseOrTie: _winLoseOrTieController.value ? '1' : '0',
-                startingPosition: _startingPositionController.value,
-                wasRobotOnField: _wasRobotOnFieldController.value ? '1' : '0',
-                didRobotWorkInAuto: _didRobotWorkInAutoController.value ? '1' : '0',
-                didRobotWorkInTeleOp: _didRobotWorkInTeleOpController.value ? '1' : '0',
-                defenseComments: _defenseCommentsController.text,
-                robotComments: _robotCommentsController.text,
-                scouterName: _scouterNameController.text,
-                didDefendTeleOp: _didDefendTeleOpController.value ? '1' : '0',
-                didGetDefendedTeleOp: _didGetDefendedTeleOpController.value ? '1' : '0',
-                didDefendEndGame: _didDefendEndGameController.value ? '1' : '0',
-                didGetDefendedEndGame: _didGetDefendedEndGameController.value ? '1' : '0',
-                startingItemOnRobot: _startingItemOnRobotController.value,
-                rowOneCubes: _rowOneCubesController.value,
-                tryRowOneCubes: _tryRowOneCubesController.value,
-                rowTwoCubes: _rowTwoCubesController.value,
-                tryRowTwoCubes: _tryRowTwoCubesController.value,
-                rowThreeCubes: _rowThreeCubesController.value,
-                tryRowThreeCubes: _tryRowThreeCubesController.value,
-                rowOneCones: _rowOneConesController.value,
-                tryRowOneCones: _tryRowOneConesController.value,
-                rowTwoCones: _rowTwoConesController.value,
-                tryRowTwoCones: _tryRowTwoConesController.value,
-                rowThreeCones: _rowThreeConesController.value,
-                tryRowThreeCones: _tryRowThreeConesController.value,
-                didFeed: _didFeedController.value ? '1' : '0',
-                numOfCubesGatheredIntoComunity: _numOfCubesGatheredIntoComunityController.value,
-                numOfConesGatheredIntoComunity: _numOfConesGatheredIntoComunityController.value,
-                numOfSecondsOnChargeStation: _numOfSecondsOnChargeStationController.value,
-                numSecondsBeforeEndPivotedToChargeStation: _numSecondsBeforeEndPivotedToChargeStationController.value,
-                didGoOnChargeStation: _didGoOnChargeStationController.value ? '1' : '0',
-                autoChargeStationStatus: _autoChargeStationStatusController.value,
-                endGameChargeStationStatus: _endGameChargeStationStatusController.value,
-                autoNumOfSecondsUntilBalanced: _autoNumOfSecondsUntilBalancedController.value,
-                endgameNumOfSecondsUntilBalanced: _endgameNumOfSecondsUntilBalancedController.value,
-                fromWhereRobotDroveToChargeStation: _fromWhereRobotDroveToChargeStationController.value,
-                numOfRobotsOnChargeStationAtEnd: _numOfRobotsOnChargeStationAtEndController.value,
-                autoDidRobotComeOutOfComunity: _autoDidRobotComeOutOfComunityController.value ? '1' : '0',
-              ),
+              onPressed: () async {
+                InsertScoutingDataTable2023.newTable(
+                  matchId: widget.matchId,
+                  teamId: widget.teamId,
+                  alliance: widget.alliance,
+                  winLoseOrTie: _winLoseOrTieController.value,
+                  startingPosition: _startingPositionController.value,
+                  wasRobotOnField: _wasRobotOnFieldController.value ? '1' : '0',
+                  didRobotWorkInAuto: _didRobotWorkInAutoController.value ? '1' : '0',
+                  didRobotWorkInTeleOp: _didRobotWorkInTeleOpController.value ? '1' : '0',
+                  defenseComments: _defenseCommentsController.text,
+                  robotComments: _robotCommentsController.text,
+                  scouterName: _scouterNameController.text,
+                  didDefendTeleOp: _didDefendTeleOpController.value ? '1' : '0',
+                  didGetDefendedTeleOp: _didGetDefendedTeleOpController.value ? '1' : '0',
+                  didDefendEndGame: _didDefendEndGameController.value ? '1' : '0',
+                  didGetDefendedEndGame: _didGetDefendedEndGameController.value ? '1' : '0',
+                  startingItemOnRobot: _startingItemOnRobotController.value,
+                  rowOneCubes: _rowOneCubesController.value,
+                  tryRowOneCubes: _tryRowOneCubesController.value,
+                  rowTwoCubes: _rowTwoCubesController.value,
+                  tryRowTwoCubes: _tryRowTwoCubesController.value,
+                  rowThreeCubes: _rowThreeCubesController.value,
+                  tryRowThreeCubes: _tryRowThreeCubesController.value,
+                  rowOneCones: _rowOneConesController.value,
+                  tryRowOneCones: _tryRowOneConesController.value,
+                  rowTwoCones: _rowTwoConesController.value,
+                  tryRowTwoCones: _tryRowTwoConesController.value,
+                  rowThreeCones: _rowThreeConesController.value,
+                  tryRowThreeCones: _tryRowThreeConesController.value,
+                  didFeed: _didFeedController.value ? '1' : '0',
+                  numOfCubesGatheredIntoComunity: _numOfCubesGatheredIntoComunityController.value,
+                  numOfConesGatheredIntoComunity: _numOfConesGatheredIntoComunityController.value,
+                  numOfSecondsOnChargeStation: _numOfSecondsOnChargeStationController.value,
+                  numSecondsBeforeEndPivotedToChargeStation: _numSecondsBeforeEndPivotedToChargeStationController.value,
+                  autoChargeStationStatus: _autoChargeStationStatusController.value,
+                  endGameChargeStationStatus: _endGameChargeStationStatusController.value,
+                  autoNumOfSecondsUntilBalanced: _autoNumOfSecondsUntilBalancedController.value,
+                  endgameNumOfSecondsUntilBalanced: _endgameNumOfSecondsUntilBalancedController.value,
+                  fromWhereRobotDroveToChargeStation: _fromWhereRobotDroveToChargeStationController.value,
+                  numOfRobotsOnChargeStationAtEnd: _numOfRobotsOnChargeStationAtEndController.value,
+                  autoDidRobotComeOutOfComunity: _autoDidRobotComeOutOfComunityController.value ? '1' : '0',
+                );
+
+                final scoutingTablesOfMatch = await GetScoutingData
+                  .fromMatchId(widget.matchId);
+                var uniqueTeamsOfTables = [];
+                for (var match in scoutingTablesOfMatch) {
+                  /// if value has 6 items that have a unique team id, 
+                  /// change the match status to complete.
+                  if(!uniqueTeamsOfTables.contains(match['teamId'])) {
+                    uniqueTeamsOfTables.add(match['teamId']);
+                  }
+                }
+                if(uniqueTeamsOfTables.length == 6) {
+                  /// get the most common wonLoseOrTie value for each 
+                  /// alliance, if red won most of the time and blue lost 
+                  /// most of the time, then the match status is red (R),
+                  /// and vice versa. if most time was tied, then the 
+                  /// match status is tied (T).
+                  var redWonLoseOrTie = [];
+                  var blueWonLoseOrTie = [];
+                  for (var match in scoutingTablesOfMatch) {
+                    if(match['alliance'] == 'R') {
+                      redWonLoseOrTie.add(match['winLoseOrTie']);
+                    } else if(match['alliance'] == 'B') {
+                      blueWonLoseOrTie.add(match['winLoseOrTie']);
+                    }
+                  }
+
+                  final String redMostCommonWonLoseOrTie = redWonLoseOrTie
+                    .reduce((a, b) => redWonLoseOrTie
+                      .where((x) => x == a)
+                      .length > redWonLoseOrTie
+                      .where((x) => x == b)
+                      .length ? a : b
+                    );
+                  final String blueMostCommonWonLoseOrTie = blueWonLoseOrTie
+                    .reduce((a, b) => blueWonLoseOrTie
+                      .where((x) => x == a)
+                      .length > blueWonLoseOrTie
+                      .where((x) => x == b)
+                      .length ? a : b
+                    );
+                    
+                  if(blueMostCommonWonLoseOrTie == 'l' 
+                    && redMostCommonWonLoseOrTie == 'w') {
+                    InsertMatchesDataTable2023.updateMatchStatus(
+                      widget.matchId,
+                      'B'
+                    );
+                  } else if(blueMostCommonWonLoseOrTie == 'w' 
+                    && redMostCommonWonLoseOrTie == 'l') {
+                    InsertMatchesDataTable2023.updateMatchStatus(
+                      widget.matchId,
+                      'R'
+                    );
+                  } else if(blueMostCommonWonLoseOrTie == 't' 
+                    && redMostCommonWonLoseOrTie == 't') {
+                    InsertMatchesDataTable2023.updateMatchStatus(
+                      widget.matchId,
+                      'T'
+                    );
+                  } 
+                }
+                  
+                widget.exit();
+              },
+              
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColorDark,
               ),

@@ -16,10 +16,8 @@ class GetMatches {
       // print('$err lol');
       throw Exception("$err");
     }
-
     return jsonData;
   }
-
 }
 
 
