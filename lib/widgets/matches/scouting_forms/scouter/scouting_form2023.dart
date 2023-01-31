@@ -11,6 +11,7 @@ import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkb
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/title.dart';
 
 
@@ -476,13 +477,13 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               hint: 'did robot win, lose or tie?',
             ),
 
-            // ScoutingButtonTimer(
-            //   controller: _autoNumOfSecondsUntilBalancedController,
-            // ),
+            ScoutingButtonTimer(
+              controller: _autoNumOfSecondsUntilBalancedController,
+            ),
           
-            // ScoutingButtonTimer(
-            //   controller: _endgameNumOfSecondsUntilBalancedController,
-            // ),
+            ScoutingButtonTimer(
+              controller: _endgameNumOfSecondsUntilBalancedController,
+            ),
           
             ScoutingDropdownButtonFormField(
               items: const [
