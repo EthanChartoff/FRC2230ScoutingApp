@@ -157,6 +157,9 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
   final ValueNotifier<String> _numOfRobotsOnChargeStationAtEndController =
       ValueNotifier<String>('');
+    
+  final ValueNotifier<String> _numOfRobotsOnChargeStationController = 
+      ValueNotifier<String>('');
 
   final ValueNotifier<bool> _autoDidRobotComeOutOfComunityController =
       ValueNotifier<bool>(false);
@@ -201,6 +204,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
     _endgameNumOfSecondsUntilBalancedController.dispose();
     _fromWhereRobotDroveToChargeStationController.dispose();
     _numOfRobotsOnChargeStationAtEndController.dispose();
+    _numOfRobotsOnChargeStationController.dispose();
     _autoDidRobotComeOutOfComunityController.dispose();
 
     super.dispose();
@@ -675,6 +679,16 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               hint: 'from where robot drove to charge station',
             ),
 
+            ScoutingDropdownButtonFormField(
+              items: const [
+                DropdownMenuItem(value: '0', child: Text('0')),
+                DropdownMenuItem(value: '1', child: Text('1')),
+                DropdownMenuItem(value: '2', child: Text('2')),
+              ],
+              controller: _numOfRobotsOnChargeStationController,
+              hint: 'number of robots on charge station before robot arrived at the charge station. if robot didnt drive to the charge station, then select the number of robots on the charge station at the end of the match',
+            ),
+
             /// # Data for when the match is done.
             const ScoutingTitle(
               title: 'COMMENTS'
@@ -771,6 +785,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   autoNumOfSecondsUntilBalanced : _autoNumOfSecondsUntilBalancedController.value,
                   endgameNumOfSecondsUntilBalanced: _endgameNumOfSecondsUntilBalancedController.value,
                   fromWhereRobotDroveToChargeStation: _fromWhereRobotDroveToChargeStationController.value,
+                  numOfRobotsOnChargeStation : _numOfRobotsOnChargeStationController.value,
                   numOfRobotsOnChargeStationAtEnd: _numOfRobotsOnChargeStationAtEndController.value,
                   autoDidRobotComeOutOfComunity: _autoDidRobotComeOutOfComunityController.value ? '1' : '0',
                 );

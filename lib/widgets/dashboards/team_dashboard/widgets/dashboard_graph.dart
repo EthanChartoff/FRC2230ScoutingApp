@@ -6,6 +6,7 @@ class DashboardGraph extends SfCartesianChart {
   DashboardGraph({
     List<ChartSeries>? series,
     Color? plotAreaBorderColor,
+    ChartTitle? chartTitle,
     String? title,
     ChartAxis? primaryXAxis,
     ChartAxis? primaryYAxis,
@@ -14,13 +15,13 @@ class DashboardGraph extends SfCartesianChart {
     TooltipBehavior? tooltipBehavior,
     Legend? legend
   }) : super(
-    title: title != null ? ChartTitle(
-      text: title,
+    title: chartTitle ?? ChartTitle(
+      text: title ?? '',
       textStyle: const TextStyle(
         fontSize: 20,
         color: Colors.white,
       ),
-    ) : null,
+    ),
     series: series,
     plotAreaBorderColor: plotAreaBorderColor ?? Colors.blueGrey.withOpacity(0.25),
     primaryXAxis: primaryXAxis ?? NumericAxis(

@@ -24,7 +24,6 @@ class _DashboardsDataNavState extends State<DashboardsDataNav> {
   /// a data visualization, it will give you a generic nav dest. 
   List<NavigationRailDestination> get _destinationByType => 
     List<NavigationRailDestination>.generate(widget.children.length, (index) {
-      print(widget.children[index].runtimeType);
       switch (widget.children[index].runtimeType) {
         case DashboardGraph:
           return const NavigationRailDestination( 

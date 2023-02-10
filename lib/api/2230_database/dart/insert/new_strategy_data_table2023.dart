@@ -16,7 +16,7 @@ class InsertStrategyDataTable2023 {
     try {
       final response = await http.post(
           Uri.parse(
-              'http://192.168.1.47/2230_scouting/new_strategy_data_table.php'),
+              'http://172.16.14.79/2230_scouting/new_strategy_data_table.php'),
           body: {
             'id': '',
             'lastChangedAt': '',

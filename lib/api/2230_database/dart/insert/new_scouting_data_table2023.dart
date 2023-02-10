@@ -53,6 +53,7 @@ class InsertScoutingDataTable2023 {
     required autoNumOfSecondsUntilBalanced,
     required endgameNumOfSecondsUntilBalanced,
     required fromWhereRobotDroveToChargeStation,
+    required numOfRobotsOnChargeStation,
     required numOfRobotsOnChargeStationAtEnd,
     required autoDidRobotComeOutOfComunity,
   }) async {
@@ -60,7 +61,7 @@ class InsertScoutingDataTable2023 {
       /// inserts scouting data 
       final response = await http.post(
         Uri.parse(
-            'http://192.168.1.47/2230_scouting/new_scouting_data_table.php'),
+            'http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
         body: {
           'id': '',
           'lastChangedAt': '',
@@ -118,6 +119,7 @@ class InsertScoutingDataTable2023 {
               '$fromWhereRobotDroveToChargeStation',
           'numOfRobotsOnChargeStationAtEnd':
               '$numOfRobotsOnChargeStationAtEnd',
+          'numOfRobotsOnChargeStation': '$numOfRobotsOnChargeStation',
           'autoDidRobotComeOutOfComunity': '$autoDidRobotComeOutOfComunity',
         });
     } catch (err) {

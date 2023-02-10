@@ -31,7 +31,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard>{
-  final _pageController = PageController();
+
+  int _currentPage = 0;
+  late PageController _pageController;
 
   final key = GlobalKey();
 
@@ -44,6 +46,23 @@ class _DashboardState extends State<Dashboard>{
   Filter<String>? _yearsParticipated;
 
   List<Map<String, List>>? _futureData;
+
+
+   @override
+  void initState() {
+    _pageController = PageController(
+      initialPage: _currentPage,
+      keepPage: true,
+    );
+    pageName = widget.dashboardPages[_currentPage].title;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   Future get getPageData async {  
     _yearsParticipated ??= Filter<String>(
@@ -162,11 +181,6 @@ class _DashboardState extends State<Dashboard>{
 
   @override
   Widget build(BuildContext context) {
-    final pageTitles = List.generate(widget.dashboardPages.length, 
-      (index) => widget.dashboardPages[index].title);
-
-    pageName = pageTitles[0];
-
     return Container(
       color: Theme.of(context).backgroundColor,
       child: FutureBuilder(
@@ -186,7 +200,7 @@ class _DashboardState extends State<Dashboard>{
                   title: '${widget.teamNumber} ${TeamsData.allTeams
                     .where((element) => element.number == widget.teamNumber)
                     .first.name}',
-                  pageName: pageName,
+                  pageName: '',//widget.dashboardPages[_currentPage % widget.dashboardPages.length].title,
                   titleType: DashboardViewTypes.team
                 ),
                 
@@ -197,13 +211,10 @@ class _DashboardState extends State<Dashboard>{
                       icon: const Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         if(_pageController.page! == _pageController.page!.roundToDouble() && _pageController.page! != 0) {
-                          setState(() {
-                            pageName = pageTitles[((_pageController.page! - 1) % widget.dashboardPages.length).ceil()];
                             _pageController.previousPage(
                               duration: const Duration(milliseconds: 400), 
                               curve: Curves.fastOutSlowIn,
                             );
-                          });
                         }
                       }
                     ),
@@ -212,9 +223,9 @@ class _DashboardState extends State<Dashboard>{
                       width: MediaQuery.of(context).size.width - 170,
                       height: MediaQuery.of(context).size.height - 74,
                       child: PageView.builder(
-                        controller: _pageController,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {     
+                        controller: _pageController,
+                        itemBuilder: (context, index) {   
                           return SingleChildScrollView(
                             child: widget.dashboardPages
                               [index % widget.dashboardPages.length]
@@ -233,20 +244,18 @@ class _DashboardState extends State<Dashboard>{
                       icon: const Icon(Icons.arrow_forward_ios),
                       onPressed: () {
                         if(_pageController.page! == _pageController.page!.roundToDouble()) {
-                          setState(() {
-                            pageName = pageTitles[((_pageController.page! + 1) % widget.dashboardPages.length).ceil()];
-                            _pageController.nextPage(
-                              duration: const Duration(milliseconds: 400), 
-                              curve: Curves.fastOutSlowIn
-                            );
-                          });
+                          // pageName = pageTitles[((_pageController.page! + 1) % widget.dashboardPages.length).ceil()];
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 400), 
+                            curve: Curves.fastOutSlowIn
+                          );
                         }
                       }
                     )
                   ],
-                ),      
+                ),
               ],
-            );               
+            );
           }
           else {
             /// The widget displayed when there's no data to display.

@@ -6,6 +6,7 @@ import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/dashboard_funcs2023.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_column.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_container.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_graph.dart';
@@ -43,7 +44,8 @@ class AutoDashboard2023 extends DashboardPage {
   List<MapEntry<String, int>> autoDidntWorkOrChargeStation(List data) {    
     final listWithAllStates = List.generate(data.length, (index) => 
       data[index]['didRobotWorkInAuto'] == '1' ? 
-        data[index]['autoChargeStationStatus'] != 'n' ? 
+        data[index]['autoChargeStationStatus'] == 'DOCKED' 
+        || data[index]['autoChargeStationStatus'] == 'ENGAGED'? 
           'On Charge Station' 
           : 'Off Charge Station' 
           : 'Didnt Work'
@@ -73,27 +75,57 @@ class AutoDashboard2023 extends DashboardPage {
       MapEntry('Didnt Work', listWithAllStates.where((element) => 
         element == 'Didnt Work').length),
     ].where((element) => element.value != 0).toList();
+  } 
+
+  /// Returns a map of game items on the robot in the start of the match.
+  List<MapEntry<String, int>> gameItemsOnRobot(List data) {
+    final listWithAllStates = List<String>.generate(data.length, (index) => 
+      data[index]['startingItemOnRobot']
+    );
+
+    return [
+      MapEntry('CUBE', listWithAllStates.where((element) => 
+        element == 'CUBE').length),
+      MapEntry('CONE', listWithAllStates.where((element) => 
+        element == 'CONE').length),
+      MapEntry('NONE', listWithAllStates.where((element) => 
+        element == 'NONE').length),
+    ].where((element) => element.value != 0).toList();
   }
 
-  /// Gets scouting tables and matches, returns a map of ['rowOneCubes'] value 
-  /// in the scouting tables with its corresponding match number (the scouting 
-  /// table and are matching if matchId of table and id of match are the same).
-  List<MapEntry<int, int>> valueByRound(List data, List matches, String value) {
-    final List<int> rowOneCubes = List.generate(data.length, (index) => 
-      int.parse(data[index][value])
+  /// Returns number of robot charge station statuses.
+  List<MapEntry<String, int>> chargeStationStatus(List data) {
+    final listWithAllStates = List<String>.generate(data.length, (index) => 
+      data[index]['autoChargeStationStatus']
     );
 
-    final matchNumbers = List.generate(data.length, (index) => 
-      int.parse(matches.firstWhere((element) => 
-        element['id'] == data[index]['matchId']
-      )['matchNumber'])
-    );
-    matchNumbers.sort();
+    return [
+      MapEntry('DOCKED', listWithAllStates.where((element) => 
+        element == 'DOCKED').length),
+      MapEntry('ENGAGED', listWithAllStates.where((element) => 
+        element == 'ENGAGED').length),
+      MapEntry('PARKED', listWithAllStates.where((element) => 
+        element == 'PARKED').length),
+      MapEntry('NONE', listWithAllStates.where((element) => 
+        element == 'NONE').length),
+    ].where((element) => element.value != 0).toList();
+  }
 
-    return List.generate(data.length, (index) => 
-      MapEntry(matchNumbers[index], rowOneCubes[index])
+  /// Returns map of starting positions and how many times they were started in.
+  List<MapEntry<String, int>> startingPosition(List data) {
+    final listWithAllStates = List<String>.generate(data.length, (index) => 
+      data[index]['startingPosition']
     );
-  } 
+
+    return [
+      MapEntry('1', listWithAllStates.where((element) => 
+        element.characters.last == '1').length),
+      MapEntry('2', listWithAllStates.where((element) =>
+        element.characters.last == '2').length),
+      MapEntry('3', listWithAllStates.where((element) =>
+        element.characters.last == '3').length),
+    ].where((element) => element.value != 0).toList();
+  }
   
   @override
   Widget buildDashboard({
@@ -102,9 +134,6 @@ class AutoDashboard2023 extends DashboardPage {
     required width,
     key,
   }) {
-    final autoDidntWorkOrChargeStationData = 
-      autoDidntWorkOrChargeStation(data['scoutingTables']);
-
     return Column(
       key: key,
       children: [
@@ -115,7 +144,7 @@ class AutoDashboard2023 extends DashboardPage {
             children: [
               DashboardContainer(
                 height: 370,
-                width: width - 374, // screen width - 274
+                width: width - 474, // screen width - 474
                 children: {
                   'example' : List.generate(4, (index) => const Text(
                     'Example text',
@@ -124,14 +153,16 @@ class AutoDashboard2023 extends DashboardPage {
               ),
               DashboardContainer<DashboardPiechart>(  
                 height: 370,
-                width: 350,
+                width: 450,
                 children: {
                   'auto didnt work or charge station' : [
                     DashboardPiechart(
                       title: 'auto didnt work or charge station',
                       series: <PieSeries<dynamic, String>> [
+                        /// Shows if robot worked in auto, and if it did, if it was
+                        /// on the charge station or not.
                         PieSeries<dynamic, String>(
-                          dataSource: autoDidntWorkOrChargeStationData,
+                          dataSource: autoDidntWorkOrChargeStation(data['scoutingTables']),
                           xValueMapper: (datum, index) => datum.key,
                           yValueMapper: (datum, index) => datum.value,
                           animationDuration: 0,
@@ -161,7 +192,64 @@ class AutoDashboard2023 extends DashboardPage {
                         ),
                       ],
                     ),
-                  ]                  
+                  ],
+
+                  'Charge Station Status' : [
+                    DashboardPiechart(
+                      title: 'Charge Station Status',
+                      series: <PieSeries<dynamic, String>> [
+                        PieSeries<dynamic, String>(
+                          dataSource: chargeStationStatus(data['scoutingTables']),
+                          xValueMapper: (datum, index) => datum.key,
+                          yValueMapper: (datum, index) => datum.value,
+                          animationDuration: 0,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            labelPosition: ChartDataLabelPosition.inside,
+                            useSeriesColor: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+
+                  'Starting Position' : [
+                    DashboardPiechart(
+                      title: 'Starting Position',
+                      series: <PieSeries<dynamic, String>> [
+                        PieSeries<dynamic, String>(
+                          dataSource: startingPosition(data['scoutingTables']),
+                          xValueMapper: (datum, index) => datum.key,
+                          yValueMapper: (datum, index) => datum.value,
+                          animationDuration: 0,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            labelPosition: ChartDataLabelPosition.inside,
+                            useSeriesColor: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ], 
+
+                  'Game Item on Start of Game' : [
+                    DashboardPiechart(
+                      title: 'Game Item on Start of Game',
+                      series: <PieSeries<dynamic, String>> [
+                        PieSeries<dynamic, String>(
+                          dataSource: gameItemsOnRobot(data['scoutingTables']),
+                          xValueMapper: (datum, index) => datum.key,
+                          yValueMapper: (datum, index) => datum.value,
+                          animationDuration: 0,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            labelPosition: ChartDataLabelPosition.inside,
+                            useSeriesColor: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 }
               ),
             ],
@@ -181,8 +269,11 @@ class AutoDashboard2023 extends DashboardPage {
                     /// in row one.
                     LineSeries<dynamic, int>(
                       name: 'Scored',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'rowOneCubes'), 
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowOneCubes'
+                      ),
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
@@ -193,8 +284,8 @@ class AutoDashboard2023 extends DashboardPage {
                     /// to be scored in row one.
                     LineSeries<dynamic, int>(
                       name: 'Attempted',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'tryRowOneCubes'), 
+                      dataSource: DashboardFuncs2023.valueByRound
+                        (data['scoutingTables'], data['matches'], 'tryAutoRowOneCubes'), 
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
@@ -221,8 +312,11 @@ class AutoDashboard2023 extends DashboardPage {
                     /// in row one.
                     ColumnSeries<dynamic, int>(
                       name: 'Scored',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'rowOneCubes'), 
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowOneCubes'
+                      ), 
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
@@ -233,8 +327,11 @@ class AutoDashboard2023 extends DashboardPage {
                     /// to be scored in row one.
                     ColumnSeries<dynamic, int>(
                       name: 'Attempted',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'tryRowOneCubes'), 
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowOneCubes'
+                      ), 
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
@@ -254,8 +351,11 @@ class AutoDashboard2023 extends DashboardPage {
                     /// in row one.
                     LineSeries<dynamic, int>(
                       name: 'Scored',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'rowOneCones'), 
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowOneCones'
+                      ), 
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
@@ -266,8 +366,11 @@ class AutoDashboard2023 extends DashboardPage {
                     /// to be scored in row one.
                     LineSeries<dynamic, int>(
                       name: 'Attempted',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'tryRowOneCones'), 
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowOneCones'
+                      ), 
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
@@ -278,32 +381,126 @@ class AutoDashboard2023 extends DashboardPage {
                   ],
                 ),
 
-                DashboardGraph(
-                  title : 'Row One Cones by p',
+                DashboardColumn(
+                  title : 'Row One Cones by Round',
                   series: <ChartSeries>[
-                    /// This line shows the actual amount of CONES scored 
+                    /// This column shows the actual amount of CONES scored 
                     /// in row one.
-                    LineSeries<dynamic, int>(
-                      name: 'pooped',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'rowOneCones'), 
+                    ColumnSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowOneCones'
+                      ),
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
                       isVisibleInLegend: true,
+                      color: ConstColors.CONE_COLOR
                     ),
-                    /// This line shows the amount of CONES that were attempted
+                    /// This column shows the amount of CONES that were attempted
                     /// to be scored in row one.
-                    LineSeries<dynamic, int>(
+                    ColumnSeries<dynamic, int>(
                       name: 'Attempted',
-                      dataSource: valueByRound
-                        (data['scoutingTables'], data['matches'], 'tryRowOneCones'), 
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowOneCones'
+                      ),
                       xValueMapper: (datum, index) => datum.key, 
                       yValueMapper: (datum, index) => datum.value,  
                       animationDuration: 0,
                       isVisibleInLegend: true,
                       dashArray: [5, 5],
+                      color: ConstColors.ON_CONE_COLOR
                     )
+                  ],
+                )
+              ],
+
+              'Number Of Seconds Until Balanced' : [
+                DashboardGraph(
+                  title: 'Number Of Seconds Until Balanced',
+                  series: <ChartSeries>[
+                    /// This line shows the number of seconds until the robot
+                    /// was balanced depending on match.
+                    LineSeries<dynamic, int>(
+                      name: 'Number Of Seconds',
+                      dataSource: DashboardFuncs2023.valueByRound<double>(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoNumOfSecondsUntilBalanced'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                    ),
+                  ],
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                    header: '',
+                    canShowMarker: false,
+                    builder: (
+                      dynamic _data, dynamic point, dynamic series, 
+                      int pointIndex, int seriesIndex) {
+                        
+                      final chargeStationStatus = DashboardFuncs2023.valueByRound<String>(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoChargeStationStatus'
+                      );
+                      
+                      return Container(
+                        height: 50,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "status: ${chargeStationStatus[point.x].value}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              "Y: ${point.y}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+
+              'Number of Seconds Before The End That Robot Pivoted' : [
+                DashboardGraph(
+                  title: 'Number of Seconds Before The End That Robot Pivoted',
+                  series: <ChartSeries>[
+                    /// Shows the number of seconds before the end of the match
+                    /// that the robot pivoted depending on match.
+                    LineSeries<dynamic, int>(
+                      name: 'Number Of Seconds',
+                      dataSource: DashboardFuncs2023.valueByRound<double>(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'numSecondsBeforeEndPivotedToChargeStation'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                    ),
                   ],
                 )
               ]

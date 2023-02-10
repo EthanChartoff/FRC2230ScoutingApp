@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/widgets/all_teams/all_teams_page.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/endgame.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/teleop.dart';
 import 'package:scoute_prime/widgets/login/login_page.dart';
 import 'package:scoute_prime/widgets/matches/matches_page.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2023.dart';
@@ -118,6 +120,12 @@ class App extends StatelessWidget {
             AutoDashboard2023(
               teamId: teamId.toString(),
             ),
+            TeleopDashboard2023(
+              teamId: teamId.toString(),
+            ),
+            EndgameDashboard2023(
+              teamId: teamId.toString(),
+            )
           ];
 
           return DesktopSidemenuScreenBuilder(
