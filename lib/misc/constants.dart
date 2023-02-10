@@ -11,6 +11,12 @@ class ConstColors {
   
   static const RED_TEAM_COLOR = Color(0xffff5733);
   static const BLUE_TEAM_COLOR = Color.fromARGB(255, 0, 89, 255);
+
+  static const CONE_COLOR = Color.fromARGB(255, 236, 216, 32);
+  static const ON_CONE_COLOR = Color.fromARGB(255, 236, 215, 132);
+
+  static const CUBE_COLOR = Color.fromARGB(255, 156, 13, 192);
+  static const ON_CUBE_COLOR = Color.fromARGB(255, 156, 113, 192);
 }
 
 const SCREEN_SIZE = Size(

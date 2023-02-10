@@ -1,5 +1,5 @@
 <?php
-$serverName = '172.16.14.79';
+$serverName = '192.168.1.47';
 $username = 'root';
 $password = '';
 $dbName = '2230_scouting_data';

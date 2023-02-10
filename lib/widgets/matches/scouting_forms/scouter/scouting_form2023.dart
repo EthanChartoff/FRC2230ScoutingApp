@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/matches.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table2023.dart';
-import 'package:scoute_prime/misc/enums.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
@@ -36,9 +35,6 @@ class ScoutingForm2023 extends StatefulWidget {
 }
 
 class _ScoutingForm2023State extends State<ScoutingForm2023> {
-  final ValueNotifier<String> _winLoseOrTieController =
-      ValueNotifier<String>('');
-
   final ValueNotifier<String> _startingPositionController =
       ValueNotifier<String>('');
 
@@ -65,15 +61,45 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
   final ValueNotifier<bool> _didGetDefendedTeleOpController =
       ValueNotifier<bool>(false);
 
-  final ValueNotifier<bool> _didDefendEndGameController =
-      ValueNotifier<bool>(false);
-
-  final ValueNotifier<bool> _didGetDefendedEndGameController =
-      ValueNotifier<bool>(false);
-
   final ValueNotifier<String> _startingItemOnRobotController =
       ValueNotifier<String>('');
 
+  final ValueNotifier<int> _autoRowOneCubesController = 
+      ValueNotifier<int>(0);
+
+  final ValueNotifier<int> _tryAutoRowOneCubesController =
+      ValueNotifier<int>(0);
+
+  final ValueNotifier<int> _autoRowTwoCubesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _tryAutoRowTwoCubesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _autoRowThreeCubesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _tryAutoRowThreeCubesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _autoRowOneConesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _tryAutoRowOneConesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _autoRowTwoConesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _tryAutoRowTwoConesController =
+      ValueNotifier<int>(0);
+  
+  final ValueNotifier<int> _autoRowThreeConesController =
+      ValueNotifier<int>(0);
+      
+  final ValueNotifier<int> _tryAutoRowThreeConesController =
+      ValueNotifier<int>(0); 
+    
   final ValueNotifier<int> _rowOneCubesController = ValueNotifier<int>(0);
 
   final ValueNotifier<int> _tryRowOneCubesController = ValueNotifier<int>(0);
@@ -106,6 +132,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
   final ValueNotifier<int> _numOfConesGatheredIntoComunityController =
       ValueNotifier<int>(0);
 
+  /// TODO: DELETE THIS, no need for this
   final ValueNotifier<double> _numOfSecondsOnChargeStationController =
       ValueNotifier<double>(0);
 
@@ -141,7 +168,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
   @override
   void dispose() {
-    _winLoseOrTieController.dispose();
     _startingPositionController.dispose();
     _wasRobotOnFieldController.dispose();
     _didRobotWorkInAutoController.dispose();
@@ -151,8 +177,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
     _scouterNameController.dispose();
     _didDefendTeleOpController.dispose();
     _didGetDefendedTeleOpController.dispose();
-    _didDefendEndGameController.dispose();
-    _didGetDefendedEndGameController.dispose();
     _startingItemOnRobotController.dispose();
     _rowOneCubesController.dispose();
     _tryRowOneCubesController.dispose();
@@ -181,6 +205,34 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
     super.dispose();
   }
+
+  /// Makes sure that the value of [dependent] is always greater than or equal 
+  /// to the value of [notDependent].
+  void counterCantBeLower({
+    required ValueNotifier<int> dependent,
+    required ValueNotifier<int> notDependent,
+  }) {
+    if (dependent.value < notDependent.value) {
+      setState(() {
+        dependent.value = notDependent.value;
+      });
+    }
+  }
+
+  /// Makes sure that the value of [dependent] is always less than or equal to
+  /// the value of [notDependent].
+  void counterCantBeHigher({
+    required ValueNotifier<int> dependent,
+    required ValueNotifier<int> notDependent,
+  }) {
+    if (dependent.value > notDependent.value) {
+      setState(() {
+        dependent.value = notDependent.value;
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -233,13 +285,13 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
             ScoutingDropdownButtonFormField(
               items: widget.alliance == 'B' ? const [
-                DropdownMenuItem(value: '1', child: Text('blue 1')),
-                DropdownMenuItem(value: '2', child: Text('blue 2')),
-                DropdownMenuItem(value: '3', child: Text('blue 3')),
+                DropdownMenuItem(value: 'B1', child: Text('blue 1')),
+                DropdownMenuItem(value: 'B2', child: Text('blue 2')),
+                DropdownMenuItem(value: 'B3', child: Text('blue 3')),
               ] : const [
-                DropdownMenuItem(value: '4', child: Text('red 1')),
-                DropdownMenuItem(value: '5', child: Text('red 2')),
-                DropdownMenuItem(value: '6', child: Text('red 3')),
+                DropdownMenuItem(value: 'R1', child: Text('red 1')),
+                DropdownMenuItem(value: 'R2', child: Text('red 2')),
+                DropdownMenuItem(value: 'R3', child: Text('red 3')),
               ],
               controller: _startingPositionController,
               hint: 'starting position',
@@ -247,9 +299,9 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
             ScoutingDropdownButtonFormField(
               items: const [
-                DropdownMenuItem(value: 'b', child: Text('cube')),
-                DropdownMenuItem(value: 'c', child: Text('cone')),
-                DropdownMenuItem(value: 'n', child: Text('none')),
+                DropdownMenuItem(value: 'CUBE', child: Text('cube')),
+                DropdownMenuItem(value: 'CONE', child: Text('cone')),
+                DropdownMenuItem(value: 'NONE', child: Text('none')),
               ],
               controller: _startingItemOnRobotController,
               hint: 'starting item on robot',
@@ -270,10 +322,10 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
             ScoutingDropdownButtonFormField(
               items: const [
-                DropdownMenuItem(value: 'd', child: Text('docked')),
-                DropdownMenuItem(value: 'e', child: Text('engaged')),
-                DropdownMenuItem(value: 'p', child: Text('parked')),
-                DropdownMenuItem(value: 'n', child: Text('none')),
+                DropdownMenuItem(value: 'DOCKED', child: Text('docked')),
+                DropdownMenuItem(value: 'ENGAGED', child: Text('engaged')),
+                DropdownMenuItem(value: 'PARKED', child: Text('parked')),
+                DropdownMenuItem(value: 'NONE', child: Text('none')),
               ],
               controller: _autoChargeStationStatusController,
               hint: 'auto charge station status',
@@ -285,6 +337,135 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 _autoDidRobotComeOutOfComunityController.value = value!;
               }), 
               title: 'did robot come out of comunity in auto?',
+            ),
+
+            // ## auto game item scored.
+            Container(
+              width: double.infinity,
+              height: 320,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: GridView(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 6,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.5
+                ),
+                children: [
+                  ScoutingShotCounter(
+                    controller: _autoRowOneCubesController,
+                    title: 'scored cubes in row 1',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryAutoRowOneCubesController,
+                      notDependent: _autoRowOneCubesController,
+                    ),
+                  ),
+                  ScoutingShotCounter(
+                    controller: _tryAutoRowOneCubesController,
+                    title: 'tried to score cubes in row 1',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _autoRowOneCubesController,
+                      notDependent: _tryAutoRowOneCubesController,
+                    ),
+                  ),
+
+                  ScoutingShotCounter(
+                    controller: _autoRowTwoCubesController,
+                    title: 'scored cubes in row 2',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryAutoRowTwoCubesController,
+                      notDependent: _autoRowTwoCubesController,
+                    ),
+                  ),
+                  ScoutingShotCounter(
+                    controller: _tryAutoRowTwoCubesController,
+                    title: 'tried to score cubes in row 2',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _autoRowTwoCubesController,
+                      notDependent: _tryAutoRowTwoCubesController,
+                    ),
+                  ),
+
+                  ScoutingShotCounter(
+                    controller: _autoRowThreeCubesController,
+                    title: 'scored cubes in row 3',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryAutoRowThreeCubesController,
+                      notDependent: _autoRowThreeCubesController,
+                    ),
+                  ),
+                  ScoutingShotCounter(
+                    controller: _tryAutoRowThreeCubesController,
+                    title: 'tried to score cubes in row 3',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _autoRowThreeCubesController,
+                      notDependent: _tryAutoRowThreeCubesController,
+                    ),
+                  ),
+
+                  ScoutingShotCounter(
+                    controller: _autoRowOneConesController,
+                    title: 'scored cones in row 1',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryAutoRowOneConesController,
+                      notDependent: _autoRowOneConesController,
+                    ),
+                  ),
+                  ScoutingShotCounter(
+                    controller: _tryAutoRowOneConesController,
+                    title: 'tried to score cones in row 1',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _autoRowOneConesController,
+                      notDependent: _tryAutoRowOneConesController,
+                    ),
+                  ),
+
+                  ScoutingShotCounter(
+                    controller: _autoRowTwoConesController,
+                    title: 'scored cones in row 2',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryAutoRowTwoConesController,
+                      notDependent: _autoRowTwoConesController,
+                    ),
+                  ),
+                  ScoutingShotCounter(
+                    controller: _tryAutoRowTwoConesController,
+                    title: 'tried to score cones in row 2',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _autoRowTwoConesController,
+                      notDependent: _tryAutoRowTwoConesController,
+                    ),
+                  ),
+
+                  ScoutingShotCounter(
+                    controller: _autoRowThreeConesController,
+                    title: 'scored cones in row 3',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryAutoRowThreeConesController,
+                      notDependent: _autoRowThreeConesController,
+                    ),
+                  ),
+                  ScoutingShotCounter(
+                    controller: _tryAutoRowThreeConesController,
+                    title: 'tried to score cones in row 3',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _autoRowThreeConesController,
+                      notDependent: _tryAutoRowThreeConesController,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+              
+            ScoutingButtonTimer(
+              controller: _autoNumOfSecondsUntilBalancedController,
+              title: 'time until robot is balanced on the charge station',
             ),
 
             /// # Data points specific for the teleoperated period.
@@ -346,61 +527,109 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   ScoutingShotCounter(
                     controller: _rowOneCubesController,
                     title: 'scored cubes in row 1',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryRowOneCubesController,
+                      notDependent: _rowOneCubesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _tryRowOneCubesController,
                     title: 'tried to score cubes in row 1',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _rowOneCubesController,
+                      notDependent: _tryRowOneCubesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _rowTwoCubesController,
                     title: 'scored cubes in row 2',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryRowTwoCubesController,
+                      notDependent: _rowTwoCubesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _tryRowTwoCubesController,
                     title: 'tried to score cubes in row 2',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _rowTwoCubesController,
+                      notDependent: _tryRowTwoCubesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _rowThreeCubesController,
                     title: 'scored cubes in row 3',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryRowThreeCubesController,
+                      notDependent: _rowThreeCubesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _tryRowThreeCubesController,
                     title: 'tried to score cubes in row 3',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _rowThreeCubesController,
+                      notDependent: _tryRowThreeCubesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _rowOneConesController,
                     title: 'scored cones in row 1',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryRowOneConesController,
+                      notDependent: _rowOneConesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _tryRowOneConesController,
                     title: 'tried to score cones in row 1',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _rowOneConesController,
+                      notDependent: _tryRowOneConesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _rowTwoConesController,
                     title: 'scored cones in row 2',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryRowTwoConesController,
+                      notDependent: _rowTwoConesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _tryRowTwoConesController,
                     title: 'tried to score cones in row 2',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _rowTwoConesController,
+                      notDependent: _tryRowTwoConesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _rowThreeConesController,
                     title: 'scored cones in row 3',
+                    onChanged: () => counterCantBeLower(
+                      dependent: _tryRowThreeConesController,
+                      notDependent: _rowThreeConesController
+                    )
                   ),
                 
                   ScoutingShotCounter(
                     controller: _tryRowThreeConesController,
                     title: 'tried to score cones in row 3',
+                    onChanged: () => counterCantBeHigher(
+                      dependent: _rowThreeConesController,
+                      notDependent: _tryRowThreeConesController
+                    )
                   ),
                 ],
               ),
@@ -421,31 +650,29 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               title: 'ENDGAME'
             ),
 
-            ScoutingCheckbox(
-              controller: _didDefendEndGameController,
-              onChanged: (value) => setState(() {
-                _didDefendEndGameController.value = value!;
-              }), 
-              title: 'did robot defend in endgame?',
-            ),
-            
-            ScoutingCheckbox(
-              controller: _didGetDefendedEndGameController,
-              onChanged: (value) => setState(() {
-                _didGetDefendedEndGameController.value = value!;
-              }), 
-              title: 'did robot get defended in endgame?',
-            ),
-
             ScoutingDropdownButtonFormField(
               items: const [
-                DropdownMenuItem(value: 'd', child: Text('docked')),
-                DropdownMenuItem(value: 'e', child: Text('engaged')),
-                DropdownMenuItem(value: 'p', child: Text('parked')),
-                DropdownMenuItem(value: 'n', child: Text('none')),
+                DropdownMenuItem(value: 'DOCKED', child: Text('docked')),
+                DropdownMenuItem(value: 'ENGAGED', child: Text('engaged')),
+                DropdownMenuItem(value: 'PARKED', child: Text('parked')),
+                DropdownMenuItem(value: 'NONE', child: Text('none')),
               ],
               controller: _endGameChargeStationStatusController,
               hint: 'end game charge station status',
+            ),
+
+            ScoutingButtonTimer(
+              controller: _endgameNumOfSecondsUntilBalancedController,
+              title: 'time until robot is balanced on the charge station',
+            ),
+                                
+            ScoutingDropdownButtonFormField(
+              items: const [
+                DropdownMenuItem(value: 'COMUNITY', child: Text('comunity')),
+                DropdownMenuItem(value: 'OUT', child: Text('out')),
+              ],
+              controller: _fromWhereRobotDroveToChargeStationController,
+              hint: 'from where robot drove to charge station',
             ),
 
             /// # Data for when the match is done.
@@ -465,33 +692,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {}),
               hint: 'input something',
               labelText: 'robotComments',
-            ),
-            
-            ScoutingDropdownButtonFormField(
-              controller: _winLoseOrTieController,
-              items: const [
-                DropdownMenuItem(value: 'w', child: Text('win')),
-                DropdownMenuItem(value: 'l', child: Text('lose')),
-                DropdownMenuItem(value: 't', child: Text('tie')),
-              ],
-              hint: 'did robot win, lose or tie?',
-            ),
-
-            ScoutingButtonTimer(
-              controller: _autoNumOfSecondsUntilBalancedController,
-            ),
-          
-            ScoutingButtonTimer(
-              controller: _endgameNumOfSecondsUntilBalancedController,
-            ),
-          
-            ScoutingDropdownButtonFormField(
-              items: const [
-                DropdownMenuItem(value: 'c', child: Text('comunity')),
-                DropdownMenuItem(value: 'o', child: Text('out')),
-              ],
-              controller: _fromWhereRobotDroveToChargeStationController,
-              hint: 'from where robot drove to charge station',
             ),
           
             ScoutingDropdownButtonFormField(
@@ -520,11 +720,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
         
             ElevatedButton(
               onPressed: () async {
+            
                 InsertScoutingDataTable2023.newTable(
                   matchId: widget.matchId,
                   teamId: widget.teamId,
                   alliance: widget.alliance,
-                  winLoseOrTie: _winLoseOrTieController.value,
                   startingPosition: _startingPositionController.value,
                   wasRobotOnField: _wasRobotOnFieldController.value ? '1' : '0',
                   didRobotWorkInAuto: _didRobotWorkInAutoController.value ? '1' : '0',
@@ -534,9 +734,21 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   scouterName: _scouterNameController.text,
                   didDefendTeleOp: _didDefendTeleOpController.value ? '1' : '0',
                   didGetDefendedTeleOp: _didGetDefendedTeleOpController.value ? '1' : '0',
-                  didDefendEndGame: _didDefendEndGameController.value ? '1' : '0',
-                  didGetDefendedEndGame: _didGetDefendedEndGameController.value ? '1' : '0',
                   startingItemOnRobot: _startingItemOnRobotController.value,
+
+                  autoRowOneCubes: _autoRowOneCubesController.value,
+                  tryAutoRowOneCubes: _tryAutoRowOneCubesController.value,
+                  autoRowTwoCubes: _autoRowTwoCubesController.value,
+                  tryAutoRowTwoCubes: _tryAutoRowTwoCubesController.value,
+                  autoRowThreeCubes: _autoRowThreeCubesController.value,
+                  tryAutoRowThreeCubes: _tryAutoRowThreeCubesController.value,
+                  autoRowOneCones: _autoRowOneConesController.value,
+                  tryAutoRowOneCones: _tryAutoRowOneConesController.value,
+                  autoRowTwoCones: _autoRowTwoConesController.value,
+                  tryAutoRowTwoCones: _tryAutoRowTwoConesController.value,
+                  autoRowThreeCones: _autoRowThreeConesController.value,
+                  tryAutoRowThreeCones: _tryAutoRowThreeConesController.value,
+
                   rowOneCubes: _rowOneCubesController.value,
                   tryRowOneCubes: _tryRowOneCubesController.value,
                   rowTwoCubes: _rowTwoCubesController.value,
@@ -555,8 +767,8 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   numOfSecondsOnChargeStation: _numOfSecondsOnChargeStationController.value,
                   numSecondsBeforeEndPivotedToChargeStation: _numSecondsBeforeEndPivotedToChargeStationController.value,
                   autoChargeStationStatus: _autoChargeStationStatusController.value,
-                  endGameChargeStationStatus: _endGameChargeStationStatusController.value,
-                  autoNumOfSecondsUntilBalanced: _autoNumOfSecondsUntilBalancedController.value,
+                  endGameChargeStationStatus : _endGameChargeStationStatusController.value,
+                  autoNumOfSecondsUntilBalanced : _autoNumOfSecondsUntilBalancedController.value,
                   endgameNumOfSecondsUntilBalanced: _endgameNumOfSecondsUntilBalancedController.value,
                   fromWhereRobotDroveToChargeStation: _fromWhereRobotDroveToChargeStationController.value,
                   numOfRobotsOnChargeStationAtEnd: _numOfRobotsOnChargeStationAtEndController.value,

@@ -4,13 +4,16 @@ abstract class DashboardPage extends StatelessWidget {
 
   const DashboardPage({
     required this.title,
-    this.data,
+    required this.data,
   });
 
   /// Page title.
   final String title;
 
-  final Map<String, dynamic Function()>? data;
+  /// data that can be brought to the page. first value is supposed to be a 
+  /// function that returns the data, from there values will be arguments to the
+  /// function.
+  final Map<String, dynamic> data;
 
   Widget buildDashboard({
     required BuildContext context,

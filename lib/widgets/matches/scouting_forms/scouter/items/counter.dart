@@ -24,12 +24,15 @@ class ScoutingShotCounter extends StatefulWidget {
   /// title above counter
   final String? title;
 
+  final Function()? onChanged;
+
   const ScoutingShotCounter({
     super.key,
     required this.controller,
     this.maxScore = 999,
     this.minScore = 0,
-    this.title
+    this.title,
+    this.onChanged
   });  
 
   @override
@@ -53,6 +56,8 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
     onPressed: () {
       setState(() {
         if(widget.controller.value < widget.maxScore) widget.controller.value++;
+        widget.onChanged != null ? widget.onChanged!() 
+          : null;
       });
     },
     
@@ -62,10 +67,13 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
     )
   );
 
+
   IconButton get _decrementBtton => IconButton(
     onPressed: () {
       setState(() {
         if(widget.controller.value > widget.minScore) widget.controller.value--;
+        widget.onChanged != null ? widget.onChanged!() 
+          : null;
       });
       //widget.onChanged(_counter);
     }, 
@@ -74,8 +82,6 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
       color: Colors.red
     )
   );
-
-
 
   List<Widget> get _counterWithoutTitle => <Widget>[
     _incrementButton,
@@ -99,5 +105,6 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
     return Column(
       children: (widget.title != null) ? _counterWithTitle : _counterWithoutTitle,
     );
+
   }
 }

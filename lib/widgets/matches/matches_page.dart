@@ -67,9 +67,10 @@ class _MatchesPageState extends State<MatchesPage> {
   }
 
   Future get getAllPageData async {
-    _scoutingMatches ??= await MatchesFuncs.organizeByState(
-        matches: GetMatches.all()
-      );
+    _scoutingMatches ??= MatchesFuncs.organizeByState(
+      matches: await GetMatches.all()
+    );
+
 
     _teams ??= Filter(
         items: TeamsData.allTeams,

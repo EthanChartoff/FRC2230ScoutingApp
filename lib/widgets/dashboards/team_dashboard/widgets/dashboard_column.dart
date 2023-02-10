@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
-class DashboardGraph extends SfCartesianChart {
-  DashboardGraph({
+class DashboardColumn extends SfCartesianChart {
+  DashboardColumn({
     List<ChartSeries>? series,
     Color? plotAreaBorderColor,
     String? title,

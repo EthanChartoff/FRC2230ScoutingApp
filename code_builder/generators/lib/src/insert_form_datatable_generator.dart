@@ -26,7 +26,7 @@ class InsertDartScoutingDataTableBuilder extends Builder {
         static void newTable({$insertScoutingDataTableFields}) async {
           try {
             final response = await http.post(
-              Uri.parse('http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
+              Uri.parse('http://192.168.1.47/2230_scouting/new_scouting_data_table.php'),
               body: {$insertScoutingDataTableBody}
             );
           } catch (err) {

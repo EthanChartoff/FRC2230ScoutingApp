@@ -4,7 +4,7 @@ enum MatchVars {
   eventKey,
   matchNumber ,
   matchType,
-  wonAlliance,
+  matchStatus,
   redRobot1,
   redRobot2,
   redRobot3,

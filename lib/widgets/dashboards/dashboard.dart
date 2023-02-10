@@ -1,7 +1,6 @@
 import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
-import 'package:scoute_prime/api/TBA/get_matches.dart';
 
 import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/filters_dialog.dart';
@@ -44,31 +43,42 @@ class _DashboardState extends State<Dashboard>{
   /// Filters for filters dialog
   Filter<String>? _yearsParticipated;
 
-  List<Map<String, dynamic>>? _futureData;
+  List<Map<String, List>>? _futureData;
 
   Future get getPageData async {  
     _yearsParticipated ??= Filter<String>(
       items: [for (var i = 1992; i < DateTime.now().year; i++) i.toString()],
       selectedItems: [DateTime.now().year.toString()]
-    );        
+    );          
 
-    _futureData ??= List.generate(widget.dashboardPages.length, (index) => 
-      widget.dashboardPages[index].data!.map((key, value) => 
-        MapEntry(key, null)
-      )
-    );
+    if(widget.teamNumber != prevTeam || _futureData == null) {
+      _futureData = List.generate(widget.dashboardPages.length, (index) => 
+        widget.dashboardPages[index].data.map((key, value) => 
+          MapEntry(key, [])
+        )
+      );
       
-
-    if(widget.teamNumber != prevTeam) {
       for (var element in _futureData!) {
         element.forEach((key, value) async {
-          element[key] = await widget.dashboardPages[_futureData!.indexOf(element)]
-            .data![key]!();
+          final dataFuncOfPage = widget.dashboardPages[_futureData!.indexOf(element)]
+            .data[key]!;
+          // TODO: fix this, may have more then one argument or none
+          _futureData![_futureData!.indexOf(element)][key] = await dataFuncOfPage[0](dataFuncOfPage[1]);
         });
       }
       prevTeam = widget.teamNumber;
+      /// wait for all data to be fetched, 
+      while(_futureData!.any((element) => 
+        element.values.any((value) => value.isEmpty)) ) {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
+      return _futureData;
     }
-    return Future.value('done');
+    else {
+      /// this else is intentional, if the return is outside the else, 
+      /// [_futureData] can be returned with a null value
+      return _futureData;
+    }
   }
 
   Widget get filtersCard => Card(
@@ -85,8 +95,9 @@ class _DashboardState extends State<Dashboard>{
               yearsParticipated: _yearsParticipated!,
               onChange: (item) async {
                 _yearsParticipated!.onUnselect(_yearsParticipated!.selectedItems.first);
+                /// TODO: fix this
                 _futureData = 
-                  await widget.dashboardPages.first.data!['allData']!();
+                  await widget.dashboardPages.first.data['allData']!.first();
                 setState(() {});
               }
             )
@@ -161,8 +172,12 @@ class _DashboardState extends State<Dashboard>{
       child: FutureBuilder(
         future: getPageData,
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done 
-            && _futureData?.last.values.last != null 
+          if(_futureData!.first['scoutingTables']!.isEmpty) {
+            return const Text('no data on team :(');
+          }
+
+          else if(snapshot.connectionState == ConnectionState.done 
+            && _futureData!.last.values.isNotEmpty
           ) {
             /// The widget displayed when there's data to display.
             return Column(

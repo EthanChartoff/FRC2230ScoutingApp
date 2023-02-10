@@ -115,7 +115,9 @@ class App extends StatelessWidget {
           final teamId = int.parse(state.queryParams['teamId'] ?? '2230');
 
           final dashboard = [
-            AutoDashboard2023(),
+            AutoDashboard2023(
+              teamId: teamId.toString(),
+            ),
           ];
 
           return DesktopSidemenuScreenBuilder(

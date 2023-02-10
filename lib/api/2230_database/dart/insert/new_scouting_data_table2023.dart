@@ -7,7 +7,6 @@ class InsertScoutingDataTable2023 {
     required matchId,
     required teamId,
     required alliance,
-    required winLoseOrTie,
     required startingPosition,
     required wasRobotOnField,
     required didRobotWorkInAuto,
@@ -17,9 +16,21 @@ class InsertScoutingDataTable2023 {
     required scouterName,
     required didDefendTeleOp,
     required didGetDefendedTeleOp,
-    required didDefendEndGame,
-    required didGetDefendedEndGame,
     required startingItemOnRobot,
+
+    required autoRowOneCubes,
+    required tryAutoRowOneCubes,
+    required autoRowTwoCubes,
+    required tryAutoRowTwoCubes,
+    required autoRowThreeCubes,
+    required tryAutoRowThreeCubes,
+    required autoRowOneCones,
+    required tryAutoRowOneCones,
+    required autoRowTwoCones,
+    required tryAutoRowTwoCones,
+    required autoRowThreeCones,
+    required tryAutoRowThreeCones,
+
     required rowOneCubes,
     required tryRowOneCubes,
     required rowTwoCubes,
@@ -49,14 +60,13 @@ class InsertScoutingDataTable2023 {
       /// inserts scouting data 
       final response = await http.post(
         Uri.parse(
-            'http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
+            'http://192.168.1.47/2230_scouting/new_scouting_data_table.php'),
         body: {
           'id': '',
           'lastChangedAt': '',
           'matchId': '$matchId',
           'teamId': '$teamId',
           'alliance': '$alliance',
-          'winLoseOrTie': '$winLoseOrTie',
           'startingPosition': '$startingPosition',
           'wasRobotOnField': '$wasRobotOnField',
           'didRobotWorkInAuto': '$didRobotWorkInAuto',
@@ -66,9 +76,21 @@ class InsertScoutingDataTable2023 {
           'scouterName': '$scouterName',
           'didDefendTeleOp': '$didDefendTeleOp',
           'didGetDefendedTeleOp': '$didGetDefendedTeleOp',
-          'didDefendEndGame': '$didDefendEndGame',
-          'didGetDefendedEndGame': '$didGetDefendedEndGame',
           'startingItemOnRobot': '$startingItemOnRobot',
+
+          'autoRowOneCubes': '$autoRowOneCubes',
+          'tryAutoRowOneCubes': '$tryAutoRowOneCubes',
+          'autoRowTwoCubes': '$autoRowTwoCubes',
+          'tryAutoRowTwoCubes': '$tryAutoRowTwoCubes',
+          'autoRowThreeCubes': '$autoRowThreeCubes',
+          'tryAutoRowThreeCubes': '$tryAutoRowThreeCubes',
+          'autoRowOneCones': '$autoRowOneCones',
+          'tryAutoRowOneCones': '$tryAutoRowOneCones',
+          'autoRowTwoCones': '$autoRowTwoCones',
+          'tryAutoRowTwoCones': '$tryAutoRowTwoCones',
+          'autoRowThreeCones': '$autoRowThreeCones',
+          'tryAutoRowThreeCones': '$tryAutoRowThreeCones',
+
           'rowOneCubes': '$rowOneCubes',
           'tryRowOneCubes': '$tryRowOneCubes',
           'rowTwoCubes': '$rowTwoCubes',
@@ -98,7 +120,6 @@ class InsertScoutingDataTable2023 {
               '$numOfRobotsOnChargeStationAtEnd',
           'autoDidRobotComeOutOfComunity': '$autoDidRobotComeOutOfComunity',
         });
-      print(response.body);
     } catch (err) {
       // print('$err lol');
       throw Exception('$err');
