@@ -27,7 +27,7 @@ class MatchesFiltersCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).canvasColor,
+      color: Theme.of(context).colorScheme.secondary,
       child: Theme(
         data: ThemeData(hoverColor: Theme.of(context).hoverColor.withOpacity(0.1)),
         child: SizedBox(

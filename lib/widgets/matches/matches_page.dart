@@ -41,7 +41,7 @@ class _MatchesPageState extends State<MatchesPage> {
 
 
   final ValueNotifier<bool> _dialogController =
-    ValueNotifier<bool>(false);
+    ValueNotifier<bool>(true);
 
 
   Widget matchCards(bool flag) {

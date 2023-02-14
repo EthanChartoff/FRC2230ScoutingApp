@@ -41,7 +41,7 @@ class MatchesFiltersDialog extends StatefulWidget {
 }
 
 class _MatchesFiltersDialogState extends State<MatchesFiltersDialog> {
-  bool switchFlag = false;
+  bool switchFlag = true;
 
   Widget searchCard({
     required String title,
@@ -49,7 +49,7 @@ class _MatchesFiltersDialogState extends State<MatchesFiltersDialog> {
     }) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0),
     child: Card(
-      color: Theme.of(context).canvasColor,
+      color: Theme.of(context).colorScheme.secondary,
       child: Theme(
         data: ThemeData(hoverColor: Theme.of(context).hoverColor.withOpacity(0.1)),
         child: ExpansionTile(

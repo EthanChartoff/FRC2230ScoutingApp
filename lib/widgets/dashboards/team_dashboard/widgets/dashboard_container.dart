@@ -8,17 +8,22 @@ class DashboardContainer<T extends Widget> extends StatelessWidget {
     required this.children,
     this.width,
     this.height,
-    this.title
+    this.title,
+    this.scrollPhysics,
+    this.controller,
   });
-
-  final double? width;
-  final double? height;
 
   /// Children will have a key (representing the page) and a value (all the
   /// different ways to display data).
   final Map<String, List<T>> children;
 
+
+  final double? width;
+  final double? height;
+
   final String? title;
+  final ScrollPhysics? scrollPhysics;
+  final PageController? controller;
 
   @override
   Widget build(BuildContext context) {    
@@ -33,9 +38,12 @@ class DashboardContainer<T extends Widget> extends StatelessWidget {
           width: width,
           color: Theme.of(context).primaryColorDark,
           child: PageView(
+            physics: scrollPhysics,
+            controller: controller,
+
             children: List.generate(children.length, (index) => 
               children.values.toList()[index].length == 1 ? 
-                children.values.toList()[index][0] :
+                children.values.toList()[index].first :
               DashboardsDataNav(
                 children: children.values.toList()[index],
               )

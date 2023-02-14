@@ -3,6 +3,7 @@ import 'dart:math' show max;
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
+import 'package:scoute_prime/widgets/dashboards/dashboard_title.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/filters_dialog.dart';
 import 'package:scoute_prime/widgets/searchboxes.dart';
 import 'package:scoute_prime/misc/enums.dart';
@@ -34,11 +35,12 @@ class _DashboardState extends State<Dashboard>{
 
   int _currentPage = 0;
   late PageController _pageController;
+  late DashboardTitle _title;
 
   final key = GlobalKey();
 
   /// Used to check page index and give page its name,
-  late String pageName;
+  // late String pageName;
 
   int? prevTeam;
 
@@ -54,8 +56,20 @@ class _DashboardState extends State<Dashboard>{
       initialPage: _currentPage,
       keepPage: true,
     );
-    pageName = widget.dashboardPages[_currentPage].title;
+    
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _title = DashboardTitle(
+      filters: filtersCard, 
+      title: '${widget.teamNumber} ${TeamsData.allTeams
+        .where((element) => element.number == widget.teamNumber)
+        .first.name}',
+      subtitle: widget.dashboardPages[_currentPage].title,
+    );
   }
 
   @override
@@ -145,40 +159,6 @@ class _DashboardState extends State<Dashboard>{
     ),
   );
 
-  Widget title({
-    required String title, 
-    required String pageName, 
-    required DashboardViewTypes titleType,
-  }) {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      width: double.infinity,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                width: 550,
-                child: Text('$title - $pageName',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-              ),
-            ),
-
-            SizedBox(
-              width: max(MediaQuery.of(context).size.width - 950, 0),
-            ),
-
-            filtersCard      
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -196,14 +176,8 @@ class _DashboardState extends State<Dashboard>{
             /// The widget displayed when there's data to display.
             return Column(
               children: [
-                title(
-                  title: '${widget.teamNumber} ${TeamsData.allTeams
-                    .where((element) => element.number == widget.teamNumber)
-                    .first.name}',
-                  pageName: '',//widget.dashboardPages[_currentPage % widget.dashboardPages.length].title,
-                  titleType: DashboardViewTypes.team
-                ),
-                
+                _title,
+                     
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -244,7 +218,6 @@ class _DashboardState extends State<Dashboard>{
                       icon: const Icon(Icons.arrow_forward_ios),
                       onPressed: () {
                         if(_pageController.page! == _pageController.page!.roundToDouble()) {
-                          // pageName = pageTitles[((_pageController.page! + 1) % widget.dashboardPages.length).ceil()];
                           _pageController.nextPage(
                             duration: const Duration(milliseconds: 400), 
                             curve: Curves.fastOutSlowIn

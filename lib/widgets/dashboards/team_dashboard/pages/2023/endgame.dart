@@ -26,15 +26,17 @@ class EndgameDashboard2023 extends DashboardPage {
 
   /// # Data orginization getters
   
-  /// Returns a map of if robot worked in endgame, if it did, in that key return 
-  /// if robot was on the charge station or not. If it didn't work in endgame, 
-  /// return in that key that it did not work.
-  List<MapEntry<String, int>> endgameChargeStation(List data) {
+  /// Returns a map of if robot worked in teleop, if it did, in that key return 
+  /// if robot was on the charge station or not. If it didn't work in teleop, 
+  /// return in that key that it did not work. 
+  List<MapEntry<String, int>> endgameDidntWorkOrChargeStation(List data) {    
     final listWithAllStates = List.generate(data.length, (index) => 
-      data[index]['autoChargeStationStatus'] == 'DOCKED' 
-      || data[index]['autoChargeStationStatus'] == 'ENGAGED'? 
-        'On Charge Station' 
-        : 'Off Charge Station' 
+      data[index]['didRobotWorkInTeleOp'] == '1' ? 
+        data[index]['autoChargeStationStatus'] == 'DOCKED' 
+        || data[index]['autoChargeStationStatus'] == 'ENGAGED'? 
+          'On Charge Station' 
+          : 'Off Charge Station' 
+          : 'Didnt Work'
     );
 
     return [
@@ -42,9 +44,42 @@ class EndgameDashboard2023 extends DashboardPage {
         element == 'On Charge Station').length),
       MapEntry('Off Charge Station', listWithAllStates.where((element) => 
         element == 'Off Charge Station').length),
+      MapEntry('Didnt Work', listWithAllStates.where((element) => 
+        element == 'Didnt Work').length),
     ].where((element) => element.value != 0).toList();
   }
 
+  /// Returns number of robot charge station statuses.
+  List<MapEntry<String, int>> chargeStationStatus(List data) {
+    final listWithAllStates = List<String>.generate(data.length, (index) => 
+      data[index]['endGameChargeStationStatus']
+    );
+
+    return [
+      MapEntry('DOCKED', listWithAllStates.where((element) => 
+        element == 'DOCKED').length),
+      MapEntry('ENGAGED', listWithAllStates.where((element) => 
+        element == 'ENGAGED').length),
+      MapEntry('PARKED', listWithAllStates.where((element) => 
+        element == 'PARKED').length),
+      MapEntry('NONE', listWithAllStates.where((element) => 
+        element == 'NONE').length),
+    ].where((element) => element.value != 0).toList();
+  }
+
+  /// Returns number of where robot drove to charge station.
+  List<MapEntry<String, int>> fromWhereRobotDroveToChargeStation(List data) {
+    final listWithAllStates = List<String>.generate(data.length, (index) => 
+      data[index]['fromWhereRobotDroveToChargeStation']
+    );
+
+    return [
+      MapEntry('COMUNITY', listWithAllStates.where((element) => 
+        element == 'COMUNITY').length),
+      MapEntry('OUT', listWithAllStates.where((element) => 
+        element == 'OUT').length),
+    ].where((element) => element.value != 0).toList();
+  }
   
   @override
   Widget buildDashboard({required BuildContext context, required Map<String, dynamic> data, required double width, Key? key}) {
@@ -76,7 +111,24 @@ class EndgameDashboard2023 extends DashboardPage {
                         /// Shows if robot worked in endgame, and if it did, if it was
                         /// on the charge station or not.
                         PieSeries<dynamic, String>(
-                          dataSource: endgameChargeStation(data['scoutingTables']),
+                          dataSource: endgameDidntWorkOrChargeStation(data['scoutingTables']),
+                          xValueMapper: (datum, _) => datum.key,
+                          yValueMapper: (datum, _) => datum.value,
+                          animationDuration: 0,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ], 
+                  'Charge Station Status' : [
+                    DashboardPiechart(
+                      title: 'Charge Station Status',
+                      series: [
+                        /// Shows number of robot charge station statuses.
+                        PieSeries<dynamic, String>(
+                          dataSource: chargeStationStatus(data['scoutingTables']),
                           xValueMapper: (datum, _) => datum.key,
                           yValueMapper: (datum, _) => datum.value,
                           animationDuration: 0,
@@ -87,6 +139,24 @@ class EndgameDashboard2023 extends DashboardPage {
                       ],
                     ),
                   ],
+                  'From Where Robot Drove to Charge Station' : [
+                    DashboardPiechart(
+                      title: 'From Where Robot Drove to Charge Station',
+                      series: [
+                        /// Shows number of robot charge station statuses.
+                        PieSeries<dynamic, String>(
+                          dataSource: fromWhereRobotDroveToChargeStation(
+                            data['scoutingTables']),
+                          xValueMapper: (datum, _) => datum.key,
+                          yValueMapper: (datum, _) => datum.value,
+                          animationDuration: 0,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ]
                 }
               )
             ],

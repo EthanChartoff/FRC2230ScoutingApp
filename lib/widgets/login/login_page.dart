@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage>{
       _passwordInputController.value = _passwordInputController.value.copyWith(
           text: _passwordInput,
           selection: TextSelection(
-              baseOffset: _passwordInput.length,
-              extentOffset: _passwordInput.length
-              ),
+            baseOffset: _passwordInput.length,
+            extentOffset: _passwordInput.length
+            ),
           composing: TextRange.empty
           );
     });
@@ -101,7 +101,8 @@ class _LoginPageState extends State<LoginPage>{
                                 contentPadding: EdgeInsets.symmetric(vertical: 30.h)
                               ),
                               style: TextStyle(
-                                fontSize: 28.h
+                                fontSize: 28.h,
+                                color: Colors.black87
                               ),
                             ),
                           ),

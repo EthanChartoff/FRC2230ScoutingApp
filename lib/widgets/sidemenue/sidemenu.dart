@@ -93,27 +93,30 @@ class _DesktopSidemenuState extends State<DesktopSidemenu> {
                 ),
               ),
               DesktopSidemenuItem(
-                title: "pick-list", 
-                icon: Icons.settings, 
-                route: Routing.PICK_LIST,
-                isExpanded: widget.toggleOpen,
-              ),
-              DesktopSidemenuItem(
                 title: "matches", 
-                icon: Icons.settings, 
+                icon: Icons.airline_seat_flat, 
                 route: Routing.MATCHES,
                 isExpanded: widget.toggleOpen,
               ),
+
               DesktopSidemenuItem(
-                title: "title", 
-                icon: Icons.settings, 
-                route: Routing.LOGIN,
+                title: "pick-list", 
+                icon: Icons.airline_seat_recline_extra_outlined, 
+                route: Routing.PICK_LIST,
                 isExpanded: widget.toggleOpen,
               ),
+              
               DesktopSidemenuItem(
                 title: "all teams", 
-                icon: Icons.settings, 
+                icon: Icons.attach_money, 
                 route: Routing.ALL_TEAMS,
+                isExpanded: widget.toggleOpen,
+              ),
+
+              DesktopSidemenuItem(
+                title: "title", 
+                icon: Icons.attribution, 
+                route: Routing.LOGIN,
                 isExpanded: widget.toggleOpen,
               ),
               

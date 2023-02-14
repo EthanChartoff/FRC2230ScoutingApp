@@ -11,6 +11,7 @@ import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_container.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_graph.dart';
 import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
+import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_table.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
@@ -142,13 +143,73 @@ class AutoDashboard2023 extends DashboardPage {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DashboardContainer(
+              DashboardContainer<Widget>(
                 height: 370,
                 width: width - 474, // screen width - 474
                 children: {
-                  'example' : List.generate(4, (index) => const Text(
-                    'Example text',
-                  ))
+                  'Game item %' : [
+                    Center(
+                      child: DashboardTable.textTable(
+                        lerpValues: true,
+                        children: [
+                          const [
+                            '',
+                            'LOW',
+                            'MID',
+                            'HIGH',
+                          ],
+                          [
+                            'CUBE',
+                            '${DashboardFuncs2023.valOrNan(
+                                DashboardFuncs2023.ratioOfTwoKeys(
+                                  data['scoutingTables'], 
+                                  'autoRowOneCubes', 
+                                  'tryAutoRowOneCubes'
+                                )
+                            )}%',
+                            '${DashboardFuncs2023.valOrNan(
+                                DashboardFuncs2023.ratioOfTwoKeys(
+                                  data['scoutingTables'], 
+                                  'autoRowTwoCubes', 
+                                  'tryAutoRowTwoCubes'
+                                )
+                            )}%',
+                            '${DashboardFuncs2023.valOrNan(
+                                DashboardFuncs2023.ratioOfTwoKeys(
+                                  data['scoutingTables'], 
+                                  'autoRowThreeCubes', 
+                                  'tryAutoRowThreeCubes'
+                                )
+                            )}%',
+                          ],
+                          [
+                            'CONE',
+                            '${DashboardFuncs2023.valOrNan(
+                                DashboardFuncs2023.ratioOfTwoKeys(
+                                  data['scoutingTables'], 
+                                  'autoRowOneCones', 
+                                  'tryAutoRowOneCones'
+                                )
+                            )}%',
+                            '${DashboardFuncs2023.valOrNan(
+                                DashboardFuncs2023.ratioOfTwoKeys(
+                                  data['scoutingTables'], 
+                                  'autoRowTwoCones', 
+                                  'tryAutoRowTwoCones'
+                                )
+                            )}%',
+                            '${DashboardFuncs2023.valOrNan(
+                                DashboardFuncs2023.ratioOfTwoKeys(
+                                  data['scoutingTables'], 
+                                  'autoRowThreeCones', 
+                                  'tryAutoRowThreeCones'
+                                )
+                            )}%',
+                          ]
+                        ]
+                      ),
+                    )
+                  ]
                 }
               ),
               DashboardContainer<DashboardPiechart>(  
@@ -166,10 +227,19 @@ class AutoDashboard2023 extends DashboardPage {
                           xValueMapper: (datum, index) => datum.key,
                           yValueMapper: (datum, index) => datum.value,
                           animationDuration: 0,
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings: DataLabelSettings(
                             isVisible: true,
                             labelPosition: ChartDataLabelPosition.inside,
                             useSeriesColor: true,
+                            builder: (_data, point, series, pointIndex, seriesIndex) {
+                              return Text(
+                                DashboardFuncs2023.dataLabelPrecent(series, pointIndex, data),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -342,7 +412,174 @@ class AutoDashboard2023 extends DashboardPage {
                   ],
                 )
               ],
+              'Row Two Cubes by Round' : [
+                DashboardGraph(
+                  title: 'Row Two Cubes by Round',
+                  series: <ChartSeries>[
+                    /// This line shows the actual amount of CUBES scored 
+                    /// in row two.
+                    LineSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowTwoCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CUBE_COLOR
+                    ),
+                    /// This line shows the amount of CUBES that were attempted
+                    /// to be scored in row two.
+                    LineSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowTwoCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CUBE_COLOR
+                    )
+                  ],
+                  primaryXAxis: NumericAxis(
+                    isVisible: false
+                  ),
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                    header: '',
+                    canShowMarker: false,
+                    format: 'match number: point.x',
+                  ),
+                ),
 
+                DashboardColumn(
+                  title: 'Row Two Cubes by Round',
+                  series: <ChartSeries>[
+                    /// This line shows the actual amount of CUBES scored 
+                    /// in row two.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowTwoCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CUBE_COLOR
+                    ),
+                    /// This line shows the amount of CUBES that were attempted
+                    /// to be scored in row two.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowTwoCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CUBE_COLOR
+                    )
+                  ],
+                )
+              ],
+              'Row Three Cubes by Round' : [
+                DashboardGraph(
+                  title: 'Row Three Cubes by Round',
+                  series: <ChartSeries>[
+                    /// This line shows the actual amount of CUBES scored 
+                    /// in row three.
+                    LineSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowThreeCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CUBE_COLOR
+                    ),
+                    /// This line shows the amount of CUBES that were attempted
+                    /// to be scored in row three.
+                    LineSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowThreeCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CUBE_COLOR
+                    )
+                  ],
+                  primaryXAxis: NumericAxis(
+                    isVisible: false
+                  ),
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                    header: '',
+                    canShowMarker: false,
+                    format: 'match number: point.x',
+                  ),
+                ),
+
+                DashboardColumn(
+                  title: 'Row Three Cubes by Round',
+                  series: <ChartSeries>[
+                    /// This line shows the actual amount of CUBES scored 
+                    /// in row three.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowThreeCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CUBE_COLOR
+                    ),
+                    /// This line shows the amount of CUBES that were attempted
+                    /// to be scored in row three.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowThreeCubes'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CUBE_COLOR
+                    ),
+                  ],
+                )
+              ],
               'Row One Cones by Round' : [
                 DashboardGraph(
                   title : 'Row One Cones by Round',
@@ -418,7 +655,156 @@ class AutoDashboard2023 extends DashboardPage {
                   ],
                 )
               ],
+              'Row Two Cones by Round' : [
+                DashboardGraph(
+                  title : 'Row Two Cones by Round',
+                  series: <ChartSeries>[
+                    /// This line shows the actual amount of CONES scored 
+                    /// in row two.
+                    LineSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowTwoCones'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CONE_COLOR
+                    ),
+                    /// This line shows the amount of CONES that were attempted
+                    /// to be scored in row two.
+                    LineSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowTwoCones'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CONE_COLOR
+                    )
+                  ],
+                ),
 
+                DashboardColumn(
+                  title : 'Row Two Cones by Round',
+                  series: <ChartSeries>[
+                    /// This column shows the actual amount of CONES scored 
+                    /// in row two.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowTwoCones'
+                      ),
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CONE_COLOR
+                    ),
+                    /// This column shows the amount of CONES that were attempted
+                    /// to be scored in row two.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'],
+                        data['matches'],
+                        'tryAutoRowTwoCones'
+                      ),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CONE_COLOR
+                    )
+                  ],
+                )
+              ],
+              'Row Three Cones by Round' : [
+                DashboardGraph(
+                  title : 'Row Three Cones by Round',
+                  series: <ChartSeries>[
+                    /// This line shows the actual amount of CONES scored 
+                    /// in row three.
+                    LineSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowThreeCones'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CONE_COLOR
+                    ),
+                    /// This line shows the amount of CONES that were attempted
+                    /// to be scored in row three.
+                    LineSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'tryAutoRowThreeCones'
+                      ), 
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CONE_COLOR
+                    )
+                  ],
+                ),
+
+                DashboardColumn(
+                  title : 'Row Three Cones by Round',
+                  series: <ChartSeries>[
+                    /// This column shows the actual amount of CONES scored 
+                    /// in row three.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Scored',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'], 
+                        data['matches'], 
+                        'autoRowThreeCones'
+                      ),
+                      xValueMapper: (datum, index) => datum.key, 
+                      yValueMapper: (datum, index) => datum.value,  
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      color: ConstColors.CONE_COLOR
+                    ),
+                    /// This column shows the amount of CONES that were attempted
+                    /// to be scored in row three.
+                    ColumnSeries<dynamic, int>(
+                      name: 'Attempted',
+                      dataSource: DashboardFuncs2023.valueByRound(
+                        data['scoutingTables'],
+                        data['matches'],
+                        'tryAutoRowThreeCones'
+                      ),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      isVisibleInLegend: true,
+                      dashArray: [5, 5],
+                      color: ConstColors.ON_CONE_COLOR
+                    )
+                  ],
+                )
+              ],
               'Number Of Seconds Until Balanced' : [
                 DashboardGraph(
                   title: 'Number Of Seconds Until Balanced',
