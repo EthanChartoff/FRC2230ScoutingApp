@@ -8,13 +8,18 @@ class SidemenuMobile extends StatefulWidget {
     required this.destinations,
     required this.router,
     this.onDestinationSelected,
+    this.onDestinationUnselected,
+    this.onLeadingSelected,
   }) : super(
     key: key,
   );
 
   final List<SidemenuMobileDestination> destinations;
   final GoRouter router;
+
   final VoidCallback? onDestinationSelected;
+  final VoidCallback? onDestinationUnselected;
+  final VoidCallback? onLeadingSelected;
   
   @override
   State<StatefulWidget> createState() => _SidemenuMobileState();
@@ -33,9 +38,16 @@ class _SidemenuMobileState extends State<SidemenuMobile> {
       onDestinationSelected: (value) {
         setState(() {
           selectedIndex = value;
-          widget.router.go(widget.destinations[value].route);
+          widget.destinations[value].route != null ? 
+            widget.router.go(widget.destinations[value].route!) : null;
         });
+
+        if(value == 0) {
+          widget.onLeadingSelected?.call();
+        }
+        
         widget.onDestinationSelected?.call();
+        widget.destinations[value].onSelected?.call();
       },
 
       destinations: widget.destinations,

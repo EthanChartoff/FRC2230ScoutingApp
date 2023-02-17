@@ -5,12 +5,14 @@ class SidemenuMobileDestination extends NavigationDestination {
     Key? key,
     required Widget icon,
     required String label,
-    required this.route,
+    this.route,
+    this.onSelected,
   }) : 
   super(
     icon: icon,
     label: label,
   );
 
-  final String route;
+  final String? route;
+  final VoidCallback? onSelected;
 }

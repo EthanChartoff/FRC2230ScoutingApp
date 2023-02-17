@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart' show Size, Color;
+import 'package:flutter/material.dart' 
+  show Color, Icon, Icons, NavigationDestination, Size;
+
 
 // All colors in use
 class ConstColors {

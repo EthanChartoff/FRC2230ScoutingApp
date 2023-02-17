@@ -8,13 +8,18 @@ class SidemenuDesktop extends StatefulWidget {
     required this.destinations,
     required this.router,
     this.onDestinationSelected,
+    this.onDestinationUnselected,
+    this.onLeadingSelected,
   }) : super(
     key: key,
   );
 
   final List<SidemenuDesktopDestination> destinations;
   final GoRouter router;
+
   final VoidCallback? onDestinationSelected;
+  final VoidCallback? onDestinationUnselected;
+  final VoidCallback? onLeadingSelected;
   
   @override
   State<StatefulWidget> createState() => _SidemenuDesktopState();
@@ -33,9 +38,16 @@ class _SidemenuDesktopState extends State<SidemenuDesktop> {
       onDestinationSelected: (value) {
         setState(() {
           selectedIndex = value;
-          widget.router.go(widget.destinations[value].route);
+          widget.destinations[value].route != null ? 
+            widget.router.go(widget.destinations[value].route!) : null;
         });
+
+        if(value == 0) {
+          widget.onLeadingSelected?.call();
+        }
+
         widget.onDestinationSelected?.call();
+        widget.destinations[value].onSelected?.call();
       },
 
       destinations: widget.destinations,

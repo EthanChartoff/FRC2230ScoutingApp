@@ -7,11 +7,23 @@ import 'package:scoute_prime/widgets/mobile/sidemenu/sidemenu.dart';
 import 'package:scoute_prime/widgets/mobile/sidemenu/sidemenu_destination.dart';
 
 
-class AdaptiveSidemenu extends LayoutBuilder {
+class AdaptiveSidemenu extends Builder {
   AdaptiveSidemenu({
     Key? key,
     required GoRouter router,
+    required bool bottom,
+
     Widget? child,
+    VoidCallback? onDestinationSelected,
+    VoidCallback? onDestinationUnselected,
+    VoidCallback? onLeadingSelected,
+    bool showLeading = true,
+
+    SidemenuDesktopDestination sideLeadingDestination = 
+      const SidemenuDesktopDestination(
+        icon: Icon(Icons.menu),
+        label: Text('menu'),
+      ),
     List<SidemenuDesktopDestination> sideDestinations = const [
       SidemenuDesktopDestination(
         icon: Icon(Icons.airline_seat_flat),
@@ -34,6 +46,12 @@ class AdaptiveSidemenu extends LayoutBuilder {
         route: Routing.LOGIN,
       ),
     ],
+
+    SidemenuMobileDestination bottomLeadingDestination = 
+      const SidemenuMobileDestination(
+        icon: Icon(Icons.menu),
+        label: 'menu',
+      ),
     List<SidemenuMobileDestination> bottomDestinations = const [
       SidemenuMobileDestination(
         icon: Icon(Icons.airline_seat_flat),
@@ -56,18 +74,23 @@ class AdaptiveSidemenu extends LayoutBuilder {
         route: Routing.LOGIN,
       ),
     ],
-  }) : super(
+  }) : 
+  super(
     key: key,
-    builder: (context, constraints) {
+    builder: (context) {
       if(router.location == Routing.LOGIN) {
         return child ?? ErrorWidget('child is null');
       }
-      else if (constraints.maxWidth > 600) {
+      else if (!bottom) {
         return Row(
           children: [
             SidemenuDesktop(
-              destinations: sideDestinations,
+              destinations: showLeading ? 
+                [sideLeadingDestination, ...sideDestinations] : 
+                sideDestinations,
               router: router,
+              onDestinationSelected: onDestinationSelected,
+              onLeadingSelected: showLeading ? onLeadingSelected : null,
             ),
             Expanded(child: child ?? ErrorWidget('child is null'))
           ]
@@ -77,8 +100,12 @@ class AdaptiveSidemenu extends LayoutBuilder {
           children: [
             Expanded(child: child ?? ErrorWidget('child is null')),
             SidemenuMobile(
-              destinations: bottomDestinations,
+              destinations: showLeading ? 
+                [bottomLeadingDestination, ...bottomDestinations] : 
+                bottomDestinations,
               router: router,
+              onDestinationSelected: onDestinationSelected,
+              onLeadingSelected: showLeading ? onLeadingSelected : null,
             )
           ]
         );

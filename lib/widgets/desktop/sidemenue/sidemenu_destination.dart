@@ -5,12 +5,14 @@ class SidemenuDesktopDestination extends NavigationRailDestination {
     Key? key,
     required Widget icon,
     required Widget label,
-    required this.route,
+    this.route,
+    this.onSelected
   }) : 
   super(
     icon: icon,
     label: label,
   );
 
-  final String route;
+  final String? route;
+  final VoidCallback? onSelected;
 }

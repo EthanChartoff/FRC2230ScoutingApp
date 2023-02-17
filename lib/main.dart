@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
+import 'package:scoute_prime/widgets/common/adaptive_drawer.dart';
 import 'package:scoute_prime/widgets/common/adaptive_sidemenu.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
 import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
@@ -283,9 +283,39 @@ class _AppState extends State<App> {
           initialEntries: [
             OverlayEntry(
               builder: (context) {
-                return AdaptiveSidemenu(
-                  router: _router,
-                  child: child,
+                final scaffoldKey = GlobalKey<ScaffoldState>();
+
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isMobile = constraints.maxWidth < 600;
+
+                    return Scaffold(
+                      key: scaffoldKey,
+
+                      /// The drawer is a panel that slides in from the side 
+                      /// of the screen. It is typically used to display 
+                      /// navigation links in an application.
+                      /// https://api.flutter.dev/flutter/material/Scaffold/drawer.html
+                      drawer: AdaptiveDrawer(
+                        router: _router,
+                        bottom: isMobile,
+                        onDestinationSelected: () {
+                          scaffoldKey.currentState!.closeDrawer();
+                        },
+                      ),
+
+                      /// The body of the app, the main content of the app.
+                      /// https://api.flutter.dev/flutter/material/Scaffold/body.html
+                      body: AdaptiveSidemenu(
+                        router: _router,
+                        bottom: isMobile,
+                        onLeadingSelected: () {
+                          scaffoldKey.currentState!.openDrawer();
+                        },
+                        child: child,
+                      ),
+                    ); 
+                  }                  
                 );
               }
             )
