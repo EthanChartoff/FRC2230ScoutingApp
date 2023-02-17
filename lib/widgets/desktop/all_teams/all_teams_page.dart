@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/TBA/get_event.dart';
 import 'package:scoute_prime/api/TBA/get_matches.dart';
-import 'package:scoute_prime/widgets/all_teams/filters.dart';
-import 'package:scoute_prime/widgets/all_teams/graph.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/desktop/all_teams/filters.dart';
+import 'package:scoute_prime/widgets/desktop/all_teams/graph.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 
 
 /// Page of the all teams page, The page is used to analyze a single datapoint 

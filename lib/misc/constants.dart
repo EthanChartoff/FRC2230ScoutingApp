@@ -23,3 +23,13 @@ const SCREEN_SIZE = Size(
   /* width */ 1920,
   /* height */ 922
 );
+
+const List<String> StrategyCategories2023 = [
+  'Gathering',
+  'Cargo',
+  'Scoring',
+  'Defence On Other Robots',
+  'Defence On Themselves',
+  'Drivers',
+  'Comments'
+];

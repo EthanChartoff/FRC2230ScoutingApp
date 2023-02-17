@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:scoute_prime/api/TBA/get_event.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 
 class MatchesFiltersDialog extends StatefulWidget {

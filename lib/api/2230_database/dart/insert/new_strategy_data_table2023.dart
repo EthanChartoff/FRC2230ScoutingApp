@@ -33,7 +33,7 @@ class InsertStrategyDataTable2023 {
           });
         // print(response.body);
     } catch (err) {
-      print('$err lol');
+      // print('$err lol');
       throw Exception('$err');
     }
   }

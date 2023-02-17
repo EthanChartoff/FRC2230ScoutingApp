@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 
 class TeamsFiltersDialog extends StatefulWidget {
   const TeamsFiltersDialog({

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/widgets/sidemenue/sidemenu_item.dart';
 import 'package:scoute_prime/misc/routing.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
+import 'package:scoute_prime/widgets/not_used/sidemenu_item.dart';
 
 
-/// match width to [DesktopSidemenu]s toggled mode
+/// match width to [SidemenuDesktop01]s toggled mode
 double getCurrWidth(toggleOpen) {
   if(toggleOpen) {
     return 200;
@@ -17,16 +17,17 @@ double getCurrWidth(toggleOpen) {
 }
 
 /// Menu thats used by the user for navigating from one screen to another (or [routes] if you want to be exact)
-class DesktopSidemenu extends StatefulWidget {
-  /// check if [DesktopSidemenu] is toggled on open or compact
+/// 
+/// This menu is used in the [SidemenuScreenBuilderDesktop] and is only visible on desktops
+class SidemenuDesktop01 extends StatefulWidget {
+  /// check if [SidemenuDesktop01] is toggled on open or compact
   bool toggleOpen = false;
 
   @override
-  State<StatefulWidget> createState() => _DesktopSidemenuState();
+  State<StatefulWidget> createState() => _SidemenuDesktop01State();
 }
 
-class _DesktopSidemenuState extends State<DesktopSidemenu> {
-
+class _SidemenuDesktop01State extends State<SidemenuDesktop01> {
   @override
   void initState() {
     super.initState();
@@ -92,28 +93,28 @@ class _DesktopSidemenuState extends State<DesktopSidemenu> {
                   ),
                 ),
               ),
-              DesktopSidemenuItem(
+              SidemenuItemDesktop(
                 title: "matches", 
                 icon: Icons.airline_seat_flat, 
                 route: Routing.MATCHES,
                 isExpanded: widget.toggleOpen,
               ),
 
-              DesktopSidemenuItem(
+              SidemenuItemDesktop(
                 title: "pick-list", 
                 icon: Icons.airline_seat_recline_extra_outlined, 
                 route: Routing.PICK_LIST,
                 isExpanded: widget.toggleOpen,
               ),
               
-              DesktopSidemenuItem(
+              SidemenuItemDesktop(
                 title: "all teams", 
                 icon: Icons.attach_money, 
                 route: Routing.ALL_TEAMS,
                 isExpanded: widget.toggleOpen,
               ),
 
-              DesktopSidemenuItem(
+              SidemenuItemDesktop(
                 title: "title", 
                 icon: Icons.attribution, 
                 route: Routing.LOGIN,

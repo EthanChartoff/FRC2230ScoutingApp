@@ -1,25 +1,19 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart' /*show 
   StatelessWidget, Widget, BuildContext*/;
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/misc/constants.dart';
-import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/dashboard_funcs2023.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_column.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_container.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_graph.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_table.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/dashboard_funcs2023.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_column.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_container.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_graph.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_table.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
 /// The auto page in [Dashboard], shows auto related data.
-/// 
-/// TODO: change how getting data works, so it's not hardcoded. maybe for each 
-/// data visualization, have a function that returns the data. have all the data
-/// in dashboard, and pass it to each page.
 class AutoDashboard2023 extends DashboardPage {
 
   AutoDashboard2023({

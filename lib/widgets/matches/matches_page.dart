@@ -6,8 +6,10 @@ import 'package:scoute_prime/api/TBA/get_matches.dart';
 import 'package:scoute_prime/widgets/matches/filters_card.dart';
 import 'package:scoute_prime/widgets/matches/match_cards/TBA/ended.dart';
 import 'package:scoute_prime/widgets/matches/match_cards/ended.dart';
+import 'package:scoute_prime/widgets/matches/match_cards/future.dart';
+import 'package:scoute_prime/widgets/matches/match_cards/ongoing.dart';
 import 'package:scoute_prime/widgets/matches/matches_funcs.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 import 'package:scoute_prime/misc/enums.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 
@@ -44,15 +46,44 @@ class _MatchesPageState extends State<MatchesPage> {
     ValueNotifier<bool>(true);
 
 
-  Widget matchCards(bool flag) {
-    return flag ? Flexible(
-      child: ListView.builder(
+  Widget get matchCards {
+    return _dialogController.value ? Flexible(
+      child: ListView(
         shrinkWrap: true,
         
-        itemCount: _scoutingMatches![MatchStates.ongoingMatches.name]!.length,
-        itemBuilder: (context, index) => EndedMatchCard(
-          match: _scoutingMatches![MatchStates.ongoingMatches.name]![index],
-        ),
+        children: 
+          /// # Future matches
+          <Widget>[
+            for (var match in 
+                _scoutingMatches![MatchStates.futureMatches.name] ?? [])
+              FutureMatchCard(
+                match: match,
+              ),
+          ] + const [
+            SizedBox(
+              height: 30,
+            ),
+          ] +
+          /// # Ongoing matches
+          [
+            for (var match in 
+                _scoutingMatches![MatchStates.ongoingMatches.name] ?? [])
+              OngoingMatchCard(
+                match: match,
+              ),
+          ] + const [
+            SizedBox(
+              height: 30,
+            ),
+          ] +
+          /// # Ended matches
+          [
+            for (var match in 
+                _scoutingMatches![MatchStates.endedMatches.name] ?? [])
+              EndedMatchCard(
+                match: match,
+              ),
+          ],
       ),
     ) : Flexible(
           child: ListView.builder(
@@ -78,23 +109,21 @@ class _MatchesPageState extends State<MatchesPage> {
       );
     
     _years ??= Filter(
-      items: await GetEventsTBA.allYears(), 
+      items: [for (var i = 1992; i <= DateTime.now().year; i++) i.toString()], 
       selectedItems: _selectedYears,
     );
 
-    _events ??= Filter(
-      items: await GetEventsTBA.eventsInYears(_years!.selectedItems.isNotEmpty ? _years!.selectedItems : _years!.items), 
-      selectedItems: _selectedEvents,
-    );
+    if(_dialogController.value == false) {
+      _events ??= Filter(
+        items: await GetEventsTBA.eventsInYears(_years!.selectedItems.isNotEmpty ? _years!.selectedItems : _years!.items), 
+        selectedItems: _selectedEvents,
+      );
 
-    _TBAMatches = await GetMatchesTBA.matchesInEvents(_events!.selectedItems);
+      _TBAMatches = await GetMatchesTBA.matchesInEvents(_events!.selectedItems);
+    }
+
 
     return Future.value('done');
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -107,6 +136,8 @@ class _MatchesPageState extends State<MatchesPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
+      height: double.infinity,
       color: Theme.of(context).backgroundColor,
 
       /// The data is received by a future variable, 
@@ -129,10 +160,14 @@ class _MatchesPageState extends State<MatchesPage> {
                   },
                   teams: _teams!,
                   years: _years!,
-                  events: _events!,
+                  /// TODO: fix bug when trying to get TBA matches. maybe remove TBA matches entirely?
+                  events: Filter(
+                    items: [], 
+                    selectedItems: _selectedEvents,
+                  ),
                 ),
 
-                matchCards(_dialogController.value),
+                matchCards,
               ],
             );
           }

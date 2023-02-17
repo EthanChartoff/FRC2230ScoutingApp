@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-/// get device platform
-import 'dart:io' show Platform;
-// get if app is running on the World Wide Web
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
-import 'package:scoute_prime/widgets/all_teams/all_teams_page.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/endgame.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/teleop.dart';
-import 'package:scoute_prime/widgets/login/login_page.dart';
+import 'package:scoute_prime/widgets/common/adaptive_sidemenu.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
+import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/endgame.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/teleop.dart';
+import 'package:scoute_prime/widgets/desktop/login/login_page_desktop.dart';
+import 'package:scoute_prime/widgets/common/device_builder.dart';
 import 'package:scoute_prime/widgets/matches/matches_page.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2023.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/strategy/strategy_form2023.dart';
+import 'package:scoute_prime/widgets/mobile/login/login_page_mobile.dart';
 import 'package:scoute_prime/widgets/pick_list/pick_list_page.dart';
-import 'package:scoute_prime/widgets/sidemenue/screen_with_sidemenu.dart';
-import 'package:scoute_prime/widgets/dashboards/dashboard.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/auto.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/dashboard.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/auto.dart';
 import 'package:scoute_prime/misc/routing.dart';
-import 'package:scoute_prime/widgets/user_type_builder.dart';
+import 'package:scoute_prime/widgets/common/user_type_builder.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/misc/user_types.dart';
 
@@ -30,13 +30,17 @@ void main() {
 }
 
 // ignore: must_be_immutable
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   /// Permissions of user.
   /// 
   /// pages can change according to a users permission.
   UserTypes _user = UserTypes.noType;
-  
 
   /// Change pages of routes and/or routes depending on device
   /// and how the application is ran, 
@@ -47,15 +51,30 @@ class App extends StatelessWidget {
     routes: [
       GoRoute(
         path: Routing.LOGIN,
-        builder: (context, state) => LoginPage(
-          updatePermissions: (UserTypes permission) => _user = permission,
-        ),
+        builder: (context, state) => DeviceBuilder(
+          mobile: LoginPageMobile(
+            updatePermissions: (permission) => setState(() {
+              _user = permission;
+            }),
+          ),
+          desktop: LoginPageDesktop(
+            updatePermissions: (permission) => setState(() {
+              _user = permission;
+            }),
+          ),
+          web: LoginPageDesktop(
+            updatePermissions: (permission) => setState(() {
+              _user = permission;
+            }),
+          ),
+        )
       ),
 
       GoRoute(
         path: Routing.MATCHES,
-        builder: (context, state) => DesktopSidemenuScreenBuilder(
-          screen: UserTypeBuilder(
+        builder: (context, state) => Scaffold(
+          /// scaffold is used here to enable snackbars
+          body: UserTypeBuilder(
             user: _user, 
             viewerPage: MatchesPage(), 
             scouterPage: MatchesPage(), 
@@ -71,23 +90,21 @@ class App extends StatelessWidget {
               final teamId = state.queryParams['teamId'] ?? 'noTeamId';
               final alliance = state.queryParams['alliance'] ?? 'noAlliance';
 
-              return DesktopSidemenuScreenBuilder(
-                screen: UserTypeBuilder(
-                  user: _user, 
-                  viewerPage: MatchesPage(),
-                  scouterPage: ScoutingForm2023(
-                    exit: context.pop,
-                    matchId: matchId,
-                    teamId: teamId,
-                    alliance: alliance,
-                  ), 
-                  adminPage: StrategyForm(
-                    exit: context.pop,
-                    matchId: matchId,
-                    teamId: teamId,
-                    alliance: alliance,
-                  )
-                ),
+              return UserTypeBuilder(
+                user: _user, 
+                viewerPage: MatchesPage(),
+                scouterPage: ScoutingForm2023(
+                  exit: context.pop,
+                  matchId: matchId,
+                  teamId: teamId,
+                  alliance: alliance,
+                ), 
+                adminPage: StrategyForm(
+                  exit: context.pop,
+                  matchId: matchId,
+                  teamId: teamId,
+                  alliance: alliance,
+                )
               );
             } 
           ),
@@ -125,51 +142,53 @@ class App extends StatelessWidget {
             ),
             EndgameDashboard2023(
               teamId: teamId.toString(),
+            ),
+            StrategyDashboard2023(
+              teamId: teamId.toString(),
             )
           ];
 
-          return DesktopSidemenuScreenBuilder(
-            
-            screen: UserTypeBuilder(
-              user: _user, 
-              viewerPage: Dashboard(
-                teamNumber: teamId,
-                dashboardPages: dashboard,
-              ),
-              scouterPage: Dashboard(
-                teamNumber: teamId,
-                matchKey: '2022aroz_f1m1',
-                dashboardPages: dashboard,
-              ),
-              adminPage: Dashboard(
-                teamNumber: teamId,
-                dashboardPages: dashboard,
-              )
+          return UserTypeBuilder(
+            user: _user, 
+            viewerPage: Dashboard(
+              teamNumber: teamId,
+              dashboardPages: dashboard,
             ),
+            scouterPage: Dashboard(
+              teamNumber: teamId,
+              matchKey: '2022aroz_f1m1',
+              dashboardPages: dashboard,
+            ),
+            adminPage: Dashboard(
+              teamNumber: teamId,
+              dashboardPages: dashboard,
+            )
           );
         }
       ),
 
       GoRoute(
         path: Routing.PICK_LIST,
-        builder: (context, state) => const DesktopSidemenuScreenBuilder(
-          screen: PickListPage(
-            teamsFromDb: GetTeamsData.all,
-          )
-        ),
+        builder: (context, state) => const PickListPage(
+          teamsFromDb: GetTeamsData.all,
+        )
       ),
 
       GoRoute(
         path: Routing.ALL_TEAMS,
-        builder: (context, state) => const DesktopSidemenuScreenBuilder(
-          screen: AllTeamsPage()
-        ),
+        builder: (context, state) => const AllTeamsPage()
       )
     ],
 
     redirect: (context, state) {
       if(state.location != Routing.LOGIN && _user == UserTypes.noType) return Routing.LOGIN;
     },
+
+    errorBuilder: (context, state) => const Scaffold(
+      body: Center(
+        child: Text('404 - Page not found'),
+      ),
+    )
   );
 
     /// The root [Widget] of the app.
@@ -258,12 +277,26 @@ class App extends StatelessWidget {
 
         color: Theme.of(context).primaryColor,
 
+        /// used to wrap your route-widgets with a parent widget.
+        /// https://stackoverflow.com/a/56430445
+        builder: (context, child) => Overlay(
+          initialEntries: [
+            OverlayEntry(
+              builder: (context) {
+                return AdaptiveSidemenu(
+                  router: _router,
+                  child: child,
+                );
+              }
+            )
+          ],
+        ),
+
         routerDelegate: _router.routerDelegate,
         routeInformationParser: _router.routeInformationParser,
         routeInformationProvider: _router.routeInformationProvider,
       ))
     );
   }
-
 }
 

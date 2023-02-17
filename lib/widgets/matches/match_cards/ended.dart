@@ -28,6 +28,14 @@ class EndedMatchCard extends StatelessWidget{
         child: Theme(
           data: ThemeData(hoverColor: Theme.of(context).hoverColor.withOpacity(0.1)),
           child: ExpansionTile(       
+            leading: Container(
+              width: 10,
+              height: 10,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.red,
+              ),
+            ),
             /// head  
             collapsedTextColor: Colors.white,
             textColor: Colors.white,

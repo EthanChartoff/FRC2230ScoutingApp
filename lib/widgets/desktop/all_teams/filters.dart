@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 
 class AllTeamsFilters<T> extends StatelessWidget {
   const AllTeamsFilters({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/widgets/matches/filters_dialog.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart' show Filter;
+import 'package:scoute_prime/widgets/common/searchboxes.dart' show Filter;
 import 'package:scoute_prime/misc/teams_data.dart';
 
 class MatchesFiltersCard extends StatelessWidget {

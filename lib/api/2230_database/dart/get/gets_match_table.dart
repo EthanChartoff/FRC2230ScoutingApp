@@ -14,7 +14,7 @@ class GetMatches {
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
-      throw Exception("$err");
+        throw Exception("$err");
     }
     return jsonData;
   }
@@ -24,7 +24,7 @@ class GetMatches {
 
     try {
       final response = await http
-        .get(Uri.parse("http://localhost/2230_scouting/get_scouting_table_of_teamId.php?teamId=$teamId"));
+        .get(Uri.parse("http://172.16.14.79/2230_scouting/get_scouting_table_of_teamId.php?teamId=$teamId"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

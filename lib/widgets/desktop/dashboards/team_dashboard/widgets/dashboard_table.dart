@@ -37,22 +37,24 @@ class DashboardTable extends Table {
     key: key,
     children: children.map((row) => TableRow(
       children: row.map((cell) {
-        print(cell);
+        final cel = cell.split('%');
+        /// only needed if cel had a %
+        final parsedCel = cel.length > 1 ? (double.parse(cel.first) * 100).toString() 
+        : null;
         return Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              cell.substring(cell == '' ? 0 : cell.length - 1) == '%' ? 
-                '${(double.parse(cell.replaceAll('%', '')) * 100).toString()
-                    .substring(0, cell.length < 5 ? cell.length - 1 : 5)}%' : cell,
+              parsedCel != null ? 
+                '${parsedCel.substring(0, parsedCel.length > 5 ? 5 : parsedCel.length)}%' : cel.first,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: lerpValues && cell.substring(cell == '' ? 0 : cell.length - 1) == '%' ? 
+                color: lerpValues && cel.length > 1 ? 
                   Color.lerp(
                     Colors.redAccent, 
                     Colors.lightGreen,
-                    double.parse(cell.replaceAll('%', ''))
+                    double.parse(cel.first)
                   ) 
                   : Colors.white
               ),

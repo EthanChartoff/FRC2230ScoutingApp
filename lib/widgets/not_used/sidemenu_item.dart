@@ -1,23 +1,25 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:scoute_prime/misc/user_types.dart';
 
-/// [DesktopSidemenuItem] is a widget that builds a button for [DesktopSidemenu]
-class DesktopSidemenuItem extends StatefulWidget {
-  /// Title of [DesktopSidemenuItem]
+/// [SidemenuItemDesktop] is a widget that builds a button for [DesktopSidemenu]
+class SidemenuItemDesktop extends StatefulWidget {
+  /// Title of [SidemenuItemDesktop]
   final String title;
 
-  /// Icon of [DesktopSidemenuItem]
+  /// Icon of [SidemenuItemDesktop]
   final IconData icon;
 
-  /// Url route to navigate to when tapping on [DesktopSidemenuItem]
+  /// Url route to navigate to when tapping on [SidemenuItemDesktop]
   final String route;
 
   /// Flag that checks when [DesktopSidemenu] is toggled on open or closed
   final bool isExpanded;
 
-  const DesktopSidemenuItem({
+  const SidemenuItemDesktop({
     required this.title,
     required this.icon,
     required this.route,
@@ -26,10 +28,10 @@ class DesktopSidemenuItem extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _DesktopSidemenuItemState();
+  State<StatefulWidget> createState() => _SidemenuItemDesktopState();
 }
 
-class _DesktopSidemenuItemState extends State<DesktopSidemenuItem> {
+class _SidemenuItemDesktopState extends State<SidemenuItemDesktop> {
   bool _isHovered = false;
 
   @override
@@ -37,7 +39,7 @@ class _DesktopSidemenuItemState extends State<DesktopSidemenuItem> {
     super.initState();
   }
 
-  /// select the color of [DesktopSidemenuItem] when selected, hovered or neither
+  /// select the color of [SidemenuItemDesktop] when selected, hovered or neither
   Color _setColor() {
     if(_isHovered) {
       return Theme.of(context).hoverColor.withOpacity(0.5);
@@ -79,7 +81,7 @@ class _DesktopSidemenuItemState extends State<DesktopSidemenuItem> {
                   widget.title,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 24.sp,
+                    fontSize: 16,
                   ),
                 ),
               )

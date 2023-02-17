@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
-import 'package:scoute_prime/misc/constants.dart';
-import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/pages/2023/dashboard_funcs2023.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_column.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_container.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_graph.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_container.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-
+/// The endgame page in [Dashboard], shows endgame data.
 class EndgameDashboard2023 extends DashboardPage {
   EndgameDashboard2023({
     Map<String, dynamic Function()>? data,

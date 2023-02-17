@@ -9,6 +9,7 @@ import 'package:scoute_prime/misc/teams_data.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
+import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/snackbar.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/title.dart';
@@ -790,69 +791,34 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   autoDidRobotComeOutOfComunity: _autoDidRobotComeOutOfComunityController.value ? '1' : '0',
                 );
 
-                final scoutingTablesOfMatch = await GetScoutingData
-                  .fromMatchId(widget.matchId);
-                var uniqueTeamsOfTables = [];
-                for (var match in scoutingTablesOfMatch) {
-                  /// if value has 6 items that have a unique team id, 
-                  /// change the match status to complete.
-                  if(!uniqueTeamsOfTables.contains(match['teamId'])) {
-                    uniqueTeamsOfTables.add(match['teamId']);
-                  }
+                /// Check if all scouters have submitted their data,
+                /// if so, the match status can be changed to which team won
+                /// (or in this case tie because shvartzman said so).
+                /// 
+                /// TODO: determine which team won or if it was a tie.
+                final matchTables = await GetScoutingData.fromMatchId(
+                  widget.matchId
+                );
+                /// length of tables that had a unique team id.
+                var uniqueTeamMatches = [];
+                for (var element in matchTables) {
+                  uniqueTeamMatches.contains(element['teamId']) ? 
+                    null : uniqueTeamMatches.add(element['teamId']);
                 }
-                if(uniqueTeamsOfTables.length == 6) {
-                  /// get the most common wonLoseOrTie value for each 
-                  /// alliance, if red won most of the time and blue lost 
-                  /// most of the time, then the match status is red (R),
-                  /// and vice versa. if most time was tied, then the 
-                  /// match status is tied (T).
-                  var redWonLoseOrTie = [];
-                  var blueWonLoseOrTie = [];
-                  for (var match in scoutingTablesOfMatch) {
-                    if(match['alliance'] == 'R') {
-                      redWonLoseOrTie.add(match['winLoseOrTie']);
-                    } else if(match['alliance'] == 'B') {
-                      blueWonLoseOrTie.add(match['winLoseOrTie']);
-                    }
-                  }
+                if(uniqueTeamMatches.length == 6) {
+                  InsertMatchesDataTable2023.updateMatchStatus(
+                    widget.matchId,
+                    'T' // tie
+                  );
+                }
 
-                  final String redMostCommonWonLoseOrTie = redWonLoseOrTie
-                    .reduce((a, b) => redWonLoseOrTie
-                      .where((x) => x == a)
-                      .length > redWonLoseOrTie
-                      .where((x) => x == b)
-                      .length ? a : b
-                    );
-                  final String blueMostCommonWonLoseOrTie = blueWonLoseOrTie
-                    .reduce((a, b) => blueWonLoseOrTie
-                      .where((x) => x == a)
-                      .length > blueWonLoseOrTie
-                      .where((x) => x == b)
-                      .length ? a : b
-                    );
-                    
-                  if(blueMostCommonWonLoseOrTie == 'l' 
-                    && redMostCommonWonLoseOrTie == 'w') {
-                    InsertMatchesDataTable2023.updateMatchStatus(
-                      widget.matchId,
-                      'B'
-                    );
-                  } else if(blueMostCommonWonLoseOrTie == 'w' 
-                    && redMostCommonWonLoseOrTie == 'l') {
-                    InsertMatchesDataTable2023.updateMatchStatus(
-                      widget.matchId,
-                      'R'
-                    );
-                  } else if(blueMostCommonWonLoseOrTie == 't' 
-                    && redMostCommonWonLoseOrTie == 't') {
-                    InsertMatchesDataTable2023.updateMatchStatus(
-                      widget.matchId,
-                      'T'
-                    );
-                  } 
-                }
-                  
                 widget.exit();
+                
+                ScaffoldMessenger.of(context).showSnackBar(
+                  ScoutingSnackbar(
+                    message: 'Data has been saved',
+                  )
+                );
               },
               
               style: ElevatedButton.styleFrom(

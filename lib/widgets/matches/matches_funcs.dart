@@ -19,6 +19,9 @@ class MatchesFuncs {
       if(match[MatchVars.matchStatus.name] == 'OM') {
         filteredMatches[MatchStates.ongoingMatches.name]!.add(match);
       }
+      else if(match[MatchVars.matchStatus.name] == 'FM') {
+        filteredMatches[MatchStates.futureMatches.name]!.add(match);
+      }
       else {
         filteredMatches[MatchStates.endedMatches.name]!.add(match);
       }

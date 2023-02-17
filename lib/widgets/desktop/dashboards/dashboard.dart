@@ -2,10 +2,10 @@ import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/widgets/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/dashboards/dashboard_title.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/filters_dialog.dart';
-import 'package:scoute_prime/widgets/searchboxes.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_title.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/filters_dialog.dart';
+import 'package:scoute_prime/widgets/common/searchboxes.dart';
 import 'package:scoute_prime/misc/enums.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 

@@ -1,30 +1,31 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:scoute_prime/misc/routing.dart';
 
-import 'package:scoute_prime/misc/constants.dart';
+import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/misc/user_types.dart';
 
 /// This [Widget] is used to verify a 
 /// user when logging into the website with a password,
 /// 
 /// its also the initital page when entering the website
-class LoginPage extends StatefulWidget {
-
-  /// Defines what type of permissions the user will have,
-  final void Function(UserTypes) updatePermissions;
-  
-  const LoginPage({
+class LoginPageDesktop extends StatefulWidget {  
+  const LoginPageDesktop({
     required this.updatePermissions,
   });
 
+  /// Defines what type of permissions the user will have,
+  final void Function(UserTypes) updatePermissions;
+
+
   @override
-  State<StatefulWidget> createState() => _LoginPageState();
+  State<StatefulWidget> createState() => _LoginPageDesktopState();
   
 }
 
-class _LoginPageState extends State<LoginPage>{ 
+class _LoginPageDesktopState extends State<LoginPageDesktop>{ 
   /// Vars to enable a text box for inputing password
   /// 
   /// [_passwordInput] the actual text in the password box
@@ -34,8 +35,6 @@ class _LoginPageState extends State<LoginPage>{
 
   @override
   void initState() {
-    super.initState();
-
     _passwordInputController.addListener(() {
       /// listens for text editing and changes the text in [_passwordInput] 
       /// to the text that is being typed
@@ -49,6 +48,14 @@ class _LoginPageState extends State<LoginPage>{
           composing: TextRange.empty
           );
     });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _passwordInputController.dispose();
+    super.dispose();
   }
 
   @override
@@ -168,8 +175,8 @@ class _LoginPageState extends State<LoginPage>{
       },
       
       child: Text(userType.name.toUpperCase(),
-        style: const TextStyle(
-          fontSize: 14,
+        style: TextStyle(
+          fontSize: max(14.w, 12),
           color: Colors.white
         ),
       )

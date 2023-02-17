@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_column.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_graph.dart';
-import 'package:scoute_prime/widgets/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_column.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_graph.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
 
 
 class DashboardsDataNav extends StatefulWidget {
@@ -28,7 +28,7 @@ class _DashboardsDataNavState extends State<DashboardsDataNav> {
         case DashboardGraph:
           return const NavigationRailDestination( 
             icon: Icon(Icons.auto_graph),
-            label: Text('label'),
+            label: Text('graph'),
           );
         case DashboardPiechart:
           return const NavigationRailDestination(
