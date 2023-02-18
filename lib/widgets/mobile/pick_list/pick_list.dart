@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 
 
-class PickList extends StatefulWidget {
-  const PickList({
+class PickListMobile extends StatefulWidget {
+  const PickListMobile({
     Key? key,
     required this.teamList,
   }) : super(key: key);
@@ -12,10 +12,10 @@ class PickList extends StatefulWidget {
   final List<Map<String, dynamic>> teamList;
 
   @override
-  State<PickList> createState() => _PickListState();
+  State<PickListMobile> createState() => _PickListMobileState();
 }
 
-class _PickListState extends State<PickList> {
+class _PickListMobileState extends State<PickListMobile> {
 
   List<bool>? _switches;
 

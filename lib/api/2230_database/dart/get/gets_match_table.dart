@@ -1,8 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-/// TODO: class my need to be abstract, change name to a more sutible one
-/// and add more filter getters
 class GetMatches {
 
   static Future<List<dynamic>> all() async {

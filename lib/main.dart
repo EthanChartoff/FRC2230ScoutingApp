@@ -3,10 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
-import 'package:scoute_prime/widgets/common/menu/drewer_destination.dart';
-import 'package:scoute_prime/widgets/common/menu/menu_destinations.dart';
-import 'package:scoute_prime/widgets/common/menu/adaptive_drawer.dart';
-import 'package:scoute_prime/widgets/common/menu/adaptive_menu.dart';
+import 'package:scoute_prime/widgets/common/builder_wrapper.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/no_team_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
 import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/endgame.dart';
@@ -17,15 +15,15 @@ import 'package:scoute_prime/widgets/matches/matches_page.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2023.dart';
 import 'package:scoute_prime/widgets/matches/scouting_forms/strategy/strategy_form2023.dart';
 import 'package:scoute_prime/widgets/mobile/login/login_page_mobile.dart';
-import 'package:scoute_prime/widgets/pick_list/pick_list_page.dart';
+import 'package:scoute_prime/widgets/desktop/pick_list/pick_list_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/dashboard.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/auto.dart';
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/widgets/common/user_type_builder.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/misc/user_types.dart';
+import 'package:scoute_prime/widgets/mobile/pick_list/pick_list_page.dart';
 
-import 'widgets/desktop/sidemenue/sidemenu_destination.dart';
 
 
 void main() {
@@ -132,39 +130,41 @@ class _AppState extends State<App> {
       ),
 
       GoRoute(
-        path: Routing.TEAM_VIEW,
+        path: Routing.TEAM_DASHBOARD,
         
         builder: (context, state) {
-          final teamId = int.parse(state.queryParams['teamId'] ?? '2230');
+          final teamId = state.queryParams['teamId'];
+
+          if(teamId == null) return const DashboardNoTeamPage();
 
           final dashboard = [
             AutoDashboard2023(
-              teamId: teamId.toString(),
+              teamId: teamId
             ),
             TeleopDashboard2023(
-              teamId: teamId.toString(),
+              teamId: teamId
             ),
             EndgameDashboard2023(
-              teamId: teamId.toString(),
+              teamId: teamId
             ),
             StrategyDashboard2023(
-              teamId: teamId.toString(),
+              teamId: teamId
             )
           ];
 
           return UserTypeBuilder(
             user: _user, 
             viewerPage: Dashboard(
-              teamNumber: teamId,
+              teamNumber: int.parse(teamId),
               dashboardPages: dashboard,
             ),
             scouterPage: Dashboard(
-              teamNumber: teamId,
+              teamNumber: int.parse(teamId),
               matchKey: '2022aroz_f1m1',
               dashboardPages: dashboard,
             ),
             adminPage: Dashboard(
-              teamNumber: teamId,
+              teamNumber: int.parse(teamId),
               dashboardPages: dashboard,
             )
           );
@@ -173,9 +173,17 @@ class _AppState extends State<App> {
 
       GoRoute(
         path: Routing.PICK_LIST,
-        builder: (context, state) => const PickListPage(
-          teamsFromDb: GetTeamsData.all,
-        )
+        builder: (context, state) => DeviceBuilder(
+          mobile: const PickListPageMobile(
+            teamsFromDb: GetTeamsData.all,
+          ),
+          desktop: const PickListPageDesktop(
+            teamsFromDb: GetTeamsData.all,
+          ),
+          web: const PickListPageDesktop(
+            teamsFromDb: GetTeamsData.all,
+          ),
+        )        
       ),
 
       GoRoute(
@@ -285,83 +293,10 @@ class _AppState extends State<App> {
         builder: (context, child) => Overlay(
           initialEntries: [
             OverlayEntry(
-              builder: (context) {
-                final scaffoldKey = GlobalKey<ScaffoldState>();
-
-                var _sideLeadingDestination = SidemenuDesktopDestination(
-                  icon: sideLeadingDestination.icon, 
-                  label: sideLeadingDestination.label,
-                  onSelected: () {
-                    scaffoldKey.currentState!.openDrawer();
-                  },
-                );
-
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    final isMobile = constraints.maxWidth < 600;
-
-                    return Scaffold(
-                      key: scaffoldKey,
-
-                      /// The drawer is a panel that slides in from the side 
-                      /// of the screen. It is typically used to display 
-                      /// navigation links in an application.
-                      /// https://api.flutter.dev/flutter/material/Scaffold/drawer.html
-                      drawer: AdaptiveDrawer(
-                        router: _router,
-                        bottom: isMobile,
-                        onDestinationSelected: () {
-                          scaffoldKey.currentState!.closeDrawer();
-                        },
-
-                        children: drawerDestinations.map<DrewerDestination>((e) => 
-                          DrewerDestination(
-                            leading: e.leading,
-                            title: e.title,
-                            onTap: () {
-                              if(e.route != null) _router.go(e.route!);
-                            }
-                          )
-                        ).toList()
-                      ),
-
-                      /// The body of the app, the main content of the app.
-                      /// https://api.flutter.dev/flutter/material/Scaffold/body.html
-                      body: AdaptiveMenu(
-                        router: _router,
-                        bottom: isMobile,
-                        // onLeadingSelected: () {
-                        //   scaffoldKey.currentState!.openDrawer();
-                        // },
-
-
-                        sideDestinations: [
-                          _sideLeadingDestination,
-                          ...sideDestinations
-                            .map<SidemenuDesktopDestination>((e) {
-                              print(e.key);      
-                              return SidemenuDesktopDestination(
-                                key: e.key,
-                                icon: e.icon,
-                                label: e.label,
-                                route: e.route,
-                                onSelected: e.onSelected
-                              );
-                            }),
-                          sideTraillingDestination
-                        ],
-
-                        bottomDestinations: const [
-                          bottomLeadingDestination,
-                          ...bottomDestinations
-                        ],
-
-                        child: child,
-                      ),
-                    ); 
-                  }                  
-                );
-              }
+              builder: (context) => BuilderWrapper(
+                router: _router,
+                child: child,
+              )
             )
           ],
         ),

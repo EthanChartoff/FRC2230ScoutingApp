@@ -17,9 +17,8 @@ class AdaptiveDrawer extends Builder {
     key: key,
     builder: (context) {
       return bottom ? 
-      Container(
-        height: 300,
-        color: Theme.of(context).primaryColorDark,
+      Drawer(
+        backgroundColor: Theme.of(context).primaryColorDark,
         child: ListView(
           children: [
             ...?leading,
@@ -29,9 +28,9 @@ class AdaptiveDrawer extends Builder {
         )
       )
       :
-      Container(
+      Drawer(
         width: 400,
-        color: Theme.of(context).primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColorDark,
         child: ListView(
           children: [
             ...?leading,

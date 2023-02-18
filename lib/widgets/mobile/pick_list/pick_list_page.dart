@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
-import 'package:scoute_prime/widgets/pick_list/pick_list.dart';
+import 'package:scoute_prime/widgets/desktop/pick_list/pick_list.dart';
+import 'package:scoute_prime/widgets/mobile/pick_list/pick_list.dart';
 
 
-class PickListPage extends StatefulWidget {
-  const PickListPage({
+class PickListPageMobile extends StatefulWidget {
+  const PickListPageMobile({
     super.key,
     required this.teamsFromDb,
     this.teams,
@@ -28,16 +29,16 @@ class PickListPage extends StatefulWidget {
     });
 
   @override
-  State<StatefulWidget> createState() => _PickListPageState();
+  State<StatefulWidget> createState() => _PickListPageMobileState();
 }
 
-class _PickListPageState extends State<PickListPage> {
+class _PickListPageMobileState extends State<PickListPageMobile> {
 
   List<Map<String, dynamic>>? _pickListTeams1;
   List<Map<String, dynamic>>? _pickListTeams2;
 
-  PickList? _pickList1;
-  PickList? _pickList2;
+  PickListMobile? _pickList1;
+  PickListMobile? _pickList2;
 
   final _pageController = PageController();
 
@@ -70,11 +71,11 @@ class _PickListPageState extends State<PickListPage> {
                 };
               }).toList());
 
-            _pickList1 ??= PickList(
+            _pickList1 ??= PickListMobile(
               teamList: _pickListTeams1!
             );
 
-            _pickList2 ??= PickList(
+            _pickList2 ??= PickListMobile(
               teamList: _pickListTeams2!
             );
 

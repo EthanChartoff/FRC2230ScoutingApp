@@ -150,6 +150,8 @@ class _MatchesPageState extends State<MatchesPage> {
             /// The widget displayed when there's data to display
             return Column(
               children: [
+                /*
+                TODO: in the future, add this
                 MatchesFiltersCard(
                   value: _dialogController.value,
                   onChanged: (value) async {
@@ -166,6 +168,7 @@ class _MatchesPageState extends State<MatchesPage> {
                     selectedItems: _selectedEvents,
                   ),
                 ),
+                */
 
                 matchCards,
               ],

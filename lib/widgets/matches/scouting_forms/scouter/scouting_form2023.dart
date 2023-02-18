@@ -345,127 +345,118 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ),
 
             // ## auto game item scored.
-            Container(
-              width: double.infinity,
-              height: 320,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: GridView(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 6,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.5
+            Table(
+              children: [
+                TableRow(
+                  children: [
+                    ScoutingShotCounter(
+                      controller: _tryAutoRowOneCubesController,
+                      title: 'tried to score cubes in row 1',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _autoRowOneCubesController,
+                        notDependent: _tryAutoRowOneCubesController,
+                      ),
+                    ),
+                    ScoutingShotCounter(
+                      controller: _autoRowOneCubesController,
+                      title: 'scored cubes in row 1',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryAutoRowOneCubesController,
+                        notDependent: _autoRowOneCubesController,
+                      ),
+                    ),
+
+                    ScoutingShotCounter(
+                      controller: _tryAutoRowTwoCubesController,
+                      title: 'tried to score cubes in row 2',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _autoRowTwoCubesController,
+                        notDependent: _tryAutoRowTwoCubesController,
+                      ),
+                    ),
+                    ScoutingShotCounter(
+                      controller: _autoRowTwoCubesController,
+                      title: 'scored cubes in row 2',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryAutoRowTwoCubesController,
+                        notDependent: _autoRowTwoCubesController,
+                      ),
+                    ),
+
+                    ScoutingShotCounter(
+                      controller: _tryAutoRowThreeCubesController,
+                      title: 'tried to score cubes in row 3',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _autoRowThreeCubesController,
+                        notDependent: _tryAutoRowThreeCubesController,
+                      ),
+                    ),
+                    ScoutingShotCounter(
+                      controller: _autoRowThreeCubesController,
+                      title: 'scored cubes in row 3',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryAutoRowThreeCubesController,
+                        notDependent: _autoRowThreeCubesController,
+                      ),
+                    ),
+                  ],
                 ),
-                children: [
-                  ScoutingShotCounter(
-                    controller: _autoRowOneCubesController,
-                    title: 'scored cubes in row 1',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryAutoRowOneCubesController,
-                      notDependent: _autoRowOneCubesController,
-                    ),
-                  ),
-                  ScoutingShotCounter(
-                    controller: _tryAutoRowOneCubesController,
-                    title: 'tried to score cubes in row 1',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _autoRowOneCubesController,
-                      notDependent: _tryAutoRowOneCubesController,
-                    ),
-                  ),
 
-                  ScoutingShotCounter(
-                    controller: _autoRowTwoCubesController,
-                    title: 'scored cubes in row 2',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryAutoRowTwoCubesController,
-                      notDependent: _autoRowTwoCubesController,
+                TableRow(
+                  children: [
+                    ScoutingShotCounter(
+                      controller: _tryAutoRowOneConesController,
+                      title: 'tried to score cones in row 1',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _autoRowOneConesController,
+                        notDependent: _tryAutoRowOneConesController,
+                      ),
                     ),
-                  ),
-                  ScoutingShotCounter(
-                    controller: _tryAutoRowTwoCubesController,
-                    title: 'tried to score cubes in row 2',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _autoRowTwoCubesController,
-                      notDependent: _tryAutoRowTwoCubesController,
+                    ScoutingShotCounter(
+                      controller: _autoRowOneConesController,
+                      title: 'scored cones in row 1',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryAutoRowOneConesController,
+                        notDependent: _autoRowOneConesController,
+                      ),
                     ),
-                  ),
 
-                  ScoutingShotCounter(
-                    controller: _autoRowThreeCubesController,
-                    title: 'scored cubes in row 3',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryAutoRowThreeCubesController,
-                      notDependent: _autoRowThreeCubesController,
+                    ScoutingShotCounter(
+                      controller: _tryAutoRowTwoConesController,
+                      title: 'tried to score cones in row 2',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _autoRowTwoConesController,
+                        notDependent: _tryAutoRowTwoConesController,
+                      ),
                     ),
-                  ),
-                  ScoutingShotCounter(
-                    controller: _tryAutoRowThreeCubesController,
-                    title: 'tried to score cubes in row 3',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _autoRowThreeCubesController,
-                      notDependent: _tryAutoRowThreeCubesController,
+                    ScoutingShotCounter(
+                      controller: _autoRowTwoConesController,
+                      title: 'scored cones in row 2',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryAutoRowTwoConesController,
+                        notDependent: _autoRowTwoConesController,
+                      ),
                     ),
-                  ),
 
-                  ScoutingShotCounter(
-                    controller: _autoRowOneConesController,
-                    title: 'scored cones in row 1',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryAutoRowOneConesController,
-                      notDependent: _autoRowOneConesController,
+                    ScoutingShotCounter(
+                      controller: _tryAutoRowThreeConesController,
+                      title: 'tried to score cones in row 3',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _autoRowThreeConesController,
+                        notDependent: _tryAutoRowThreeConesController,
+                      ),
                     ),
-                  ),
-                  ScoutingShotCounter(
-                    controller: _tryAutoRowOneConesController,
-                    title: 'tried to score cones in row 1',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _autoRowOneConesController,
-                      notDependent: _tryAutoRowOneConesController,
+                    ScoutingShotCounter(
+                      controller: _autoRowThreeConesController,
+                      title: 'scored cones in row 3',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryAutoRowThreeConesController,
+                        notDependent: _autoRowThreeConesController,
+                      ),
                     ),
-                  ),
-
-                  ScoutingShotCounter(
-                    controller: _autoRowTwoConesController,
-                    title: 'scored cones in row 2',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryAutoRowTwoConesController,
-                      notDependent: _autoRowTwoConesController,
-                    ),
-                  ),
-                  ScoutingShotCounter(
-                    controller: _tryAutoRowTwoConesController,
-                    title: 'tried to score cones in row 2',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _autoRowTwoConesController,
-                      notDependent: _tryAutoRowTwoConesController,
-                    ),
-                  ),
-
-                  ScoutingShotCounter(
-                    controller: _autoRowThreeConesController,
-                    title: 'scored cones in row 3',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryAutoRowThreeConesController,
-                      notDependent: _autoRowThreeConesController,
-                    ),
-                  ),
-                  ScoutingShotCounter(
-                    controller: _tryAutoRowThreeConesController,
-                    title: 'tried to score cones in row 3',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _autoRowThreeConesController,
-                      notDependent: _tryAutoRowThreeConesController,
-                    ),
-                  ),
-                ],
-              ),
+                  ]
+                )
+              ],
             ),
               
             ScoutingButtonTimer(
@@ -512,132 +503,117 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
             /// ## game items scored.
             
-            Container(
-              width: double.infinity,
-              height: 320,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: GridView(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 6,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.5
+            Table(
+              children: [
+                TableRow(
+                  children: [
+                    ScoutingShotCounter(
+                      controller: _tryRowOneCubesController,
+                      title: 'tried to score cubes in row 1',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _rowOneCubesController,
+                        notDependent: _tryRowOneCubesController
+                      )
+                    ),
+                    ScoutingShotCounter(
+                      controller: _rowOneCubesController,
+                      title: 'scored cubes in row 1',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryRowOneCubesController,
+                        notDependent: _rowOneCubesController
+                      )
+                    ),
+
+                    ScoutingShotCounter(
+                      controller: _tryRowTwoCubesController,
+                      title: 'tried to score cubes in row 2',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _rowTwoCubesController,
+                        notDependent: _tryRowTwoCubesController
+                      )
+                    ),
+                    ScoutingShotCounter(
+                      controller: _rowTwoCubesController,
+                      title: 'scored cubes in row 2',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryRowTwoCubesController,
+                        notDependent: _rowTwoCubesController
+                      )
+                    ),
+
+                    ScoutingShotCounter(
+                      controller: _tryRowThreeCubesController,
+                      title: 'tried to score cubes in row 3',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _rowThreeCubesController,
+                        notDependent: _tryRowThreeCubesController
+                      )
+                    ),
+                    ScoutingShotCounter(
+                      controller: _rowThreeCubesController,
+                      title: 'scored cubes in row 3',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryRowThreeCubesController,
+                        notDependent: _rowThreeCubesController
+                      )
+                    ),
+                  ]
                 ),
-                children: [
-                  ScoutingShotCounter(
-                    controller: _rowOneCubesController,
-                    title: 'scored cubes in row 1',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryRowOneCubesController,
-                      notDependent: _rowOneCubesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _tryRowOneCubesController,
-                    title: 'tried to score cubes in row 1',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _rowOneCubesController,
-                      notDependent: _tryRowOneCubesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _rowTwoCubesController,
-                    title: 'scored cubes in row 2',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryRowTwoCubesController,
-                      notDependent: _rowTwoCubesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _tryRowTwoCubesController,
-                    title: 'tried to score cubes in row 2',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _rowTwoCubesController,
-                      notDependent: _tryRowTwoCubesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _rowThreeCubesController,
-                    title: 'scored cubes in row 3',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryRowThreeCubesController,
-                      notDependent: _rowThreeCubesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _tryRowThreeCubesController,
-                    title: 'tried to score cubes in row 3',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _rowThreeCubesController,
-                      notDependent: _tryRowThreeCubesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _rowOneConesController,
-                    title: 'scored cones in row 1',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryRowOneConesController,
-                      notDependent: _rowOneConesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _tryRowOneConesController,
-                    title: 'tried to score cones in row 1',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _rowOneConesController,
-                      notDependent: _tryRowOneConesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _rowTwoConesController,
-                    title: 'scored cones in row 2',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryRowTwoConesController,
-                      notDependent: _rowTwoConesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _tryRowTwoConesController,
-                    title: 'tried to score cones in row 2',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _rowTwoConesController,
-                      notDependent: _tryRowTwoConesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _rowThreeConesController,
-                    title: 'scored cones in row 3',
-                    onChanged: () => counterCantBeLower(
-                      dependent: _tryRowThreeConesController,
-                      notDependent: _rowThreeConesController
-                    )
-                  ),
-                
-                  ScoutingShotCounter(
-                    controller: _tryRowThreeConesController,
-                    title: 'tried to score cones in row 3',
-                    onChanged: () => counterCantBeHigher(
-                      dependent: _rowThreeConesController,
-                      notDependent: _tryRowThreeConesController
-                    )
-                  ),
-                ],
-              ),
+                TableRow(
+                  children: [
+                    ScoutingShotCounter(
+                      controller: _tryRowOneConesController,
+                      title: 'tried to score cones in row 1',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _rowOneConesController,
+                        notDependent: _tryRowOneConesController
+                      )
+                    ),
+                    ScoutingShotCounter(
+                      controller: _rowOneConesController,
+                      title: 'scored cones in row 1',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryRowOneConesController,
+                        notDependent: _rowOneConesController
+                      )
+                    ),
+
+                    ScoutingShotCounter(
+                      controller: _tryRowTwoConesController,
+                      title: 'tried to score cones in row 2',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _rowTwoConesController,
+                        notDependent: _tryRowTwoConesController
+                      )
+                    ),
+                    ScoutingShotCounter(
+                      controller: _rowTwoConesController,
+                      title: 'scored cones in row 2',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryRowTwoConesController,
+                        notDependent: _rowTwoConesController
+                      )
+                    ),
+
+                    ScoutingShotCounter(
+                      controller: _tryRowThreeConesController,
+                      title: 'tried to score cones in row 3',
+                      onChanged: () => counterCantBeHigher(
+                        dependent: _rowThreeConesController,
+                        notDependent: _tryRowThreeConesController
+                      )
+                    ),
+                    ScoutingShotCounter(
+                      controller: _rowThreeConesController,
+                      title: 'scored cones in row 3',
+                      onChanged: () => counterCantBeLower(
+                        dependent: _tryRowThreeConesController,
+                        notDependent: _rowThreeConesController
+                      )
+                    ),
+                  ]
+                ),
+              ],
             ),
 
             ScoutingShotCounter(

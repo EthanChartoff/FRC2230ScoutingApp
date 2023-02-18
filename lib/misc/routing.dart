@@ -6,7 +6,7 @@ class Routing {
   static const MATCHES_DASHBOARD = 'dashboard';
 
   /// team id needs to be inputed when using route
-  static const TEAM_VIEW = '/team-dashboard';
+  static const TEAM_DASHBOARD = '/team-dashboard';
 
   static const PICK_LIST = '/pick-list';
 

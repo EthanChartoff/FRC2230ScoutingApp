@@ -100,10 +100,14 @@ class _DashboardState extends State<Dashboard>{
         });
       }
       prevTeam = widget.teamNumber;
-      /// wait for all data to be fetched, 
+
+      var counter = 0;
+      /// wait for all data to be fetched
+      /// TODO: THIS IS BAD, FIX THIS
       while(_futureData!.any((element) => 
-        element.values.any((value) => value.isEmpty)) ) {
+        element.values.any((value) => value.isEmpty)) && counter < 10) {
         await Future.delayed(const Duration(milliseconds: 100));
+        counter++;      
       }
       return _futureData;
     }
@@ -194,7 +198,7 @@ class _DashboardState extends State<Dashboard>{
                     ),
     
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 170,
+                      width: MediaQuery.of(context).size.width - 172,
                       height: MediaQuery.of(context).size.height - 74,
                       child: PageView.builder(
                         physics: const NeverScrollableScrollPhysics(),

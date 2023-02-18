@@ -8,6 +8,7 @@ import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/dash
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_column.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_container.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_graph.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_no_data_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_table.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -129,6 +130,12 @@ class AutoDashboard2023 extends DashboardPage {
     required width,
     key,
   }) {
+
+    /// If there is no data, return [DashboardNoDataPage].
+    if (data['scoutingTables'].isEmpty) {
+      return const DashboardNoDataPage();
+    }
+
     return Column(
       key: key,
       children: [

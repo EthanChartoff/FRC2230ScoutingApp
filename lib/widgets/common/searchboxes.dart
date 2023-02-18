@@ -63,7 +63,7 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
       ),
 
     onSuggestionSelected: onSuggestionSelected ?? (suggestion) {
-      context.go('${Routing.TEAM_VIEW}?teamId=${suggestion.number}');
+      context.go('${Routing.TEAM_DASHBOARD}?teamId=${suggestion.number}');
     }
   );
 

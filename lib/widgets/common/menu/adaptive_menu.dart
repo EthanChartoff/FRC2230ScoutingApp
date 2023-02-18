@@ -15,18 +15,11 @@ class AdaptiveMenu extends Builder {
     required List<SidemenuDesktopDestination> sideDestinations,
     required List<SidemenuMobileDestination> bottomDestinations,
 
-    // SidemenuDesktopDestination? sideLeadingDestination,
-    // SidemenuDesktopDestination? sideTraillingDestination,
-    // SidemenuMobileDestination? bottomLeadingDestination,
-    // SidemenuMobileDestination? bottomTraillingDestination,
-
-    // bool showLeading = true,
-    // bool showTrailling = true,
-
     Widget? child,
     VoidCallback? onDestinationSelected,
     VoidCallback? onDestinationUnselected,
-    // VoidCallback? onLeadingSelected,
+
+    VoidCallback? bottomOnSwipeUp,
   }) : 
   super(
     key: key,
@@ -38,18 +31,9 @@ class AdaptiveMenu extends Builder {
         return Row(
           children: [
             SidemenuDesktop(
-              destinations: [
-                // if(showLeading && sideLeadingDestination != null) 
-                //   sideLeadingDestination,
-
-                ...sideDestinations,
-
-                // if(showTrailling && sideTraillingDestination != null) 
-                //   sideTraillingDestination,
-              ],
+              destinations: sideDestinations,
               router: router,
               onDestinationSelected: onDestinationSelected,
-              // onLeadingSelected: showLeading && sideLeadingDestination != null ? onLeadingSelected : null,
             ),
             Expanded(child: child ?? ErrorWidget('child is null'))
           ]
@@ -59,18 +43,10 @@ class AdaptiveMenu extends Builder {
           children: [
             Expanded(child: child ?? ErrorWidget('child is null')),
             SidemenuMobile(
-              destinations: [
-                // if(showLeading && bottomLeadingDestination != null) 
-                //   bottomLeadingDestination,
-
-                ...bottomDestinations,
-
-                // if(showTrailling && bottomTraillingDestination != null) 
-                //   bottomTraillingDestination,
-              ],
+              destinations: bottomDestinations,
               router: router,
               onDestinationSelected: onDestinationSelected,
-              // onLeadingSelected: showLeading ? onLeadingSelected : null,
+              onSwipeUp: bottomOnSwipeUp,
             )
           ]
         );

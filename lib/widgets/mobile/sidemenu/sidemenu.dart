@@ -9,7 +9,7 @@ class SidemenuMobile extends StatefulWidget {
     required this.router,
     this.onDestinationSelected,
     this.onDestinationUnselected,
-    this.onLeadingSelected,
+    this.onSwipeUp,
   }) : super(
     key: key,
   );
@@ -19,7 +19,7 @@ class SidemenuMobile extends StatefulWidget {
 
   final VoidCallback? onDestinationSelected;
   final VoidCallback? onDestinationUnselected;
-  final VoidCallback? onLeadingSelected;
+  final VoidCallback? onSwipeUp;
   
   @override
   State<StatefulWidget> createState() => _SidemenuMobileState();
@@ -33,9 +33,9 @@ class _SidemenuMobileState extends State<SidemenuMobile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanUpdate: (details) {
-        if(details.delta.dy < 0) {
-          /// Swipe up
-          widget.onLeadingSelected?.call();
+        if(details.delta.dy < -10) {
+          /// On swipe up
+          widget.onSwipeUp?.call();
         }
       },
       child: NavigationBar(

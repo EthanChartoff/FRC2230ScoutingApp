@@ -3,6 +3,7 @@ import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_container.dart';
+import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_no_data_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -78,7 +79,18 @@ class EndgameDashboard2023 extends DashboardPage {
   }
   
   @override
-  Widget buildDashboard({required BuildContext context, required Map<String, dynamic> data, required double width, Key? key}) {
+  Widget buildDashboard({
+    required BuildContext context, 
+    required Map<String, dynamic> data, 
+    required double width, 
+    Key? key
+  }) {
+
+    /// If there is no data, return [DashboardNoDataPage].
+    if (data['scoutingTables'].isEmpty) {
+      return const DashboardNoDataPage();
+    }
+    
     return Column(
       key: key,
       children: [
