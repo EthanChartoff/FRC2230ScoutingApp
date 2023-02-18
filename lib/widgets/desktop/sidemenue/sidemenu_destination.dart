@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SidemenuDesktopDestination extends NavigationRailDestination {
   const SidemenuDesktopDestination({
-    Key? key,
+    this.key,
     required Widget icon,
     required Widget label,
     this.route,
@@ -13,6 +13,7 @@ class SidemenuDesktopDestination extends NavigationRailDestination {
     label: label,
   );
 
+  final Key? key;
   final String? route;
   final VoidCallback? onSelected;
 }

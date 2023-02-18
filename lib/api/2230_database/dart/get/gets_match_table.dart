@@ -10,7 +10,7 @@ class GetMatches {
 
     try {
       final response = await http
-        .get(Uri.parse("http://172.16.14.79/2230_scouting/all_matches_tables.php"));
+        .get(Uri.parse("http://192.168.1.47/2230_scouting/all_matches_tables.php"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
@@ -24,7 +24,7 @@ class GetMatches {
 
     try {
       final response = await http
-        .get(Uri.parse("http://172.16.14.79/2230_scouting/get_scouting_table_of_teamId.php?teamId=$teamId"));
+        .get(Uri.parse("http://192.168.1.47/2230_scouting/get_scouting_table_of_teamId.php?teamId=$teamId"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
-import 'package:scoute_prime/widgets/common/adaptive_drawer.dart';
-import 'package:scoute_prime/widgets/common/adaptive_sidemenu.dart';
+import 'package:scoute_prime/widgets/common/menu/drewer_destination.dart';
+import 'package:scoute_prime/widgets/common/menu/menu_destinations.dart';
+import 'package:scoute_prime/widgets/common/menu/adaptive_drawer.dart';
+import 'package:scoute_prime/widgets/common/menu/adaptive_menu.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
 import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/endgame.dart';
@@ -22,6 +24,8 @@ import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/widgets/common/user_type_builder.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/misc/user_types.dart';
+
+import 'widgets/desktop/sidemenue/sidemenu_destination.dart';
 
 
 void main() {
@@ -237,10 +241,9 @@ class _AppState extends State<App> {
 
           hoverColor: ConstColors.HOVER_COLOR,
 
-          /// # Text Themes (if it wasnt obvious) #
           textTheme: TextTheme(
 
-            /// ##   title style ## 
+            /// ## title styles ## 
             headline1: GoogleFonts.roboto(
               fontSize: 20,
               color: Colors.white,
@@ -285,6 +288,14 @@ class _AppState extends State<App> {
               builder: (context) {
                 final scaffoldKey = GlobalKey<ScaffoldState>();
 
+                var _sideLeadingDestination = SidemenuDesktopDestination(
+                  icon: sideLeadingDestination.icon, 
+                  label: sideLeadingDestination.label,
+                  onSelected: () {
+                    scaffoldKey.currentState!.openDrawer();
+                  },
+                );
+
                 return LayoutBuilder(
                   builder: (context, constraints) {
                     final isMobile = constraints.maxWidth < 600;
@@ -302,16 +313,49 @@ class _AppState extends State<App> {
                         onDestinationSelected: () {
                           scaffoldKey.currentState!.closeDrawer();
                         },
+
+                        children: drawerDestinations.map<DrewerDestination>((e) => 
+                          DrewerDestination(
+                            leading: e.leading,
+                            title: e.title,
+                            onTap: () {
+                              if(e.route != null) _router.go(e.route!);
+                            }
+                          )
+                        ).toList()
                       ),
 
                       /// The body of the app, the main content of the app.
                       /// https://api.flutter.dev/flutter/material/Scaffold/body.html
-                      body: AdaptiveSidemenu(
+                      body: AdaptiveMenu(
                         router: _router,
                         bottom: isMobile,
-                        onLeadingSelected: () {
-                          scaffoldKey.currentState!.openDrawer();
-                        },
+                        // onLeadingSelected: () {
+                        //   scaffoldKey.currentState!.openDrawer();
+                        // },
+
+
+                        sideDestinations: [
+                          _sideLeadingDestination,
+                          ...sideDestinations
+                            .map<SidemenuDesktopDestination>((e) {
+                              print(e.key);      
+                              return SidemenuDesktopDestination(
+                                key: e.key,
+                                icon: e.icon,
+                                label: e.label,
+                                route: e.route,
+                                onSelected: e.onSelected
+                              );
+                            }),
+                          sideTraillingDestination
+                        ],
+
+                        bottomDestinations: const [
+                          bottomLeadingDestination,
+                          ...bottomDestinations
+                        ],
+
                         child: child,
                       ),
                     ); 

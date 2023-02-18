@@ -7,7 +7,7 @@ class InsertMatchesDataTable2023 {
       /// updates match status
       final response = await http.post(
         Uri.parse(
-          'http://172.16.14.79/2230_scouting/update_match_status.php'),
+          'http://192.168.1.47/2230_scouting/update_match_status.php'),
         body: {
           'matchId': matchId,
           'matchStatus': matchStatus,
