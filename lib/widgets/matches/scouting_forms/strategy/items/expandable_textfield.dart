@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 /// Text field for strategy form. 
@@ -7,8 +10,13 @@ class StrategyExpandableTextField extends StatefulWidget {
   StrategyExpandableTextField({
     required this.title,
     this.hint,
-    this.pastInfo
-  });
+    this.onChanged,
+    TextEditingController? controller,
+    ValueNotifier? isExpanded,
+  }) : 
+  controller = controller ?? TextEditingController(),
+  isExpanded = isExpanded ?? ValueNotifier(false);
+
 
   final String title;
 
@@ -18,20 +26,40 @@ class StrategyExpandableTextField extends StatefulWidget {
   /// same card will have a hint 'robot can climb'. 
   final String? hint;
 
-  final TextEditingController controller = TextEditingController();
+  /// Called when the user changes the text in the field.
+  final void Function(String)? onChanged;
 
-  String? get getControllerText => controller.text;
+  /// If the card is expanded or not.
+  final ValueNotifier isExpanded;
 
-  /// All of the strategy data entered for this specific team and data type.
-  final List<String>? pastInfo;
-  
+  final TextEditingController controller;
+
   @override
-  State<StatefulWidget> createState() => _StrategyExpandableTextFieldState();
+  State<StrategyExpandableTextField> createState() => _StrategyExpandableTextFieldState();
 }
 
-class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextField>{
+class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextField> {
+  Timer? debounce;
+
+  String? get getControllerText => widget.controller.text;
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    debounce?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    onSearchChanged(String value) {
+      if(debounce?.isActive ?? false) debounce?.cancel();
+      debounce = Timer(const Duration(milliseconds: 500), () {
+        widget.onChanged?.call(value);
+      });
+    }
+
     return Card(
       color: Theme.of(context).primaryColorDark,
       child: Theme(
@@ -40,6 +68,8 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
         ),
     
         child: ExpansionTile(
+          initiallyExpanded: widget.isExpanded.value,
+          onExpansionChanged: (value) => widget.isExpanded.value = value,
           title: Center(
             child: Text(
               widget.title,
@@ -51,22 +81,14 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
           ),
     
           children: [
-            widget.pastInfo != null ? SizedBox(
-              height: 30,
-              child: PageView(
-                children: widget.pastInfo!.map((e) => 
-                  Center(child: Text(e))
-                ).toList()
-              ),
-            ) : const Text('no past informaton'),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: widget.controller,
-                onChanged: (value) => setState(() {}),
-                maxLines: 5,
+                onChanged: onSearchChanged,
                 minLines: 1,
+                maxLines: 50,
+                autofocus: true,
                 decoration: InputDecoration(
                   hintText: widget.hint,
                   hintStyle: TextStyle(
@@ -86,5 +108,16 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
       ),
     );
   }
-
 } 
+
+
+class StrategyTextField extends TextField {
+  StrategyTextField({
+    super.decoration,
+    super.style,
+    super.onChanged,
+    super.controller,
+    super.maxLines,
+    super.minLines,
+  });
+}
