@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/TBA/get_event.dart';
 import 'package:scoute_prime/api/TBA/get_matches.dart';
-import 'package:scoute_prime/widgets/matches/filters_card.dart';
-import 'package:scoute_prime/widgets/matches/match_cards/TBA/ended.dart';
-import 'package:scoute_prime/widgets/matches/match_cards/ended.dart';
-import 'package:scoute_prime/widgets/matches/match_cards/future.dart';
-import 'package:scoute_prime/widgets/matches/match_cards/ongoing.dart';
-import 'package:scoute_prime/widgets/matches/matches_funcs.dart';
+import 'package:scoute_prime/widgets/common/matches/match_cards/ended.dart';
+import 'package:scoute_prime/widgets/common/matches/match_cards/future.dart';
+import 'package:scoute_prime/widgets/common/matches/match_cards/ongoing.dart';
+import 'package:scoute_prime/widgets/common/matches/matches_funcs.dart';
 import 'package:scoute_prime/widgets/common/searchboxes.dart';
 import 'package:scoute_prime/misc/enums.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
@@ -90,7 +88,7 @@ class _MatchesPageState extends State<MatchesPage> {
             shrinkWrap: true,
             
             itemCount: _TBAMatches!.length,
-            itemBuilder: (context, index) => TBAEndedMatchCard(
+            itemBuilder: (context, index) => EndedMatchCard(
               match: _TBAMatches![index],
             ),
           ),

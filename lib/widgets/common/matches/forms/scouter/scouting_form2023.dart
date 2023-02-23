@@ -6,30 +6,30 @@ import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart
 import 'package:scoute_prime/api/2230_database/dart/insert/matches.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table2023.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/snackbar.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/title.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/checkbox.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/counter.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/dropdown_with_items.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/snackbar.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/textfield.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/timed_button.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/title.dart';
 
 
 class ScoutingForm2023 extends StatefulWidget {
-  final void Function() exit;
-
-  final String matchId;
-
-  final String teamId;
-
-  final String alliance;
-
   const ScoutingForm2023({
     required this.exit,
     required this.matchId,
     required this.teamId,
-    required this.alliance
+    required this.alliance,
+    required this.matchNum,
     });
+
+    final void Function() exit;
+
+    final String matchId;
+    final String teamId;
+    final String alliance;
+    final String matchNum;
 
   @override
   State<StatefulWidget> createState() => _ScoutingForm2023State();
@@ -266,7 +266,16 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                           color: widget.alliance == 'R' ?
                            Colors.red : Colors.blue,
                         ),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                        child: Text(
+                          'Match ${widget.matchNum}',
+                          style: Theme.of(context).textTheme.headline2!.copyWith(
+                            fontSize: 24    ,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -616,16 +625,20 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               ],
             ),
 
-            ScoutingShotCounter(
-              controller: _numOfCubesGatheredIntoComunityController,
-              title: 'number of cubes gathered into comunity',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ScoutingShotCounter(
+                  controller: _numOfCubesGatheredIntoComunityController,
+                  title: 'number of cubes gathered into comunity',
+                ),
+                ScoutingShotCounter(
+                  controller: _numOfConesGatheredIntoComunityController,
+                  title: 'number of cones gathered into comunity',
+                ),
+              ],
             ),
-          
-            ScoutingShotCounter(
-              controller: _numOfConesGatheredIntoComunityController,
-              title: 'number of cones gathered into comunity',
-            ),
-
+                      
             /// # Data points specific for the endgame period.
             const ScoutingTitle(
               title: 'ENDGAME'
@@ -663,7 +676,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: '2', child: Text('2')),
               ],
               controller: _numOfRobotsOnChargeStationController,
-              hint: 'number of robots on charge station before robot arrived at the charge station. if robot didnt drive to the charge station, then select the number of robots on the charge station at the end of the match',
+              hint: 'number of robots on charge station before robot arrived at the charge station.',
             ),
 
             /// # Data for when the match is done.
@@ -790,6 +803,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                 widget.exit();
                 
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   ScoutingSnackbar(
                     message: 'Data has been saved',

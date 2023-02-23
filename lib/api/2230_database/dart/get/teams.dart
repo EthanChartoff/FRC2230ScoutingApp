@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:scoute_prime/misc/constants.dart';
+
 /// TODO: class my need to be abstract, change name to a more sutible one
 /// and add more filter getters
 class GetTeamsData {
@@ -10,7 +12,7 @@ class GetTeamsData {
 
     try {
       final response = await http
-          .get(Uri.parse("http://172.16.14.79/2230_scouting/teams.php"));
+          .get(Uri.parse("$websiteUrl/php/teams.php"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
@@ -26,7 +28,7 @@ class GetTeamsData {
     required List<Map<String, dynamic>> teamsPos2
   }) async {
     try {
-      final response = await http.post(Uri.parse("http://172.16.14.79/2230_scouting/update_picklist.php"),
+      final response = await http.post(Uri.parse("$websiteUrl/php/update_picklist.php"),
           body: {
             'pos1': jsonEncode(teamsPos1),
             'pos2': jsonEncode(teamsPos2),

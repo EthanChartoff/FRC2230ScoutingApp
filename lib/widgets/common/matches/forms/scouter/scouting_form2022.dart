@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table2022.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/checkbox.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/counter.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/dropdown_with_items.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/textfield.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/timed_button.dart';
 
 // **************************************************************************
 // ScoutingFormGenerator

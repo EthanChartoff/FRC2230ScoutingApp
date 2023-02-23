@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:scoute_prime/misc/constants.dart';
+
 class GetMatches {
 
   static Future<List<dynamic>> all() async {
@@ -8,11 +10,11 @@ class GetMatches {
 
     try {
       final response = await http
-        .get(Uri.parse("http://172.16.14.79/2230_scouting/all_matches_tables.php"));
+        .get(Uri.https(websiteAddress, '/php/all_matches_tables.php'));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
-        throw Exception("$err");
+        throw Exception(err);
     }
     return jsonData;
   }
@@ -22,7 +24,7 @@ class GetMatches {
 
     try {
       final response = await http
-        .get(Uri.parse("http://172.16.14.79/2230_scouting/get_scouting_table_of_teamId.php?teamId=$teamId"));
+        .get(Uri.parse("$websiteUrl/php/get_scouting_table_of_teamId.php?teamId=$teamId"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

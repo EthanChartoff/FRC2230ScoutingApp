@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:scoute_prime/misc/constants.dart';
 
 class InsertStrategyDataTable2023 {
   static void newTable({
@@ -16,7 +17,7 @@ class InsertStrategyDataTable2023 {
     try {
       final response = await http.post(
           Uri.parse(
-              'http://172.16.14.79/2230_scouting/new_strategy_data_table.php'),
+              '$websiteUrl/php/new_strategy_data_table.php'),
           body: {
             'id': '',
             'lastChangedAt': '',

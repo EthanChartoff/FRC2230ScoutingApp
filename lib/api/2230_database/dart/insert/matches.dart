@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:scoute_prime/misc/constants.dart';
 
 
 class InsertMatchesDataTable2023 {
@@ -7,7 +8,7 @@ class InsertMatchesDataTable2023 {
       /// updates match status
       final response = await http.post(
         Uri.parse(
-          'http://172.16.14.79/2230_scouting/update_match_status.php'),
+          '$websiteUrl/php/update_match_status.php'),
         body: {
           'matchId': matchId,
           'matchStatus': matchStatus,

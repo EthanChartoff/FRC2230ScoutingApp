@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2022.dart' show ScoutingForm2022;
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/scouting_form2022.dart' show ScoutingForm2022;
 
 
 
@@ -63,7 +63,7 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
     
     icon: const Icon(
       Icons.keyboard_arrow_up, 
-      color: Colors.lightGreen
+      color: Colors.lightGreen,
     )
   );
 
@@ -87,7 +87,10 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
     _incrementButton,
 
     /// Counter counting numbers
-    Text(widget.controller.value.toString()),
+    Text(
+      widget.controller.value.toString(),
+      style: Theme.of(context).textTheme.headline3,
+    ),
 
     _decrementBtton    
   ];
@@ -102,8 +105,13 @@ class _ScoutingShotCounterState extends State<ScoutingShotCounter>{
   
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: (widget.title != null) ? _counterWithTitle : _counterWithoutTitle,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        hoverColor: Theme.of(context).hoverColor.withOpacity(0.1),
+      ),
+      child: Column(
+        children: (widget.title != null) ? _counterWithTitle : _counterWithoutTitle,
+      ),
     );
 
   }

@@ -37,14 +37,13 @@ class DeviceBuilder extends Builder {
             return web;
           } else if (tablet != null){
             return tablet;
-          } else {
-            return ErrorWidget(
-              'device not supported'
-            );
-          }
-        } else {
-          rethrow;
+          } else if (desktop != null && mobile != null) {
+            return MediaQuery.of(context).size.width > 600 ? 
+              desktop : 
+              mobile;
+          } 
         }
+        rethrow;
       } catch (e) {
         rethrow;
       }

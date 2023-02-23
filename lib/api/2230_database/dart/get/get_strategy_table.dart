@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:scoute_prime/misc/constants.dart';
+
 
 class GetStrategyData {
   
@@ -9,7 +11,7 @@ class GetStrategyData {
 
     try {
       final response = await http
-          .get(Uri.parse("http://172.16.14.79/2230_scouting/strategy_data_of_team.php?teamId=$team"));
+          .get(Uri.parse("$websiteUrl/php/strategy_data_of_team.php?teamId=$team"));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

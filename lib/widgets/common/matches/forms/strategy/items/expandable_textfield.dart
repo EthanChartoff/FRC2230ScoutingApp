@@ -11,6 +11,7 @@ class StrategyExpandableTextField extends StatefulWidget {
     required this.title,
     this.hint,
     this.onChanged,
+    this.onExpand,
     TextEditingController? controller,
     ValueNotifier? isExpanded,
   }) : 
@@ -29,10 +30,16 @@ class StrategyExpandableTextField extends StatefulWidget {
   /// Called when the user changes the text in the field.
   final void Function(String)? onChanged;
 
+  /// Called when the card tapped to expand or collapse.
+  final VoidCallback? onExpand;
+
   /// If the card is expanded or not.
   final ValueNotifier isExpanded;
 
   final TextEditingController controller;
+
+  String get controllerValue => controller.text;
+  bool get isExpandedValue => isExpanded.value;
 
   @override
   State<StrategyExpandableTextField> createState() => _StrategyExpandableTextFieldState();
@@ -40,8 +47,6 @@ class StrategyExpandableTextField extends StatefulWidget {
 
 class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextField> {
   Timer? debounce;
-
-  String? get getControllerText => widget.controller.text;
 
   @override
   void dispose() {
@@ -53,7 +58,7 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
   @override
   Widget build(BuildContext context) {
 
-    onSearchChanged(String value) {
+    onChanged(String value) {
       if(debounce?.isActive ?? false) debounce?.cancel();
       debounce = Timer(const Duration(milliseconds: 500), () {
         widget.onChanged?.call(value);
@@ -69,7 +74,10 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
     
         child: ExpansionTile(
           initiallyExpanded: widget.isExpanded.value,
-          onExpansionChanged: (value) => widget.isExpanded.value = value,
+          onExpansionChanged: (value) {
+            widget.isExpanded.value = value;
+            widget.onExpand?.call();
+          },
           title: Center(
             child: Text(
               widget.title,
@@ -85,7 +93,7 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: widget.controller,
-                onChanged: onSearchChanged,
+                onChanged: onChanged,
                 minLines: 1,
                 maxLines: 50,
                 autofocus: true,

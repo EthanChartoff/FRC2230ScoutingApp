@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:build/build.dart';
 import 'package:generators/items/items.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:scoute_prime/misc/constants.dart';
 
 
 class InsertDartScoutingDataTableBuilder extends Builder {
@@ -26,7 +27,7 @@ class InsertDartScoutingDataTableBuilder extends Builder {
         static void newTable({$insertScoutingDataTableFields}) async {
           try {
             final response = await http.post(
-              Uri.parse('http://172.16.14.79/2230_scouting/new_scouting_data_table.php'),
+              Uri.parse('$websiteUrl/php/new_scouting_data_table.php'),
               body: {$insertScoutingDataTableBody}
             );
           } catch (err) {

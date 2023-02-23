@@ -11,9 +11,9 @@ import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/page
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/teleop.dart';
 import 'package:scoute_prime/widgets/desktop/login/login_page_desktop.dart';
 import 'package:scoute_prime/widgets/common/device_builder.dart';
-import 'package:scoute_prime/widgets/matches/matches_page.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/scouting_form2023.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/strategy/strategy_form2023.dart';
+import 'package:scoute_prime/widgets/common/matches/matches_page.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/scouting_form2023.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/strategy_form_desktop.dart';
 import 'package:scoute_prime/widgets/mobile/login/login_page_mobile.dart';
 import 'package:scoute_prime/widgets/desktop/pick_list/pick_list_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/dashboard.dart';
@@ -91,6 +91,7 @@ class _AppState extends State<App> {
               final matchId = state.queryParams['matchId'] ?? 'noMatchId';
               final teamId = state.queryParams['teamId'] ?? 'noTeamId';
               final alliance = state.queryParams['alliance'] ?? 'noAlliance';
+              final matchNum = state.queryParams['matchNum'] ?? 'noMatchNum';
 
               return UserTypeBuilder(
                 user: _user, 
@@ -100,12 +101,14 @@ class _AppState extends State<App> {
                   matchId: matchId,
                   teamId: teamId,
                   alliance: alliance,
+                  matchNum: matchNum,
                 ), 
-                adminPage: StrategyForm(
+                adminPage: StrategyFormDesktop(
                   exit: context.pop,
                   matchId: matchId,
                   teamId: teamId,
                   alliance: alliance,
+                  matchNum: matchNum,
                 )
               );
             } 
@@ -276,6 +279,12 @@ class _AppState extends State<App> {
               fontSize: 28.0,
               color: Colors.white,
               fontFamily: 'GalacticVanguardian'
+            ),
+
+            /// ## Scouting form page textStyles ##
+            headline3: GoogleFonts.roboto(
+              fontSize: 18,
+              color: Colors.grey[400],
             ),
           ),
 

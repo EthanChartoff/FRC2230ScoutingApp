@@ -37,26 +37,26 @@ class StrategyDashboard2023 extends DashboardPage {
     return GridView(
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: StrategyCategories2023.length + 1,
+        crossAxisCount: STRATEGY_CATEGORIES2023.length + 1,
         childAspectRatio: 1.5,
       ),
       children: 
       /// First row contains the titles of the categories.
       <Widget>[
         SizedBox(
-          width: width / StrategyCategories2023.length + 1,
+          width: width / STRATEGY_CATEGORIES2023.length + 1,
         )
-      ]  + List.generate(StrategyCategories2023.length, (index) => 
+      ]  + List.generate(STRATEGY_CATEGORIES2023.length, (index) => 
         Center(
           child: Text(
-            StrategyCategories2023[index],
+            STRATEGY_CATEGORIES2023[index],
             style: Theme.of(context).textTheme.headline1,
           ),
         )
       ) 
       /// The rest of the rows contain the data.
       + List.generate(data['matches'].length, (index) => 
-        List.generate(StrategyCategories2023.length + 1, (index2) => 
+        List.generate(STRATEGY_CATEGORIES2023.length + 1, (index2) => 
           index2 == 0 ? 
           Center(
             child: Text(
@@ -66,12 +66,12 @@ class StrategyDashboard2023 extends DashboardPage {
           ) :
           DashboardTextCard(
             text: data['strategyTables'][0][
-              StrategyCategories2023[index2 - 1].replaceAll(' ', '')
+              STRATEGY_CATEGORIES2023[index2 - 1].replaceAll(' ', '')
               .replaceFirst(
-                StrategyCategories2023[index2 - 1][0],
-                StrategyCategories2023[index2 - 1][0].toLowerCase())] 
+                STRATEGY_CATEGORIES2023[index2 - 1][0],
+                STRATEGY_CATEGORIES2023[index2 - 1][0].toLowerCase())] 
                 ?? 'no information',
-            width: width / StrategyCategories2023.length + 1,
+            width: width / STRATEGY_CATEGORIES2023.length + 1,
           )
         )
       ).expand((element) => element).toList(),

@@ -26,7 +26,7 @@ const SCREEN_SIZE = Size(
   /* height */ 922
 );
 
-const List<String> StrategyCategories2023 = [
+const List<String> STRATEGY_CATEGORIES2023 = [
   'Gathering',
   'Cargo',
   'Scoring',
@@ -35,4 +35,17 @@ const List<String> StrategyCategories2023 = [
   'Drivers',
   'Comments'
 ];
+
+const List<String> DB_ACCURATE_STRATEGY_CATEGORIES2023 = [
+  'gathering',
+  'cargo',
+  'scoring',
+  'defenceOnOtherRobots',
+  'defenceOnThemselves',
+  'drivers',
+  'comments'
+];
+
+const websiteUrl = 'https://gascouting.000webhostapp.com';
+const websiteAddress = 'gascouting.000webhostapp.com';
 
