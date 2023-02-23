@@ -10,7 +10,7 @@ class GetMatches {
 
     try {
       final response = await http
-        .get(Uri.https(websiteAddress, '/php/all_matches_tables.php'));
+        .get(Uri.http(websiteAddress, '/php/all_matches_tables.php'));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

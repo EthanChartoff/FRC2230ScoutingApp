@@ -39,7 +39,6 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
   PickListDesktop? _pickList1;
   PickListDesktop? _pickList2;
 
-  final _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {    
@@ -58,6 +57,7 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
                 return {
                   'id': team['id'],
                   'pos': team['picklistPos1'],
+                  'selected': team['isSelected1'],
                 };
               }).toList());
 
@@ -67,6 +67,7 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
                 return {
                   'id': team['id'],
                   'pos': team['picklistPos2'],
+                  'selected': team['isSelected1'],
                 };
               }).toList());
 
@@ -96,12 +97,38 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
                 
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        child: _pickList1
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                'PICK 1',
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                            Expanded(
+                              child: _pickList1!
+                            ),
+                          ],
+                        )
                       ),
                 
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        child: _pickList2
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                'PICK 2',
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
+                            ),
+                            Expanded(
+                              child: _pickList2!
+                            ),
+                          ],
+                        )
                       ),
                 
                       ElevatedButton(

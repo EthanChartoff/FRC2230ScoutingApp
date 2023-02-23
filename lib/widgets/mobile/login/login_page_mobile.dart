@@ -117,7 +117,7 @@ class _LoginPageMobileState extends State<LoginPageMobile> {
                         context: context,
                       ),
                       loginUserButton(
-                        userType: UserTypes.Admin,
+                        userType: UserTypes.Strategy,
                         route: '/matches',
                         context: context,
                       ),

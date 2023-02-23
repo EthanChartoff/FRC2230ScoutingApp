@@ -135,7 +135,7 @@ class _LoginPageDesktopState extends State<LoginPageDesktop>{
                           context: context,
                         ),
                         loginUserButton(
-                          userType: UserTypes.Admin,
+                          userType: UserTypes.Strategy,
                           route: '/matches',
                           context: context,
                         ),

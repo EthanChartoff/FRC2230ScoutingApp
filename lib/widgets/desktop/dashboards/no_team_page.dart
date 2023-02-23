@@ -10,21 +10,28 @@ class DashboardNoTeamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: double.infinity,
       color: Theme.of(context).backgroundColor,
-      child: Center(
-        child: Column(
-          children: [
-            Text(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text(
               'please select a team',
               style: Theme.of(context).textTheme.headline2,
             ),
-            TeamSearchbox(
-              context: context,
-              teams: TeamsData.allTeams,
-              isExpanded: true,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TeamSearchbox(
+                context: context,
+                teams: TeamsData.allTeams,
+                isExpanded: true,
+              ),
             ),
-          ],
-        )
+          ),
+        ],
       ),
     );
   }

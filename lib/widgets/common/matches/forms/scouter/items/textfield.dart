@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart' show TextFormField, InputDecoration;
+import 'package:flutter/material.dart' show Colors, InputDecoration, TextFormField, TextStyle;
+import 'package:scoute_prime/misc/constants.dart';
 
 import 'package:scoute_prime/widgets/common/matches/forms/scouter/scouting_form2022.dart' show ScoutingForm2022;
 
@@ -8,14 +9,6 @@ import 'package:scoute_prime/widgets/common/matches/forms/scouter/scouting_form2
 /// TODO: implement different styles
 
 class ScoutingTextFormField extends TextFormField {
-
-  final String? labelText;
-
-  final String? errorText;
-
-  final String? hint;
-
-  final bool canBeEmpty;
 
   ScoutingTextFormField({
     super.key,
@@ -32,7 +25,7 @@ class ScoutingTextFormField extends TextFormField {
     this.labelText,
     this.errorText,
     this.hint,
-    this.canBeEmpty = false
+    this.canBeEmpty = true
   }) : 
   assert(controller != null, "controller can't be null"),
   assert(
@@ -45,8 +38,26 @@ class ScoutingTextFormField extends TextFormField {
     controller: controller,
     decoration: decoration ?? InputDecoration(
       labelText: labelText,
-      errorText: canBeEmpty ? null : controller.text.isEmpty ? errorText ?? "Can't be empty" : null,
-      hintText: hint
-    )
+      labelStyle: const TextStyle(
+        color: ConstColors.SECONDARY_COLOR,
+      ),
+      errorText: canBeEmpty ? null : controller.text.isEmpty ? 
+        errorText ?? "Can't be empty" : 
+        null,
+      hintText: hint,
+    ),
+    style: const TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+    ),
+    cursorColor: ConstColors.PRIMARY_COLOR_LIGHT,
+    showCursor: true,
+    
   );
+
+  final String? labelText;
+  final String? errorText;
+  final String? hint;
+  final bool canBeEmpty;
+
 }

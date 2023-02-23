@@ -10,8 +10,11 @@ class GetStrategyData {
     var jsonData = [];
 
     try {
-      final response = await http
-          .get(Uri.parse("$websiteUrl/php/strategy_data_of_team.php?teamId=$team"));
+      final response = await http.get(
+        Uri.https(websiteAddress, 
+        '/php/strategy_data_of_team.php', 
+        {'teamId' : team})
+      );
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

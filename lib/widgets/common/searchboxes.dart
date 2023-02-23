@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
+import 'package:scoute_prime/misc/constants.dart';
 
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
@@ -26,10 +27,17 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
     textFieldConfiguration: textFieldConfiguration ?? TextFieldConfiguration(
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).primaryColorLight
+          ),
+          gapPadding: 8.0
+        ),
         border: const OutlineInputBorder(),
         hintText: hintText,
         fillColor: Theme.of(context).primaryColor,
       ),
+      style: Theme.of(context).textTheme.headline3,
       onTap: onTap,
       maxLines: 1
     ),
@@ -46,18 +54,23 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
     },
 
     itemBuilder: itemBuilder ?? (context, suggestions) => ListTile(
-      title: Text("${suggestions.number} ${suggestions.name}"),
-      textColor: Colors.black12,
-      tileColor: Colors.black12,
-      focusColor: Colors.amber,
+      title: Text(
+        '#${suggestions.number} ${suggestions.name}',
+        style: Theme.of(context).textTheme.headline3!.copyWith(
+          fontSize: 14
+        ),
+      ),
+      tileColor: Theme.of(context).primaryColorDark,
+      
     ),
 
     noItemsFoundBuilder: noItemsFoundBuilder ?? (final BuildContext context) => Container(
+      color: Theme.of(context).primaryColorDark,
         height: 60,
-        child: const Center(
+        child: Center(
           child: Text(
             "No Teams Found",
-            style: TextStyle(fontSize: 16),
+            style: Theme.of(context).textTheme.headline3,
           ),
         ),
       ),

@@ -1,7 +1,7 @@
 enum UserTypes {
   Viewer,
   Scouter,
-  Admin,
+  Strategy,
   noType
 }
 
@@ -9,7 +9,7 @@ const List<String> PASSWORDS = [
   /// Viewer password
   '',
   /// Scouter password
-  '',
+  'scooter',
   /// Admin password
-  "omegalol"
+  '2230scouting'
 ];

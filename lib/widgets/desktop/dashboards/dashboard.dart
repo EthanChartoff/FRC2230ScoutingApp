@@ -171,7 +171,7 @@ class _DashboardState extends State<Dashboard>{
         future: getPageData,
         builder: (context, snapshot) {
           if(_futureData!.first['scoutingTables']!.isEmpty) {
-            return const Text('no data on team :(');
+            return const Center(child: CircularProgressIndicator());
           }
 
           else if(snapshot.connectionState == ConnectionState.done 

@@ -54,7 +54,7 @@ class ScoutingDropdownButtonFormField<T> extends StatelessWidget {
         focusColor: Colors.transparent,
         hint: hint != null ? Text(
           controller.value.toString() != '' ? 
-          '$hint: ${controller.value} lol' : 
+          '$hint: ${controller.value}' : 
           '$hint',
           style: const TextStyle(
             color: Colors.white,
@@ -67,6 +67,7 @@ class ScoutingDropdownButtonFormField<T> extends StatelessWidget {
             borderSide: BorderSide(
               width: 40,
               style: BorderStyle.solid,
+              color: Colors.transparent
             )
           ),
         ),

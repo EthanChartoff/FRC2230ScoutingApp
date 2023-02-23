@@ -285,8 +285,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ScoutingTextFormField(
               controller: _scouterNameController,
               onChanged: (value) => setState(() {}),
-              hint: 'input something',
-              labelText: 'scouterName',
+              labelText: 'Scouter Name',
             ),
 
             ScoutingCheckbox(
@@ -687,15 +686,13 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ScoutingTextFormField(
               controller: _defenseCommentsController,
               onChanged: (value) => setState(() {}),
-              hint: 'input something',
-              labelText: 'defenseComments',
+              labelText: 'Defense Comments',
             ),
           
             ScoutingTextFormField(
               controller: _robotCommentsController,
               onChanged: (value) => setState(() {}),
-              hint: 'input something',
-              labelText: 'robotComments',
+                labelText: 'Robot Comments',
             ),
           
             ScoutingDropdownButtonFormField(

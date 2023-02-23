@@ -17,7 +17,7 @@ class UserTypeBuilder extends Builder {
           return viewerPage;
         case UserTypes.Scouter:
           return scouterPage;
-        case UserTypes.Admin:
+        case UserTypes.Strategy:
           return adminPage;
         default:
           return ErrorWidget(
@@ -37,6 +37,6 @@ class UserTypeBuilder extends Builder {
   /// if [user] = [UserTypes.Scouter], build this widget,
   final Widget scouterPage;
 
-  /// if [user] = [UserTypes.Admin], build this widget,
+  /// if [user] = [UserTypes.Strategy], build this widget,
   final Widget adminPage;
 }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/widgets/common/builder_wrapper.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/strategy_form_mobile.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/no_team_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
 import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
@@ -64,11 +65,6 @@ class _AppState extends State<App> {
               _user = permission;
             }),
           ),
-          web: LoginPageDesktop(
-            updatePermissions: (permission) => setState(() {
-              _user = permission;
-            }),
-          ),
         )
       ),
 
@@ -103,12 +99,21 @@ class _AppState extends State<App> {
                   alliance: alliance,
                   matchNum: matchNum,
                 ), 
-                adminPage: StrategyFormDesktop(
-                  exit: context.pop,
-                  matchId: matchId,
-                  teamId: teamId,
-                  alliance: alliance,
-                  matchNum: matchNum,
+                adminPage: DeviceBuilder(
+                  desktop: StrategyFormDesktop(
+                    exit: context.pop,
+                    matchId: matchId,
+                    teamId: teamId,
+                    alliance: alliance,
+                    matchNum: matchNum,
+                  ),
+                  mobile: StrategyFormMobile(
+                    exit: context.pop,
+                    matchId: matchId,
+                    teamId: teamId,
+                    alliance: alliance,
+                    matchNum: matchNum,
+                  ),
                 )
               );
             } 
@@ -181,9 +186,6 @@ class _AppState extends State<App> {
             teamsFromDb: GetTeamsData.all,
           ),
           desktop: const PickListPageDesktop(
-            teamsFromDb: GetTeamsData.all,
-          ),
-          web: const PickListPageDesktop(
             teamsFromDb: GetTeamsData.all,
           ),
         )        

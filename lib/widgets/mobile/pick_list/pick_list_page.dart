@@ -40,8 +40,6 @@ class _PickListPageMobileState extends State<PickListPageMobile> {
   PickListMobile? _pickList1;
   PickListMobile? _pickList2;
 
-  final _pageController = PageController();
-
   @override
   Widget build(BuildContext context) {    
     return Container(
@@ -89,30 +87,49 @@ class _PickListPageMobileState extends State<PickListPageMobile> {
                   headline2: Theme.of(context).textTheme.headline2
                 )
               ),
-              child: Stack(
+              child: PageView(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
                 
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: _pickList1
-                      ),
-                
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: _pickList2
-                      ),
-                
-                      ElevatedButton(
-                        onPressed: () => GetTeamsData.updatePicklistIndexes(
-                          teamsPos1: _pickListTeams1!,
-                          teamsPos2: _pickListTeams2!
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text('PICK 1',
+                            style: Theme.of(context).textTheme.headline2
+                          ),
                         ),
-                        child: null
-                      ),
-                    ],
+                        Expanded(
+                          child: _pickList1!
+                        ),
+                      ],
+                    )
+                  ),
+                
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text('PICK 2',
+                            style: Theme.of(context).textTheme.headline2
+                          ),
+                        ),
+                        Expanded(
+                          child: _pickList2!
+                        ),
+                      ],
+                    )
+                  ),
+                
+                  ElevatedButton(
+                    onPressed: () => GetTeamsData.updatePicklistIndexes(
+                      teamsPos1: _pickListTeams1!,
+                      teamsPos2: _pickListTeams2!
+                    ),
+                    child: null
                   ),
                 ],
               ),

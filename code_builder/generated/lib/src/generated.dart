@@ -4,11 +4,11 @@
 import 'package:flutter/material.dart';
 import 'package:generated/src/generated.g_insert_table.dart';
 
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/checkbox.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/counter.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/dropdown_with_items.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/textfield.dart';
-import 'package:scoute_prime/widgets/matches/scouting_forms/scouter/items/timed_button.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/checkbox.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/counter.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/dropdown_with_items.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/textfield.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/timed_button.dart';
 
 
 import 'package:generators/items/items_enums.dart';
