@@ -4,6 +4,7 @@ import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/new_strategy_data_table2023.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/scouter/items/snackbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:scoute_prime/widgets/common/matches/forms/strategy/items/expandable_textfield.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/strategy/items/side_comments.dart';
@@ -115,7 +116,8 @@ class _StrategyFormDesktopState extends State<StrategyFormDesktop> {
                         child: ListView(
                           children: cards.map<StrategyExpandableTextField>((e) => 
                             StrategyExpandableTextField(
-                              title: e.title,
+                              title: AppLocalizations.of(context)
+                                .getStrategyCategotyName(e.title),
                               controller: e.controller,
                               isExpanded: e.isExpanded,
                               onExpand: () => setState(() {}),

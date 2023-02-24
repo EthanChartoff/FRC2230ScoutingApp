@@ -16,7 +16,7 @@ class GetEventsTBA {
     try {
       while(true) {
         var response = await http
-         .get(Uri.parse("https://www.thebluealliance.com/api/v3/events/$year/simple?X-TBA-Auth-Key=kx16kzCU5g2xiADIEZfE06l8dZJ7aC2EbslUz7i9gmZfWArTiGb8RhbD0jwvHQkq"));
+         .get(Uri.parse("https://www.thebluealliance. com/api/v3/events/$year/simple?X-TBA-Auth-Key=kx16kzCU5g2xiADIEZfE06l8dZJ7aC2EbslUz7i9gmZfWArTiGb8RhbD0jwvHQkq"));
         
         if(!response.body.toString().contains('0')) {
           break;

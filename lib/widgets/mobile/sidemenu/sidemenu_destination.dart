@@ -4,14 +4,16 @@ class SidemenuMobileDestination extends NavigationDestination {
   const SidemenuMobileDestination({
     Key? key,
     required Widget icon,
-    required String label,
+    required this.title,
     this.route,
     this.onSelected,
   }) : 
   super(
     icon: icon,
-    label: label,
+    label: title,
   );
+
+  final String title;
 
   final String? route;
   final VoidCallback? onSelected;

@@ -2,6 +2,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/matches.dart';
 import 'package:scoute_prime/api/2230_database/dart/insert/new_scouting_data_table2023.dart';
@@ -133,10 +135,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
   final ValueNotifier<int> _numOfConesGatheredIntoComunityController =
       ValueNotifier<int>(0);
 
-  /// TODO: DELETE THIS, no need for this
-  final ValueNotifier<double> _numOfSecondsOnChargeStationController =
-      ValueNotifier<double>(0);
-
+  /// TODO: add
   final ValueNotifier<double>
       _numSecondsBeforeEndPivotedToChargeStationController =
       ValueNotifier<double>(0);
@@ -197,7 +196,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
     _didFeedController.dispose();
     _numOfCubesGatheredIntoComunityController.dispose();
     _numOfConesGatheredIntoComunityController.dispose();
-    _numOfSecondsOnChargeStationController.dispose();
     _numSecondsBeforeEndPivotedToChargeStationController.dispose();
     _autoChargeStationStatusController.dispose();
     _endGameChargeStationStatusController.dispose();
@@ -270,7 +268,9 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                         child: Text(
-                          'Match ${widget.matchNum}',
+                          AppLocalizations.of(context).matchNumber(
+                            widget.matchNum
+                          ),
                           style: Theme.of(context).textTheme.headline2!.copyWith(
                             fontSize: 24    ,
                           ),
@@ -285,7 +285,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ScoutingTextFormField(
               controller: _scouterNameController,
               onChanged: (value) => setState(() {}),
-              labelText: 'Scouter Name',
+              labelText: AppLocalizations.of(context).scoutersName,
             ),
 
             ScoutingCheckbox(
@@ -293,7 +293,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _wasRobotOnFieldController.value = value!;
               }),
-              title: 'was robot on field?', 
+              title: AppLocalizations.of(context).wasRobotOnField, 
             ),
 
             ScoutingDropdownButtonFormField(
@@ -307,7 +307,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'R3', child: Text('red 3')),
               ],
               controller: _startingPositionController,
-              hint: 'starting position',
+              hint: AppLocalizations.of(context).startingPos,
             ),
 
             ScoutingDropdownButtonFormField(
@@ -317,12 +317,12 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'NONE', child: Text('none')),
               ],
               controller: _startingItemOnRobotController,
-              hint: 'starting item on robot',
+              hint: AppLocalizations.of(context).startingItemOnRobot,
             ),
 
             /// # Data points specific for the autonomous period.
-            const ScoutingTitle(
-              title: 'AUTO'
+            ScoutingTitle(
+              title: AppLocalizations.of(context).auto
             ),
 
             ScoutingCheckbox(
@@ -330,18 +330,17 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _didRobotWorkInAutoController.value = value!;
               }), 
-              title: 'did robot work in auto?',
+              title: AppLocalizations.of(context).didRobotWorkInAuto,
             ),
 
             ScoutingDropdownButtonFormField(
               items: const [
                 DropdownMenuItem(value: 'DOCKED', child: Text('docked')),
                 DropdownMenuItem(value: 'ENGAGED', child: Text('engaged')),
-                DropdownMenuItem(value: 'PARKED', child: Text('parked')),
                 DropdownMenuItem(value: 'NONE', child: Text('none')),
               ],
               controller: _autoChargeStationStatusController,
-              hint: 'auto charge station status',
+              hint: AppLocalizations.of(context).autoChargeStationStatus,
             ),
 
             ScoutingCheckbox(
@@ -349,7 +348,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _autoDidRobotComeOutOfComunityController.value = value!;
               }), 
-              title: 'did robot come out of comunity in auto?',
+              title: AppLocalizations.of(context).autoDidComeOutOfComunity,
             ),
 
             // ## auto game item scored.
@@ -359,7 +358,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   children: [
                     ScoutingShotCounter(
                       controller: _tryAutoRowOneCubesController,
-                      title: 'tried to score cubes in row 1',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _autoRowOneCubesController,
                         notDependent: _tryAutoRowOneCubesController,
@@ -367,7 +370,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _autoRowOneCubesController,
-                      title: 'scored cubes in row 1',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).low 
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryAutoRowOneCubesController,
                         notDependent: _autoRowOneCubesController,
@@ -376,7 +383,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryAutoRowTwoCubesController,
-                      title: 'tried to score cubes in row 2',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _autoRowTwoCubesController,
                         notDependent: _tryAutoRowTwoCubesController,
@@ -384,7 +395,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _autoRowTwoCubesController,
-                      title: 'scored cubes in row 2',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryAutoRowTwoCubesController,
                         notDependent: _autoRowTwoCubesController,
@@ -393,7 +408,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryAutoRowThreeCubesController,
-                      title: 'tried to score cubes in row 3',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _autoRowThreeCubesController,
                         notDependent: _tryAutoRowThreeCubesController,
@@ -401,7 +420,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _autoRowThreeCubesController,
-                      title: 'scored cubes in row 3',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryAutoRowThreeCubesController,
                         notDependent: _autoRowThreeCubesController,
@@ -414,7 +437,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   children: [
                     ScoutingShotCounter(
                       controller: _tryAutoRowOneConesController,
-                      title: 'tried to score cones in row 1',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _autoRowOneConesController,
                         notDependent: _tryAutoRowOneConesController,
@@ -422,7 +449,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _autoRowOneConesController,
-                      title: 'scored cones in row 1',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryAutoRowOneConesController,
                         notDependent: _autoRowOneConesController,
@@ -431,7 +462,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryAutoRowTwoConesController,
-                      title: 'tried to score cones in row 2',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _autoRowTwoConesController,
                         notDependent: _tryAutoRowTwoConesController,
@@ -439,7 +474,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _autoRowTwoConesController,
-                      title: 'scored cones in row 2',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryAutoRowTwoConesController,
                         notDependent: _autoRowTwoConesController,
@@ -448,7 +487,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryAutoRowThreeConesController,
-                      title: 'tried to score cones in row 3',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _autoRowThreeConesController,
                         notDependent: _tryAutoRowThreeConesController,
@@ -456,7 +499,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _autoRowThreeConesController,
-                      title: 'scored cones in row 3',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryAutoRowThreeConesController,
                         notDependent: _autoRowThreeConesController,
@@ -469,12 +516,13 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               
             ScoutingButtonTimer(
               controller: _autoNumOfSecondsUntilBalancedController,
-              title: 'time until robot is balanced on the charge station',
+              title: AppLocalizations.of(context)
+                .autoTimeUntilBalancedOnChargeStation,
             ),
 
             /// # Data points specific for the teleoperated period.
-            const ScoutingTitle(
-              title: 'TELEOP'
+            ScoutingTitle(
+              title: AppLocalizations.of(context).teleop,
             ),
 
             ScoutingCheckbox(
@@ -482,7 +530,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _didRobotWorkInTeleOpController.value = value!;
               }), 
-              title: 'did robot work in teleop?',
+              title: AppLocalizations.of(context).didRobotWorkInTeleop,
             ),
 
             ScoutingCheckbox(
@@ -490,7 +538,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _didDefendTeleOpController.value = value!;
               }), 
-              title: 'did robot defend in teleop?',
+              title: AppLocalizations.of(context).teleopDidRobotDefend,
             ),
             
             ScoutingCheckbox(
@@ -498,7 +546,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _didGetDefendedTeleOpController.value = value!;
               }), 
-              title: 'did robot get defended in teleop?',
+              title: AppLocalizations.of(context).teleopDidRobotGetDefended,
             ),
 
             ScoutingCheckbox(
@@ -506,7 +554,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               onChanged: (value) => setState(() {
                 _didFeedController.value = value!;
               }), 
-              title: 'did robot feed?',
+              title: AppLocalizations.of(context).teleopDidRobotFeed,
             ),
 
             /// ## game items scored.
@@ -517,7 +565,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   children: [
                     ScoutingShotCounter(
                       controller: _tryRowOneCubesController,
-                      title: 'tried to score cubes in row 1',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _rowOneCubesController,
                         notDependent: _tryRowOneCubesController
@@ -525,7 +577,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _rowOneCubesController,
-                      title: 'scored cubes in row 1',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryRowOneCubesController,
                         notDependent: _rowOneCubesController
@@ -534,7 +590,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryRowTwoCubesController,
-                      title: 'tried to score cubes in row 2',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _rowTwoCubesController,
                         notDependent: _tryRowTwoCubesController
@@ -542,7 +602,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _rowTwoCubesController,
-                      title: 'scored cubes in row 2',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryRowTwoCubesController,
                         notDependent: _rowTwoCubesController
@@ -551,7 +615,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryRowThreeCubesController,
-                      title: 'tried to score cubes in row 3',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _rowThreeCubesController,
                         notDependent: _tryRowThreeCubesController
@@ -559,7 +627,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _rowThreeCubesController,
-                      title: 'scored cubes in row 3',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cube,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryRowThreeCubesController,
                         notDependent: _rowThreeCubesController
@@ -571,7 +643,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   children: [
                     ScoutingShotCounter(
                       controller: _tryRowOneConesController,
-                      title: 'tried to score cones in row 1',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _rowOneConesController,
                         notDependent: _tryRowOneConesController
@@ -579,7 +655,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _rowOneConesController,
-                      title: 'scored cones in row 1',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).low
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryRowOneConesController,
                         notDependent: _rowOneConesController
@@ -588,7 +668,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryRowTwoConesController,
-                      title: 'tried to score cones in row 2',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _rowTwoConesController,
                         notDependent: _tryRowTwoConesController
@@ -596,7 +680,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _rowTwoConesController,
-                      title: 'scored cones in row 2',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).mid
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryRowTwoConesController,
                         notDependent: _rowTwoConesController
@@ -605,7 +693,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
 
                     ScoutingShotCounter(
                       controller: _tryRowThreeConesController,
-                      title: 'tried to score cones in row 3',
+                      title: AppLocalizations.of(context)
+                        .attempedItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeHigher(
                         dependent: _rowThreeConesController,
                         notDependent: _tryRowThreeConesController
@@ -613,7 +705,11 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                     ),
                     ScoutingShotCounter(
                       controller: _rowThreeConesController,
-                      title: 'scored cones in row 3',
+                      title: AppLocalizations.of(context)
+                        .scoredItemCounterTitle(
+                          AppLocalizations.of(context).cone,
+                          AppLocalizations.of(context).high
+                        ),
                       onChanged: () => counterCantBeLower(
                         dependent: _tryRowThreeConesController,
                         notDependent: _rowThreeConesController
@@ -629,18 +725,24 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               children: [
                 ScoutingShotCounter(
                   controller: _numOfCubesGatheredIntoComunityController,
-                  title: 'number of cubes gathered into comunity',
+                  title: AppLocalizations.of(context)
+                    .gatheredIntoComunityCounterTitle(
+                      AppLocalizations.of(context).cube
+                    ),
                 ),
                 ScoutingShotCounter(
                   controller: _numOfConesGatheredIntoComunityController,
-                  title: 'number of cones gathered into comunity',
+                  title: AppLocalizations.of(context)
+                    .gatheredIntoComunityCounterTitle(
+                      AppLocalizations.of(context).cone
+                    ),
                 ),
               ],
             ),
                       
             /// # Data points specific for the endgame period.
-            const ScoutingTitle(
-              title: 'ENDGAME'
+            ScoutingTitle(
+              title: AppLocalizations.of(context).endgame,
             ),
 
             ScoutingDropdownButtonFormField(
@@ -651,12 +753,13 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'NONE', child: Text('none')),
               ],
               controller: _endGameChargeStationStatusController,
-              hint: 'end game charge station status',
+              hint: AppLocalizations.of(context).endgameChargeStationStatus,
             ),
 
             ScoutingButtonTimer(
               controller: _endgameNumOfSecondsUntilBalancedController,
-              title: 'time until robot is balanced on the charge station',
+              title: AppLocalizations.of(context)
+                .endgameTimeUntilBalancedOnChargeStation,
             ),
                                 
             ScoutingDropdownButtonFormField(
@@ -665,7 +768,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: 'OUT', child: Text('out')),
               ],
               controller: _fromWhereRobotDroveToChargeStationController,
-              hint: 'from where robot drove to charge station',
+              hint: AppLocalizations.of(context).endgameFromWhichSide,
             ),
 
             ScoutingDropdownButtonFormField(
@@ -675,26 +778,9 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: '2', child: Text('2')),
               ],
               controller: _numOfRobotsOnChargeStationController,
-              hint: 'number of robots on charge station before robot arrived at the charge station.',
+              hint: AppLocalizations.of(context).endgameNumOfRobotsBeforeRobot,
             ),
 
-            /// # Data for when the match is done.
-            const ScoutingTitle(
-              title: 'COMMENTS'
-            ),
-
-            ScoutingTextFormField(
-              controller: _defenseCommentsController,
-              onChanged: (value) => setState(() {}),
-              labelText: 'Defense Comments',
-            ),
-          
-            ScoutingTextFormField(
-              controller: _robotCommentsController,
-              onChanged: (value) => setState(() {}),
-                labelText: 'Robot Comments',
-            ),
-          
             ScoutingDropdownButtonFormField(
               items: const [
                 DropdownMenuItem(value: '0', child: Text('0')),
@@ -703,17 +789,34 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 DropdownMenuItem(value: '3', child: Text('3')),
               ],
               controller: _numOfRobotsOnChargeStationAtEndController,
-              hint: 'number of robots on charge station at end',
+              hint: AppLocalizations.of(context).endgameNumOfRobotsAtEndOfMatch,
+            ),
+
+            /// # Data for when the match is done.
+            ScoutingTitle(
+              title: AppLocalizations.of(context).comments
+            ),
+
+            ScoutingTextFormField(
+              controller: _defenseCommentsController,
+              onChanged: (value) => setState(() {}),
+              labelText: AppLocalizations.of(context).defenseComments,
             ),
           
+            ScoutingTextFormField(
+              controller: _robotCommentsController,
+              onChanged: (value) => setState(() {}),
+                labelText: AppLocalizations.of(context).robotComments,
+            ),
+                    
             ElevatedButton(
               onPressed: widget.exit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColorDark,
               ),
-              child: const Text(
-                'EXIT',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context).exitButton,
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               ),
@@ -765,7 +868,6 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                   didFeed: _didFeedController.value ? '1' : '0',
                   numOfCubesGatheredIntoComunity: _numOfCubesGatheredIntoComunityController.value,
                   numOfConesGatheredIntoComunity: _numOfConesGatheredIntoComunityController.value,
-                  numOfSecondsOnChargeStation: _numOfSecondsOnChargeStationController.value,
                   numSecondsBeforeEndPivotedToChargeStation: _numSecondsBeforeEndPivotedToChargeStationController.value,
                   autoChargeStationStatus: _autoChargeStationStatusController.value,
                   endGameChargeStationStatus : _endGameChargeStationStatusController.value,
@@ -803,7 +905,8 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
                 // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   ScoutingSnackbar(
-                    message: 'Data has been saved',
+                    // ignore: use_build_context_synchronously
+                    message: AppLocalizations.of(context).dataSavedMsg,
                   )
                 );
               },
@@ -811,9 +914,9 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColorDark,
               ),
-              child: const Text(
-                'SUBMIT',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context).saveButton,
+                style: const TextStyle(
                   color: Colors.white,
                 ),
               )

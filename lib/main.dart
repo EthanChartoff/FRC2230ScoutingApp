@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/widgets/common/builder_wrapper.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/strategy_form_mobile.dart';
@@ -224,6 +227,11 @@ class _AppState extends State<App> {
       
         /// header of the tab in the browser.
         title: '2230 scouting',
+
+        /// Localizations are used to translate the app to different languages.
+        /// https://docs.flutter.dev/development/accessibility-and-localization/internationalization
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
     
         theme: ThemeData(
           /// Defines a theme data, we can use the theme data to set app-wide colors, fonts, widgets

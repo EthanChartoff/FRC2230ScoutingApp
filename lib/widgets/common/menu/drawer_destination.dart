@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 
 
 class DrewerDestination extends ListTile {
-  const DrewerDestination({
+  DrewerDestination({
     Key? key,
-    super.title,
+    String? title,
     super.leading,
     super.onTap,
     this.route,
   }) : super(
     key: key,
+    title: title != null ? Text(title) : null,
   );
 
   final String? route; 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:scoute_prime/widgets/common/matches/match_cards/match_cards_funcs.dart';
 import 'package:scoute_prime/widgets/common/matches/match_cards/team_button.dart';
 import 'package:scoute_prime/misc/routing.dart';
@@ -44,11 +46,13 @@ class EndedMatchCard extends StatelessWidget{
             iconColor: Colors.black,
 
             title: Text(
-              'Match Number ${match[MatchVars.matchNumber.name]}',
+              AppLocalizations.of(context)
+                .matchNumber(match[MatchVars.matchNumber.name]),
               style: Theme.of(context).textTheme.headline1,
             ),
             subtitle: Text(
-              '${MatchCardFuncs.getTypeFullName(match['matchType'])}${
+              '${AppLocalizations.of(context)
+                .getMatchTypeFullName(match['matchType'])}${
                 match[MatchVars.eventKey.name] == '' ?
                 '' : ', ${match[MatchVars.eventKey.name]}'
               }',

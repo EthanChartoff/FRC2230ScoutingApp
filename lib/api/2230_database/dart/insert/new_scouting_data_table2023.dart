@@ -47,7 +47,6 @@ class InsertScoutingDataTable2023 {
     required didFeed,
     required numOfCubesGatheredIntoComunity,
     required numOfConesGatheredIntoComunity,
-    required numOfSecondsOnChargeStation,
     required numSecondsBeforeEndPivotedToChargeStation,
     required autoChargeStationStatus,
     required endGameChargeStationStatus,
@@ -107,7 +106,6 @@ class InsertScoutingDataTable2023 {
           'didFeed': '$didFeed',
           'numOfCubesGatheredIntoComunity': '$numOfCubesGatheredIntoComunity',
           'numOfConesGatheredIntoComunity': '$numOfConesGatheredIntoComunity',
-          'numOfSecondsOnChargeStation': '$numOfSecondsOnChargeStation',
           'numSecondsBeforeEndPivotedToChargeStation':
               '$numSecondsBeforeEndPivotedToChargeStation',
           'autoChargeStationStatus': '$autoChargeStationStatus',

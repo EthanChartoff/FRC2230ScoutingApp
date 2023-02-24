@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:scoute_prime/misc/teams_data.dart';
 import 'package:scoute_prime/widgets/common/searchboxes.dart';
 
@@ -17,7 +19,7 @@ class DashboardNoTeamPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Text(
-              'please select a team',
+              AppLocalizations.of(context).teamSearchTitle,
               style: Theme.of(context).textTheme.headline2,
             ),
           ),

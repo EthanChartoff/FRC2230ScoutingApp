@@ -29,7 +29,7 @@ class GetTeamsData {
   }) async {
     try {
       final response = await http.post(Uri.https(
-        websiteUrl, 
+        websiteAddress, 
         '/php/update_picklist.php'
       ),
       body: {

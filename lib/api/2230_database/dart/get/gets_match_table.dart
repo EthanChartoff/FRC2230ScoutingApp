@@ -9,8 +9,12 @@ class GetMatches {
     var jsonData = [];
 
     try {
-      final response = await http
-        .get(Uri.http(websiteAddress, '/php/all_matches_tables.php'));
+      final response = await http.get(Uri.http(
+          websiteAddress, 
+          '/php/all_matches_tables.php'
+        ),
+        headers: {'Accept': 'application/json'} /// TODO: fix error here
+      );
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

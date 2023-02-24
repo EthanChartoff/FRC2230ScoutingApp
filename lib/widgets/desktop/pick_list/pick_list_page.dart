@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
@@ -102,7 +102,8 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
-                                'PICK 1',
+                                AppLocalizations.of(context)
+                                  .picklistPageTitle('1'),
                                 style: Theme.of(context).textTheme.headline2,
                               ),
                             ),
@@ -120,7 +121,8 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
-                                'PICK 2',
+                                AppLocalizations.of(context)
+                                  .picklistPageTitle('2'),
                                 style: Theme.of(context).textTheme.headline2,
                               ),
                             ),

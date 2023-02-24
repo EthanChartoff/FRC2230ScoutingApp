@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:scoute_prime/widgets/common/menu/adaptive_drawer.dart';
 import 'package:scoute_prime/widgets/common/menu/adaptive_menu.dart';
 import 'package:scoute_prime/widgets/common/menu/menu_destinations.dart';
 import 'package:scoute_prime/widgets/desktop/sidemenue/sidemenu_destination.dart';
+import 'package:scoute_prime/widgets/mobile/sidemenu/sidemenu_destination.dart';
 
 class BuilderWrapper extends StatelessWidget {
   const BuilderWrapper({
@@ -20,17 +24,31 @@ class BuilderWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    var sideLeadingDestinationOpenDrewer = SidemenuDesktopDestination(
-      icon: sideLeadingDestination.icon, 
-      label: sideLeadingDestination.label,
-      onSelected: () {
-        scaffoldKey.currentState!.openDrawer();
-      },
-    );
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
+
+        /// Translate the destinations to the current locale
+        final sideDestinationsLocale = [
+          ...sideDestinations,
+          sideTraillingDestinations
+        ].map((e) => SidemenuDesktopDestination(
+          title: AppLocalizations.of(context).getManuDetination(e.title),
+          icon: e.icon,
+          route: e.route,
+          onSelected: e.onSelected,
+        )).toList();
+
+        final bottomDestinationsLocale = [
+          ...bottomDestinations,
+          bottomTraillingDestination
+        ].map((e) => SidemenuMobileDestination(
+          title: AppLocalizations.of(context).getManuDetination(e.title),
+          icon: e.icon,
+          route: e.route,
+          onSelected: e.onSelected,
+        )).toList();
+
 
         return Scaffold(
           key: scaffoldKey,
@@ -58,16 +76,9 @@ class BuilderWrapper extends StatelessWidget {
               scaffoldKey.currentState!.openDrawer();
             },
 
-            sideDestinations: [
-              sideLeadingDestinationOpenDrewer,
-              ...sideDestinations,
-              sideTraillingDestinations
-            ],
+            sideDestinations: sideDestinationsLocale,
 
-            bottomDestinations: const [
-              ...bottomDestinations,
-              bottomTraillingDestination
-            ],
+            bottomDestinations: bottomDestinationsLocale,
 
             child: child,
           ),

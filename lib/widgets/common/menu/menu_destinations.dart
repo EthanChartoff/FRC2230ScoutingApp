@@ -1,5 +1,5 @@
 
-import 'package:flutter/material.dart' show Icon, Icons, ListTile, Text, ValueKey, Widget;
+import 'package:flutter/material.dart' show Icon, Icons;
 
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/widgets/common/menu/drawer_destination.dart';
@@ -7,41 +7,43 @@ import 'package:scoute_prime/widgets/desktop/sidemenue/sidemenu_destination.dart
 import 'package:scoute_prime/widgets/mobile/sidemenu/sidemenu_destination.dart';
 
 
-const SidemenuDesktopDestination sideLeadingDestination = 
+SidemenuDesktopDestination sideLeadingDestination = 
   SidemenuDesktopDestination(
-    icon: Icon(Icons.menu),
-    label: Text('menu'),
+    icon: const Icon(Icons.menu),
+    title: 'menu',
   );
 
-const List<SidemenuDesktopDestination> sideDestinations = [
+List<SidemenuDesktopDestination> sideDestinations = [
   SidemenuDesktopDestination(
-    icon: Icon(Icons.airline_seat_flat),
-    label: Text('matches'),
+    icon: const Icon(Icons.airline_seat_flat),
+    title: 'matches',
     route: Routing.MATCHES,
   ),
+
   SidemenuDesktopDestination(
-    icon: Icon(Icons.airline_seat_recline_extra_outlined),
-    label: Text('pick-list'),
+    icon: const Icon(Icons.search), 
+    title: 'teams',
+    route: Routing.TEAM_DASHBOARD,
+  ),
+
+  SidemenuDesktopDestination(
+    icon: const Icon(Icons.airline_seat_recline_extra_outlined),
+    title: 'picklist',
     route: Routing.PICK_LIST,
   ),
   /*
   SidemenuDesktopDestination(
     icon: Icon(Icons.attach_money),
-    label: Text('all teams'),
+    title: ('all teams'),
     route: Routing.ALL_TEAMS,
   ),
   */
-  SidemenuDesktopDestination(
-    icon: Icon(Icons.search), 
-    label: Text('teams'),
-    route: Routing.TEAM_DASHBOARD,
-  )
 ];  
 
-const SidemenuDesktopDestination sideTraillingDestinations = 
+SidemenuDesktopDestination sideTraillingDestinations = 
   SidemenuDesktopDestination(
-    icon: Icon(Icons.attribution),
-    label: Text('login'),
+    icon: const Icon(Icons.attribution),
+    title: 'login',
     route: Routing.LOGIN,
   );
 
@@ -49,63 +51,65 @@ const SidemenuDesktopDestination sideTraillingDestinations =
 const SidemenuMobileDestination bottomLeadingDestination = 
   SidemenuMobileDestination(
     icon: Icon(Icons.menu),
-    label: 'menu',
+    title: 'menu',
   );
 
 const List<SidemenuMobileDestination> bottomDestinations = [
   SidemenuMobileDestination(
     icon: Icon(Icons.airline_seat_flat),
-    label: 'matches',
+    title: 'matches',
     route: Routing.MATCHES,
   ),
+
+  SidemenuMobileDestination(
+    icon: Icon(Icons.search), 
+    title: 'teams',
+    route: Routing.TEAM_DASHBOARD,
+  ),
+  
   SidemenuMobileDestination(
     icon: Icon(Icons.airline_seat_recline_extra_outlined),
-    label: 'pick-list',
+    title: 'picklist',
     route: Routing.PICK_LIST,
   ),
   /*
   SidemenuMobileDestination(
     icon: Icon(Icons.attach_money),
-    label: 'all teams',
+    title: 'all teams',
     route: Routing.ALL_TEAMS,
   ),
   */
-  SidemenuMobileDestination(
-    icon: Icon(Icons.search), 
-    label: 'teams',
-    route: Routing.TEAM_DASHBOARD,
-  )
 ];
 
 const SidemenuMobileDestination bottomTraillingDestination = 
   SidemenuMobileDestination(
     icon: Icon(Icons.attribution),
-    label: 'login',
+    title: 'login',
     route: Routing.LOGIN,
   );
 
 
-const List<DrewerDestination> drawerDestinations = [
+List<DrewerDestination> drawerDestinations = [
   DrewerDestination(
-    leading: Icon(Icons.airline_seat_flat),
-    title: Text('matches'),
+    leading: const Icon(Icons.airline_seat_flat),
+    title: 'matches',
     route: Routing.MATCHES,
   ),
   DrewerDestination(
-    leading: Icon(Icons.airline_seat_recline_extra_outlined),
-    title: Text('pick-list'),
+    leading: const Icon(Icons.airline_seat_recline_extra_outlined),
+    title: 'picklist',
     route: Routing.PICK_LIST,
   ),
   /*
   DrewerDestination(
     leading: Icon(Icons.attach_money),
-    title: Text('all teams'),
+    title: ('all teams'),
     route: Routing.ALL_TEAMS,
   ),
   */
   DrewerDestination(
-    leading: Icon(Icons.attribution),
-    title: Text('login'),
+    leading: const Icon(Icons.attribution),
+    title: ('login'),
     route: Routing.LOGIN,
   ),
   

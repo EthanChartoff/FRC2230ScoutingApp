@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SidemenuDesktopDestination extends NavigationRailDestination {
-  const SidemenuDesktopDestination({
-    this.key,
+  SidemenuDesktopDestination({
+    required this.title,
     required Widget icon,
-    required Widget label,
     this.route,
     this.onSelected
   }) : 
   super(
     icon: icon,
-    label: label,
+    label: Text(title),
   );
 
-  final Key? key;
+  final String title;
+
   final String? route;
   final VoidCallback? onSelected;
 }

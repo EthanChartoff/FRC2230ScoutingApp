@@ -1,0 +1,149 @@
+{
+    "@@locale": "en",
+
+    "viewer": "VIEWER",
+    "scouter": "SCOUTER",
+    "strategy": "STRATEGY",
+
+    "teamSearchTitle": "Select a team to view its available data",
+
+    "matchInfo": "MATCH INFO",
+    "auto": "AUTO",
+    "teleop": "TELEOP",
+    "endgame": "ENDGAME",
+    "comments": "COMMENTS",
+
+    "scoutersName": "Scouter's Name",
+    "wasRobotOnField": "Was the robot on field?",
+    "startingPos": "Starting Position",
+    "startingItemOnRobot": "Starting Item On Robot",
+    
+    "didRobotWorkInAuto": "Did the robot work in auto?",
+    "autoChargeStationStatus": "Auto Charge Station Status",
+    "autoDidComeOutOfComunity": "Did robot come out of community?",
+    "autoTimeUntilBalancedOnChargeStation": "Time Until Robot Balanced On Charge Station",
+
+    "didRobotWorkInTeleop": "Did the robot work in teleop?",
+    "teleopDidRobotDefend": "Did the robot defend in teleop?",
+    "teleopDidRobotGetDefended": "Did the robot get defended in teleop?",
+    "teleopDidRobotFeed": "Did the robot feed?",
+
+    "endgameChargeStationStatus": "Endgame Charge Station Status",
+    "endgameTimeUntilBalancedOnChargeStation": "Time Until Robot Balanced On Charge Station",
+    "endgameFromWhichSide": "From Which Side Did The Robot Drive To The Charge Station?",
+    "endgameNumOfRobotsBeforeRobot": "Number Of Robots Before Robot Drove To Charge Station",
+    "endgameNumOfRobotsAtEndOfMatch": "Number Of Robots At The End Of The Match",
+
+    "defenseComments": "Defense Comments",
+    "robotComments": "Robot Comments",
+
+    "exitButton": "EXIT",
+    "saveButton": "SAVE",
+
+    "low": "LOW",
+    "mid": "MID",
+    "high": "HIGH", 
+
+    "cube": "CUBE",
+    "cone": "CONE",
+
+    "dataSavedMsg": "Data has been saved",
+
+
+    "attempedItemCounterTitle": "Attempted to score {gameItem} on {row}",
+    "@attempedItemCounterTitle": {
+        "description": "title of attemped item counter",
+        "placeholders": {
+            "gameItem": {
+                "type": "String",
+                "example": "Cubes"
+            },
+            "row": {
+                "type": "String",
+                "example": "LOW"
+            }
+        }
+    },
+
+    "scoredItemCounterTitle": "{gameItem} Scored {row}",
+    "@scoredItemCounterTitle": {
+        "description": "title of scored item counter",
+        "placeholders": {
+            "gameItem": {
+                "type": "String",
+                "example": "Cubes"
+            },
+            "row": {
+                "type": "String",
+                "example": "LOW"
+            }
+        }
+    },  
+
+    "gatheredIntoComunityCounterTitle": "{gameItem} Gathered Into Comunity",
+    "@gatheredIntoComunityCounterTitle": {
+        "description": "title of gathered into comunity counter",
+        "placeholders": {
+            "gameItem": {
+                "type": "String",
+                "example": "Cubes"
+            }
+        }
+    },
+
+
+    
+    "getStrategyCategotyName": "{category, select, gathering{Gathering} cargo{Cargo} scoring{Scoring} defenceOnOtherRobots{Defence On Other Robots} defenceOnThemselves{Defence On Themselves} drivers{Drivers} comments{Comments} other{}}",
+    "@getStrategyCategotyName": {
+        "description": "gets the name of strategy category by its DB accurate name",
+        "placeholders": {
+            "category": {
+                "type": "String",
+                "example": "gathering"
+            }
+        }
+    },
+
+    "getManuDetination": "{destination, select, matches{matches} teams{teams} picklist{picklist} login{login} other{}}",
+    "@getManuDetination": {
+        "description": "gets the destination of menu item by its name",
+        "placeholders": {
+            "destination": {
+                "type": "String"
+            }
+        }
+    },
+
+    "matchNumber": "Match {matchNumber}",
+    "@matchNumber": {
+        "description": "title of match card with match number",
+        "placeholders": {
+            "matchNumber": {
+                "type": "String",
+                "example": "1"
+            }
+        }
+    },
+
+    "getMatchTypeFullName": "{matchType, select, P{Practice} Q{Qualification} QF{Querter-Finals} SF{Semi-Finals} F{Finals} other{}}",
+    "@getMatchTypeFullName": {
+        "description": "gets the full name of match type by its short name",
+        "placeholders": {
+            "matchType": {
+                "type": "String",
+                "example": "P"
+            }
+        }
+    },
+
+    "picklistPageTitle": "Pick {pickNumber}",
+    "@picklistPageTitle": {
+        "description": "title of picklist page",
+        "placeholders": {
+            "pickNumber": {
+                "type": "String",
+                "example": "1"
+            }
+        }
+    }    
+}

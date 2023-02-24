@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/misc/user_types.dart';
@@ -128,16 +129,19 @@ class _LoginPageDesktopState extends State<LoginPageDesktop>{
                           userType: UserTypes.Viewer,
                           route: '/matches',
                           context: context,
+                          title: AppLocalizations.of(context).viewer
                         ),
                         loginUserButton(
                           userType: UserTypes.Scouter,
                           route: '/matches',
                           context: context,
+                          title: AppLocalizations.of(context).scouter
                         ),
                         loginUserButton(
                           userType: UserTypes.Strategy,
                           route: '/matches',
                           context: context,
+                          title: AppLocalizations.of(context).strategy
                         ),
                       ]
                     ),
@@ -156,6 +160,7 @@ class _LoginPageDesktopState extends State<LoginPageDesktop>{
     required UserTypes userType,
     required String route,
     required BuildContext context,
+    required String title
   }) 
   {
     return ElevatedButton(
@@ -174,7 +179,7 @@ class _LoginPageDesktopState extends State<LoginPageDesktop>{
         }
       },
       
-      child: Text(userType.name.toUpperCase(),
+      child: Text(title,
         style: TextStyle(
           fontSize: max(14.w, 12),
           color: Colors.white

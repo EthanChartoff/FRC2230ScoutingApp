@@ -1,0 +1,137 @@
+{
+    "@@locale": "he",   
+
+    "viewer": "צופה",
+    "scouter": "סקאוטר",
+    "strategy": "אסטרטגיה",
+
+    "teamSearchTitle": "בחר צוות כדי להציג את הנתונים הזמינים שלו",
+
+    "matchInfo": "MATCH INFO",
+    "auto": "AUTO",
+    "teleop": "TELEOP",
+    "endgame": "ENDGAME",
+    "comments": "COMMENTS",
+
+    "scoutersName": "שם הסקאוטר",
+    "wasRobotOnField": "האם הרובוט היה מִגרָשׁ?",
+    "startingPos": "מיקום התחלתי",  
+    "startingItemOnRobot": "פריט התחלתי ברובוט",
+
+    "didRobotWorkInAuto": "האם הרובוט עבד באוטומטי?",
+    "autoChargeStationStatus": "סטטוס חניה עמדת טעינה באוטומטי",
+    "autoDidComeOutOfComunity": "האם הרובוט יצא מהקהילה באוטומטי?",
+    "autoTimeUntilBalancedOnChargeStation": "זמן עד לאיזון על חניה העמדת טעינה באוטומטי",
+
+    "didRobotWorkInTeleop": "האם הרובוט עבד בטלאופ?",
+    "teleopDidRobotDefend": "האם הרובוט הגן?",
+    "teleopDidRobotGetDefended": "האם הרובוט הוגן?",
+    "teleopDidRobotFeed": "האם הרובוט עשה פיד?",
+
+    "endgameChargeStationStatus": "סטטוס חניה עמדת טעינה בסוף המשחק",
+    "endgameTimeUntilBalancedOnChargeStation": "זמן עד לאיזון על חניה העמדת טעינה בסוף המשחק",
+    "endgameFromWhichSide": "מאיזה צד הרובוט עלה לעמדת טעינה?",
+    "numOfRobotsBeforeRobot": "מספר רובוטים לפני שרובוט עלה לעמדת טעינה",
+    "numOfRobotsAtEndOfMatch": "מספר רובוטים על עמדת הטעינה בסוף המשחק",
+
+    "defenseComments": "הערות על ההגנה",
+    "robotComments": "הערות על הרובוט",
+
+    "exitButton": "יציאה",
+    "saveButton": "שמירה",
+
+    "low": "נמוך",
+    "mid": "בינוני",
+    "high": "גבוה",
+
+    "cube": "קוּבִּיָה",
+    "cone": "קוֹנוּס",
+
+    "dataSavedMsg": "הנתונים נשמרו בהצלחה",
+
+    "attempedItemCounterTitle": "ניסה לקלוע {פריטמשחק} ב-{שורה}",
+    "@attempedItemCounterTitle": {
+        "description": "title of the item counter",
+        "placeholders": {
+            "פריטמשחק": {
+                "type": "String",
+                "example": "כדור"
+            },
+            "שורה": {
+                "type": "String",
+                "example": "נמוך"
+            }
+        }
+    },
+
+    "scoredItemCounterTitle": "קלע {פריטמשחק} ב-{שורה}",
+    "@scoredItemCounterTitle": {
+        "description": "title of the item counter",
+        "placeholders": {
+            "פריטמשחק": {
+                "type": "String",
+                "example": "כדור"
+            },
+            "שורה": {
+                "type": "String",
+                "example": "נמוך"
+            }
+        }
+    },
+
+
+    "getStrategyCategotyName": "{category, select, gathering{איסוף} cargo{מטען}, scoring{ניקוד}, defenceOnOtherRobots{הגנה על רובוטים אחרים}, defenceOnThemselves{הגנה שעשו על עצמם} drivers{נהגים} comments{הערות} other{אחר}}",
+    "@getStrategyCategotyName": {
+        "description": "gets the name of strategy category by its DB accurate name",
+        "placeholders": {
+            "category": {
+                "type": "String",
+                "example": "gathering"
+            }
+        }
+    },
+
+    "getManuDetination": "{destination, select, matches{משחקים} teams{קבוצות} picklist{פיקליסט} login{התחברות} other{}}",
+    "@getManuDetination": {
+        "description": "get dest name by its english name",
+        "placeholders": {
+            "destination": {
+                "type": "String"
+            }
+        }
+    },
+
+    "matchNumber": "משחק {matchNumber}",
+    "@matchNumber": {
+        "description": "title of match card with match number",
+        "placeholders": {
+            "matchNumber": {
+                "type": "String",
+                "example": "1"
+            }
+        }
+    },
+
+    "getMatchTypeFullName": "{matchType, select, P{אימונים} Q{משחקי דירוג} QF{רבע גמר} SF{חצי גמר} F{גמר} other{}}",
+    "@matchTypeFullName": {
+        "description": "gets the full name of match type by its short name",
+        "placeholders": {
+            "destination": {
+                "type": "String",
+                "example": "P"
+            }
+        }
+    },
+
+    "picklistPageTitle": "פיק {pickNumber}",
+    "@picklistPageTitle": {
+        "description": "title of picklist page",
+        "placeholders": {
+            "destination": {
+                "type": "String",
+                "example": "1"
+            }
+        }
+    }        
+
+}
