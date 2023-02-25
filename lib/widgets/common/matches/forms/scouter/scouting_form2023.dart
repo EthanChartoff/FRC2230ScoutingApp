@@ -721,7 +721,7 @@ class _ScoutingForm2023State extends State<ScoutingForm2023> {
             ),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ScoutingShotCounter(
                   controller: _numOfCubesGatheredIntoComunityController,

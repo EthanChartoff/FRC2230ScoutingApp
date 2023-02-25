@@ -85,7 +85,8 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           ScoutingSnackbar(
-                            message: 'Data has been saved',
+                            message: AppLocalizations.of(context)
+                              .dataSavedMsg,
                           )
                         );
 
@@ -95,9 +96,10 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.secondary,
                       ),
-                      child: const Text(
-                        'Save',
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)
+                          .saveButton,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                         ),

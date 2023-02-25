@@ -14,7 +14,7 @@
     "comments": "COMMENTS",
 
     "scoutersName": "שם הסקאוטר",
-    "wasRobotOnField": "האם הרובוט היה מִגרָשׁ?",
+    "wasRobotOnField": "האם הרובוט היה במִגרָשׁ?",
     "startingPos": "מיקום התחלתי",  
     "startingItemOnRobot": "פריט התחלתי ברובוט",
 
@@ -31,8 +31,8 @@
     "endgameChargeStationStatus": "סטטוס חניה עמדת טעינה בסוף המשחק",
     "endgameTimeUntilBalancedOnChargeStation": "זמן עד לאיזון על חניה העמדת טעינה בסוף המשחק",
     "endgameFromWhichSide": "מאיזה צד הרובוט עלה לעמדת טעינה?",
-    "numOfRobotsBeforeRobot": "מספר רובוטים לפני שרובוט עלה לעמדת טעינה",
-    "numOfRobotsAtEndOfMatch": "מספר רובוטים על עמדת הטעינה בסוף המשחק",
+    "endgameNumOfRobotsBeforeRobot": "מספר רובוטים לפני שרובוט עלה לעמדת טעינה",
+    "endgameNumOfRobotsAtEndOfMatch": "מספר רובוטים על עמדת הטעינה בסוף המשחק",
 
     "defenseComments": "הערות על ההגנה",
     "robotComments": "הערות על הרובוט",
@@ -49,32 +49,43 @@
 
     "dataSavedMsg": "הנתונים נשמרו בהצלחה",
 
-    "attempedItemCounterTitle": "ניסה לקלוע {פריטמשחק} ב-{שורה}",
+    "attempedItemCounterTitle": "ניסה לקלוע {gameItem} ב-{row}",
     "@attempedItemCounterTitle": {
         "description": "title of the item counter",
         "placeholders": {
-            "פריטמשחק": {
+            "gameItem": {
                 "type": "String",
                 "example": "כדור"
             },
-            "שורה": {
+            "row": {
                 "type": "String",
                 "example": "נמוך"
             }
         }
     },
 
-    "scoredItemCounterTitle": "קלע {פריטמשחק} ב-{שורה}",
+    "scoredItemCounterTitle": "קלע {gameItem} ב-{row}",
     "@scoredItemCounterTitle": {
         "description": "title of the item counter",
         "placeholders": {
-            "פריטמשחק": {
+            "gameItem": {
                 "type": "String",
                 "example": "כדור"
             },
-            "שורה": {
+            "row": {
                 "type": "String",
                 "example": "נמוך"
+            }
+        }
+    },
+
+    "gatheredIntoComunityCounterTitle": "איסף {gameItem} לקהילה",
+    "@gatheredIntoComunityCounterTitle": {
+        "description": "title of the item counter",
+        "placeholders": {
+            "gameItem": {
+                "type": "String",
+                "example": "כדור"
             }
         }
     },

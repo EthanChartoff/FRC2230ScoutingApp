@@ -232,6 +232,7 @@ class _AppState extends State<App> {
         /// https://docs.flutter.dev/development/accessibility-and-localization/internationalization
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('he', 'IL'),
     
         theme: ThemeData(
           /// Defines a theme data, we can use the theme data to set app-wide colors, fonts, widgets
