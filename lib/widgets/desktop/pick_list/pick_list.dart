@@ -49,8 +49,7 @@ class _PickListDesktopState extends State<PickListDesktop> {
             textColor: Theme.of(context).hintColor,
             title: title(widget.teamList[index]),
             leading: Switch(
-              value: widget.teamList[index]['selected'] == '0' ? 
-                false : true,
+              value: widget.teamList[index]['selected'] == '0' ? false : true,
               onChanged: (value) {
                 setState(() {
                   widget.teamList[index]['selected'] = value ? '1' : '0';

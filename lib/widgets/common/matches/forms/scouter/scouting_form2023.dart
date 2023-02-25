@@ -38,6 +38,7 @@ class ScoutingForm2023 extends StatefulWidget {
 }
 
 class _ScoutingForm2023State extends State<ScoutingForm2023> {
+
   final ValueNotifier<String> _startingPositionController =
       ValueNotifier<String>('');
 

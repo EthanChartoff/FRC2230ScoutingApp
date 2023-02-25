@@ -11,19 +11,23 @@ import 'package:scoute_prime/widgets/common/matches/forms/strategy/items/expanda
 
 class StrategyFormMobile extends StatefulWidget {
   const StrategyFormMobile({
+    required this.relatedToMatch,
     required this.exit,
-    required this.matchId,
     required this.teamId,
-    required this.alliance,
-    required this.matchNum,
-  });
 
+    this.matchId,
+    this.alliance,
+    this.matchNum,
+  }) : 
+  assert(!relatedToMatch || !(matchId == null || alliance == null ||       matchNum == null)  ,'when relatedToMatch is true, matchId, alliance and matchNum must not be null');
+
+  final bool relatedToMatch;
   final void Function() exit;
-
-  final String matchId;
   final String teamId;
-  final String alliance;
-  final String matchNum;
+
+  final String? matchId;
+  final String? alliance;
+  final String? matchNum;
   
   @override
   State<StatefulWidget> createState() => _StrategyFormDesktopState();
@@ -70,18 +74,31 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        InsertStrategyDataTable2023.newTable(
-                          matchId: widget.matchId, 
-                          teamId: widget.teamId, 
-                          alliance: widget.alliance, 
-                          gathering: cards[0].controller.text, 
-                          cargo: cards[1].controller.text, 
-                          scoring: cards[2].controller.text, 
-                          defenceOnOtherRobots: cards[3].controller.text, 
-                          defenceOnThemselves: cards[4].controller.text, 
-                          drivers: cards[5].controller.text, 
-                          comments: cards[6].controller.text
-                        );
+                        if(widget.relatedToMatch) {
+                          InsertStrategyDataTable2023.newTable(
+                            matchId: widget.matchId, 
+                            teamId: widget.teamId, 
+                            alliance: widget.alliance, 
+                            gathering: cards[0].controller.text, 
+                            cargo: cards[1].controller.text, 
+                            scoring: cards[2].controller.text, 
+                            defenceOnOtherRobots: cards[3].controller.text, 
+                            defenceOnThemselves: cards[4].controller.text, 
+                            drivers: cards[5].controller.text, 
+                            comments: cards[6].controller.text
+                          );
+                        } else {
+                          InsertStrategyDataTable2023.newTableNoMatch(
+                            teamId: widget.teamId, 
+                            gathering: cards[0].controller.text, 
+                            cargo: cards[1].controller.text, 
+                            scoring: cards[2].controller.text, 
+                            defenceOnOtherRobots: cards[3].controller.text, 
+                            defenceOnThemselves: cards[4].controller.text, 
+                            drivers: cards[5].controller.text, 
+                            comments: cards[6].controller.text
+                          );
+                        }
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           ScoutingSnackbar(

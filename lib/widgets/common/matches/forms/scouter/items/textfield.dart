@@ -27,7 +27,6 @@ class ScoutingTextFormField extends TextFormField {
     this.hint,
     this.canBeEmpty = true
   }) : 
-  assert(controller != null, "controller can't be null"),
   assert(
     (maxLines == null) || (minLines == null) || (maxLines >= minLines),
     "minLines can't be greater than maxLines",

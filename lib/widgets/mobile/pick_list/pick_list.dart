@@ -16,16 +16,11 @@ class PickListMobile extends StatefulWidget {
 }
 
 class _PickListMobileState extends State<PickListMobile> {
-
-  List<bool>? _switches;
-
   Text title(var team) => Text('${team['id']} - ${TeamsData.allTeams.firstWhere(
       (element) => element.number.toString() == team['id']).name}');
 
   @override
   Widget build(BuildContext context) {
-    _switches ??= List.generate(widget.teamList.length, (index) => false);
-
     return ReorderableListView(
       shrinkWrap: true,
       onReorder: (oldIndex, newIndex) {
@@ -40,32 +35,29 @@ class _PickListMobileState extends State<PickListMobile> {
           /// replaces pos value of each team with its index.
           widget.teamList.forEach((element) {
             element['pos'] = widget.teamList.indexOf(element).toString();
-          });
-          
-          /// moves the item in the switches list.
-          _switches!.insert(newIndex, _switches!.removeAt(oldIndex));
+          });          
         });
       },
 
-      children: widget.teamList.map((team) => 
+      children: List.generate(widget.teamList.length, (index) => 
         Card(  
           color: Theme.of(context).primaryColorDark,
           elevation: 5,
           key: UniqueKey(),
           child: ListTile(
             textColor: Theme.of(context).hintColor,
-            title: title(team),
+            title: title(widget.teamList[index]),
             leading: Switch(
-              value: _switches![widget.teamList.indexOf(team)],
+              value: widget.teamList[index]['selected'] == '1' ? true : false,
               onChanged: (value) {
                 setState(() {
-                  _switches![widget.teamList.indexOf(team)] = value;
+                  widget.teamList[index]['selected'] = value ? '1' : '0';
                 });
               },
             ),
           ),
         )
-      ).toList()
+      )
     );
   }
 }

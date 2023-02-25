@@ -59,6 +59,7 @@ class _PickListPageMobileState extends State<PickListPageMobile> {
                 return {
                   'id': team['id'],
                   'pos': team['picklistPos1'],
+                  'selected': team['isSelected1']
                 };
               }).toList());
 
@@ -68,8 +69,10 @@ class _PickListPageMobileState extends State<PickListPageMobile> {
                 return {
                   'id': team['id'],
                   'pos': team['picklistPos2'],
+                  'selected': team['isSelected2']
                 };
               }).toList());
+            
 
             _pickList1 ??= PickListMobile(
               teamList: _pickListTeams1!

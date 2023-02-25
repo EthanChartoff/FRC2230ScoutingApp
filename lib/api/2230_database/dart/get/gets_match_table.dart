@@ -18,7 +18,7 @@ class GetMatches {
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
-        throw Exception(err);
+      throw Exception(err);
     }
     return jsonData;
   }

@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:scoute_prime/widgets/common/matches/match_cards/match_cards_funcs.dart';
-import 'package:scoute_prime/widgets/common/matches/match_cards/team_button.dart';
+  import 'package:scoute_prime/widgets/common/matches/match_cards/team_button.dart';
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/misc/enums.dart';
 
@@ -76,13 +75,14 @@ class EndedMatchCard extends StatelessWidget{
                               parentContext: context, 
                               teamNumber: match["redRobot${index+1}"].toString(), 
                               onTap: () {
-                                String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                const String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                const String relatedMatch = 'match=true';
                                 String matchId = 'matchId=${match['id']}';
                                 String teamId = 'teamId=${match["redRobot${index+1}"]}';
-                                String alliance = 'alliance=R';
+                                const String alliance = 'alliance=R';
                                 String matchNum = 'matchNum=${match[MatchVars.matchNumber.name]}';
 
-                                return context.go('$path?$matchId&$teamId&$alliance&$matchNum');
+                                return context.go('$path?$relatedMatch&$matchId&$teamId&$alliance&$matchNum');
                               },
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
@@ -118,12 +118,13 @@ class EndedMatchCard extends StatelessWidget{
                               teamNumber: match["blueRobot${index+1}"].toString(), 
                               onTap: () {
                                 String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                const String relatedMatch = 'match=true';
                                 String matchId = 'matchId=${match['id']}';
                                 String teamId = 'teamId=${match["blueRobot${index+1}"]}';
                                 String alliance = 'alliance=B';
                                 String matchNum = 'matchNum=${match[MatchVars.matchNumber.name]}';
 
-                                return context.go('$path?$matchId&$teamId&$alliance&$matchNum');
+                                return context.go('$path?$relatedMatch&$matchId&$teamId&$alliance&$matchNum');
                               },
                               textStyle: Theme.of(context).textTheme.bodyText2!,
                               width: constraints.maxWidth / 2.5,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/TBA/get_event.dart';
 import 'package:scoute_prime/api/TBA/get_matches.dart';
+import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/widgets/common/matches/match_cards/ended.dart';
 import 'package:scoute_prime/widgets/common/matches/match_cards/future.dart';
 import 'package:scoute_prime/widgets/common/matches/match_cards/ongoing.dart';
@@ -18,13 +20,14 @@ import 'package:scoute_prime/misc/teams_data.dart';
 /// 
 /// TODO: implement filter of what matches it can view, 
 /// like what season games or games of a specific team.
-class MatchesPage extends StatefulWidget {
+class MatchesPageStrategy extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => _MatchesPageState();
+  State<StatefulWidget> createState() => _MatchesPageStrategyState();
 }
 
-class _MatchesPageState extends State<MatchesPage> {  
+class _MatchesPageStrategyState extends State<MatchesPageStrategy> 
+  with AutomaticKeepAliveClientMixin<MatchesPageStrategy> {  
 
   /// curr filtered matches 
   Map? _scoutingMatches;
@@ -125,60 +128,90 @@ class _MatchesPageState extends State<MatchesPage> {
   }
 
   @override
-  void dispose() {
-    _dialogController.dispose();
-
-    super.dispose();
+  void initState() {
+    super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Theme.of(context).backgroundColor,
+  void dispose() {
+    super.dispose();
 
-      /// The data is received by a future variable, 
-      /// and thus the page is created when the data is not null
-      child: FutureBuilder(
-        // TODO: add api to get match and teams data
-        future: getAllPageData,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-            /// The widget displayed when there's data to display
-            return Column(
-              children: [
-                /*
-                TODO: in the future, add this
-                MatchesFiltersCard(
-                  value: _dialogController.value,
-                  onChanged: (value) async {
-                    _TBAMatches = await GetMatchesTBA.matchesInEvents(_events!.selectedItems);
-                    setState(() {
-                    _dialogController.value = value!;
-                  });
-                  },
-                  teams: _teams!,
-                  years: _years!,
-                  /// TODO: fix bug when trying to get TBA matches. maybe remove TBA matches entirely?
-                  events: Filter(
-                    items: [], 
-                    selectedItems: _selectedEvents,
-                  ),
-                ),
-                */
-
-                matchCards,
-              ],
-            );
-          }
-          else {
-            /// The widget displayed when there's no data to display
-            return CircularProgressIndicator();
-          }
-        },
-      ),
-    );
+    _dialogController.dispose();
   }
 
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    /// TODO: builds when in nested widget, fix.
+    super.build(context);
+    
+    return Builder(
+      builder: (context) {
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Theme.of(context).backgroundColor,
+
+          /// The data is received by a future variable, 
+          /// and thus the page is created when the data is not null
+          child: FutureBuilder(
+            // TODO: add api to get match and teams data
+            future: getAllPageData,
+            builder: (context, snapshot) {
+              if(snapshot.hasData){
+                /// The widget displayed when there's data to display
+                return Column(
+                  children: [
+                    /*
+                    TODO: in the future, add this
+                    MatchesFiltersCard(
+                      value: _dialogController.value,
+                      onChanged: (value) async {
+                        _TBAMatches = await GetMatchesTBA.matchesInEvents(_events!.selectedItems);
+                        setState(() {
+                        _dialogController.value = value!;
+                      });
+                      },
+                      teams: _teams!,
+                      years: _years!,
+                      /// TODO: fix bug when trying to get TBA matches. maybe remove TBA matches entirely?
+                      events: Filter(
+                        items: [], 
+                        selectedItems: _selectedEvents,
+                      ),
+                    ),
+                    */
+
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: TeamSearchbox(
+                        context: context,
+                        teams: TeamsData.allTeams,
+                        isExpanded: true,
+                        onSuggestionSelected:(team) {
+                          const  path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                          const match = 'match=false';
+                          final teamNumber = 'teamId=${team.number}';
+                          context.go('$path?$teamNumber&$match');
+                        },
+                      ),
+                    ),
+
+                    matchCards,
+                  ],
+                );
+              }
+              else {
+                /// The widget displayed when there's no data to display
+                return CircularProgressIndicator();
+              }
+            },
+          ),
+        );
+      }
+    );
+  }
 }

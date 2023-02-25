@@ -204,7 +204,7 @@ class TeamsData {
       name: 'Amal Space',
       color: const Color.fromARGB(255, 33, 25, 46)),
   TeamsData(number: 9303, name: 'PORTAL', color: const Color.fromARGB(255, 75, 23, 99)), 
-  TeamsData(number: 9304, name: 'U-Team', color: const Color.fromARGB(255, 126, 182, 37))
+  TeamsData(number: 9304, name: 'legends', color: const Color.fromARGB(255, 126, 182, 37))
   ];
 
   static List<TeamsData> get allTeams => <TeamsData>[
@@ -48090,7 +48090,7 @@ class TeamsData {
 
   TeamsData(
     number: 9304,
-    name: 'U-Team',
+    name: 'legends',
     color: null,
   ),
 

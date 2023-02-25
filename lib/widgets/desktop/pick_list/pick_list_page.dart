@@ -61,13 +61,12 @@ class _PickListPageDesktopState extends State<PickListPageDesktop> {
                 };
               }).toList());
 
-
             _pickListTeams2 ??= widget.orgenizedTeamList(
               snapshot.data!.map((team) {
                 return {
                   'id': team['id'],
                   'pos': team['picklistPos2'],
-                  'selected': team['isSelected1'],
+                  'selected': team['isSelected2'],
                 };
               }).toList());
 

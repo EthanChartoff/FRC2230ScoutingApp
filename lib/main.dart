@@ -7,7 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/widgets/common/builder_wrapper.dart';
-import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/strategy_form_mobile.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/mobile/strategy_form_mobile.dart';
+import 'package:scoute_prime/widgets/common/matches/matches_page_strategy.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/no_team_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
 import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
@@ -15,9 +16,9 @@ import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/page
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/teleop.dart';
 import 'package:scoute_prime/widgets/desktop/login/login_page_desktop.dart';
 import 'package:scoute_prime/widgets/common/device_builder.dart';
-import 'package:scoute_prime/widgets/common/matches/matches_page.dart';
+import 'package:scoute_prime/widgets/common/matches/matches_page_scouting.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/scouter/scouting_form2023.dart';
-import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/strategy_form_desktop.dart';
+import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/desktop/strategy_form_desktop.dart';
 import 'package:scoute_prime/widgets/mobile/login/login_page_mobile.dart';
 import 'package:scoute_prime/widgets/desktop/pick_list/pick_list_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/dashboard.dart';
@@ -77,9 +78,9 @@ class _AppState extends State<App> {
           /// scaffold is used here to enable snackbars
           body: UserTypeBuilder(
             user: _user, 
-            viewerPage: MatchesPage(), 
-            scouterPage: MatchesPage(), 
-            adminPage: MatchesPage()
+            viewerPage: MatchesPageScouting(), 
+            scouterPage: MatchesPageScouting(), 
+            adminPage: MatchesPageStrategy()
           ),
         ),
 
@@ -87,40 +88,75 @@ class _AppState extends State<App> {
           GoRoute(
             path: Routing.MATCHES_SCOUTING_FORM,
             builder: (context, state) {
-              final matchId = state.queryParams['matchId'] ?? 'noMatchId';
+              final relatedToMatch = state.queryParams['match']
+                == 'true' ? true : false;
               final teamId = state.queryParams['teamId'] ?? 'noTeamId';
-              final alliance = state.queryParams['alliance'] ?? 'noAlliance';
-              final matchNum = state.queryParams['matchNum'] ?? 'noMatchNum';
+              
+              final matchId = state.queryParams['matchId'];
+              final alliance = state.queryParams['alliance'];
+              final matchNum = state.queryParams['matchNum'];
 
-              return UserTypeBuilder(
-                user: _user, 
-                viewerPage: MatchesPage(),
-                scouterPage: ScoutingForm2023(
-                  exit: context.pop,
-                  matchId: matchId,
-                  teamId: teamId,
-                  alliance: alliance,
-                  matchNum: matchNum,
-                ), 
-                adminPage: DeviceBuilder(
-                  desktop: StrategyFormDesktop(
+              print(state.queryParams['match']);
+
+              if(relatedToMatch) {
+                return UserTypeBuilder(
+                  user: _user, 
+                  viewerPage: MatchesPageScouting(),
+                  scouterPage: ScoutingForm2023(
                     exit: context.pop,
-                    matchId: matchId,
+                    matchId: matchId ?? 'noMatchId',
                     teamId: teamId,
-                    alliance: alliance,
-                    matchNum: matchNum,
-                  ),
-                  mobile: StrategyFormMobile(
+                    alliance: alliance ?? 'noAlliance',
+                    matchNum: matchNum ?? 'noMatchNum',
+                  ), 
+                  adminPage: DeviceBuilder(
+                    desktop: StrategyFormDesktop(
+                      relatedToMatch: relatedToMatch,
+                      exit: context.pop,
+                      matchId: matchId,
+                      teamId: teamId,
+                      alliance: alliance,
+                      matchNum: matchNum,
+                    ),
+                    mobile: StrategyFormMobile(
+                      relatedToMatch: relatedToMatch,
+                      exit: context.pop,
+                      matchId: matchId,
+                      teamId: teamId,
+                      alliance: alliance,
+                      matchNum: matchNum,
+                    ),
+                  )
+                );
+              } 
+              else {
+                print(false);
+                return UserTypeBuilder(
+                  user: _user, 
+                  viewerPage: MatchesPageScouting(),
+                  scouterPage: ScoutingForm2023(
                     exit: context.pop,
-                    matchId: matchId,
                     teamId: teamId,
-                    alliance: alliance,
-                    matchNum: matchNum,
-                  ),
-                )
-              );
+                    matchId: matchId ?? 'noMatchId',
+                    alliance: alliance ?? 'noAlliance',
+                    matchNum: matchNum ?? 'noMatchNum',
+                  ), 
+                  adminPage: DeviceBuilder(
+                    desktop: StrategyFormDesktop(
+                      relatedToMatch: relatedToMatch,
+                      exit: context.pop,
+                      teamId: teamId,
+                    ),
+                    mobile: StrategyFormMobile(
+                      relatedToMatch: relatedToMatch,
+                      exit: context.pop,
+                      teamId: teamId,
+                    ),
+                  )
+                );
+              }
             } 
-          ),
+          ),              
 
           GoRoute(
             path: Routing.MATCHES_DASHBOARD,

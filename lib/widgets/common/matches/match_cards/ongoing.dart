@@ -77,12 +77,13 @@ class OngoingMatchCard extends StatelessWidget {
                               teamNumber: match["redRobot${index+1}"].toString(), 
                               onTap: () {
                                 String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                const String relatedMatch = 'match=true';
                                 String matchId = 'matchId=${match['id']}';
                                 String teamId = 'teamId=${match["redRobot${index+1}"]}';
                                 String alliance = 'alliance=R';
                                 String matchNum = 'matchNum=${match[MatchVars.matchNumber.name]}';
 
-                                return context.go('$path?$matchId&$teamId&$alliance&$matchNum');
+                                return context.go('$path?$relatedMatch&$matchId&$teamId&$alliance&$matchNum');
                               },
                               textStyle: Theme.of(context).textTheme.bodyText1!,
                               width: constraints.maxWidth / 2.5,
@@ -104,12 +105,13 @@ class OngoingMatchCard extends StatelessWidget {
                               teamNumber: match["blueRobot${index+1}"].toString(), 
                               onTap: () {
                                 String path = '${Routing.MATCHES}/${Routing.MATCHES_SCOUTING_FORM}';
+                                const String relatedMatch = 'match=true';
                                 String matchId = 'matchId=${match['id']}';
-                                String teamId = 'teamId=${match["redRobot${index+1}"]}';
-                                String alliance = 'alliance=R';
+                                String teamId = 'teamId=${match["blueRobot${index+1}"]}';
+                                String alliance = 'alliance=B';
                                 String matchNum = 'matchNum=${match[MatchVars.matchNumber.name]}';
 
-                                return context.go('$path?$matchId&$teamId&$alliance&$matchNum');
+                                return context.go('$path?$relatedMatch&$matchId&$teamId&$alliance&$matchNum');
                               },
                               textStyle: Theme.of(context).textTheme.bodyText2!,
                               width: constraints.maxWidth / 2.5,
