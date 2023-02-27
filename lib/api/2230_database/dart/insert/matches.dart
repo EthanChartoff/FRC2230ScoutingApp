@@ -14,7 +14,6 @@ class InsertMatchesDataTable2023 {
           'matchStatus': matchStatus,
         }
       );
-      print(response.body);
     } catch (err) {
       throw Exception('$err');
     }

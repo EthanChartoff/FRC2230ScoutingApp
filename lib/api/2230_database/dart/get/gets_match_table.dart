@@ -11,7 +11,7 @@ class GetMatches {
     try {
       final response = await http.get(Uri.http(
           websiteAddress, 
-          '/php/all_matches_tables.php'
+          '/php/all_matches_tables.php',
         ),
         headers: {'Accept': 'application/json'} /// TODO: fix error here
       );
@@ -27,8 +27,12 @@ class GetMatches {
     var jsonData = [];
 
     try {
-      final response = await http
-        .get(Uri.parse("$websiteUrl/php/get_scouting_table_of_teamId.php?teamId=$teamId"));
+      final response = await http.get(Uri.http(
+          websiteAddress,
+          '/php/get_scouting_table_of_teamId.php',
+          {'teamId': teamId}
+        ),
+      );
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');

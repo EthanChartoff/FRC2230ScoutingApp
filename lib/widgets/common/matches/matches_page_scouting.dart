@@ -51,20 +51,8 @@ class _MatchesPageScoutingState extends State<MatchesPageScouting>
         shrinkWrap: true,
         
         children: 
-          /// # Future matches
-          <Widget>[
-            for (var match in 
-                _scoutingMatches![MatchStates.futureMatches.name] ?? [])
-              FutureMatchCard(
-                match: match,
-              ),
-          ] + const [
-            SizedBox(
-              height: 30,
-            ),
-          ] +
           /// # Ongoing matches
-          [
+          <Widget>[
             for (var match in 
                 _scoutingMatches![MatchStates.ongoingMatches.name] ?? [])
               OngoingMatchCard(

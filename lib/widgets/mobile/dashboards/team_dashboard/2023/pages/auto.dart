@@ -1,12 +1,13 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart' /*show 
-  StatelessWidget, Widget, BuildContext*/;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/misc/constants.dart';
-import 'package:scoute_prime/widgets/common/dashboard/dashboard_page.dart';
 import 'package:scoute_prime/widgets/common/dashboard/2023/dashboard_funcs2023.dart';
+import 'package:scoute_prime/widgets/common/dashboard/dashboard_page.dart';
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_column.dart';
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_container.dart';
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_graph.dart';
@@ -15,17 +16,16 @@ import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_piechart
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_table.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+/// The auto page in [Dashboard], shows auto related data.
+/// only for mobile.
+class AutoDashboardMobile2023 extends DashboardPage {
 
-/// The auto page in [Dashboard], shows auto related data. 
-/// Only for desktops.
-class AutoDashboardDesktop2023 extends DashboardPage {
-
-  AutoDashboardDesktop2023({
+  AutoDashboardMobile2023({
     Map<String, dynamic Function()>? data,
     String? teamId,
     String? title,
   }) : super(
-    title: title ?? 'AUTO',
+    title:  title ?? 'AUTO',
     data: data ?? {
       'scoutingTables' : [GetScoutingData.fromTeamId, teamId],
       'matches' : [GetMatches.ofTeam, teamId],
@@ -34,208 +34,252 @@ class AutoDashboardDesktop2023 extends DashboardPage {
 
   @override
   Widget buildDashboard({
-    required context, 
-    required data,
-    required width,
-    key,
-  }) {
-
+    required BuildContext context, 
+    required Map<String, dynamic> data, 
+    required double width, 
+    Key? key
+  }) {    
     /// If there is no data, return [DashboardNoDataPage].
     if (data['scoutingTables'].isEmpty) {
       return const DashboardNoDataPage();
-    }
+    } 
 
     return Column(
-      key: key,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DashboardContainer<Widget>(
-                height: 370,
-                width: width - 474, // screen width - 474
-                children: {
-                  'Game item %' : [
-                    Center(
-                      child: DashboardTable.textTable(
-                        lerpValues: true,
-                        children: [
-                          const [
-                            '',
-                            'LOW',
-                            'MID',
-                            'HIGH',
-                          ],
-                          [
-                          'CUBE',
-                          '${DashboardFuncs2023.valOrNan(
-                              DashboardFuncs2023.ratioOfTwoKeys(
-                                data['scoutingTables'], 
-                                'autoRowOneCubes', 
-                                'tryAutoRowOneCubes'
-                              )
-                          )}%',
-                          '${DashboardFuncs2023.valOrNan(
-                              DashboardFuncs2023.ratioOfTwoKeys(
-                                data['scoutingTables'], 
-                                'autoRowTwoCubes', 
-                                'tryAutoRowTwoCubes'
-                              )
-                          )}%',
-                          '${DashboardFuncs2023.valOrNan(
-                              DashboardFuncs2023.ratioOfTwoKeys(
-                                data['scoutingTables'], 
-                                'autoRowThreeCubes', 
-                                'tryAutoRowThreeCubes'
-                              )
-                          )}%',
-                        ],
-                        [
-                          'CONE',
-                          '${DashboardFuncs2023.valOrNan(
-                              DashboardFuncs2023.ratioOfTwoKeys(
-                                data['scoutingTables'], 
-                                'autoRowOneCones', 
-                                'tryAutoRowOneCones'
-                              )
-                          )}%',
-                          '${DashboardFuncs2023.valOrNan(
-                              DashboardFuncs2023.ratioOfTwoKeys(
-                                data['scoutingTables'], 
-                                'autoRowTwoCones', 
-                                'tryAutoRowTwoCones'
-                              )
-                          )}%',
-                          '${DashboardFuncs2023.valOrNan(
-                              DashboardFuncs2023.ratioOfTwoKeys(
-                                data['scoutingTables'], 
-                                'autoRowThreeCones', 
-                                'tryAutoRowThreeCones'
-                              )
-                          )}%'
-                        ]]
+          child: DashboardContainer<Widget>(
+            height: 100,
+            children: {
+              'Game item %' : [
+                Center(
+                  child: DashboardTable.textTable(
+                    lerpValues: true,
+                    children: [
+                      [
+                        '',
+                        AppLocalizations.of(context).low,
+                        AppLocalizations.of(context).mid,
+                        AppLocalizations.of(context).high,
+                      ],
+                      [
+                      AppLocalizations.of(context).cube,
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'autoRowOneCubes', 
+                            'tryAutoRowOneCubes'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'autoRowTwoCubes', 
+                            'tryAutoRowTwoCubes'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'autoRowThreeCubes', 
+                            'tryAutoRowThreeCubes'
+                          )
+                      )}%',
+                    ],
+                    [
+                      AppLocalizations.of(context).cone,
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'autoRowOneCones', 
+                            'tryAutoRowOneCones'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'autoRowTwoCones', 
+                            'tryAutoRowTwoCones'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'autoRowThreeCones', 
+                            'tryAutoRowThreeCones'
+                          )
+                      )}%'
+                    ]]
+                  ),
+                )
+              ],
+              'Worked, Went out of community and Charge Station' : [
+                Center(
+                  child: DashboardTable.textTable(
+                    lerpValues: true,
+                    children: [
+                      [
+                        AppLocalizations.of(context).worked,
+                        AppLocalizations.of(context).outOfCommunity,
+                        AppLocalizations.of(context).onChargeStation
+                      ],
+                      [
+                        '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.precentOfBoolKey(
+                            data['scoutingTables'], 
+                            'didRobotWorkInAuto', 
+                          )
+                        )}%',
+                        '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.precentOfBoolKey(
+                            data['scoutingTables'], 
+                            'autoDidRobotComeOutOfComunity', 
+                          )
+                        )}%',
+                        '${() {
+                          final listWithAllStates = DashboardFuncs2023
+                            .chargeStationStatusAuto(
+                              data['scoutingTables']
+                            );
+                          
+                          final dockAndEngaged = listWithAllStates.reduce((value, element) {
+                            if(element.key == 'DOCKED' || element.key == 'ENGAGED') {
+                              return MapEntry('dockAndEngaged', element.value);
+                            }
+                            return value;
+                          });
+
+                          return dockAndEngaged.value / 
+                            listWithAllStates.reduce((value, element) => 
+                              MapEntry('total', value.value + element.value)
+                            ).value;
+                        }.call()}%'
+                      ],
+                    ]
+                  ),
+                )
+              ],                
+            }
+          ),
+        ),
+    
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DashboardContainer<DashboardPiechart>(  
+            height: 200,
+            children: {
+              'auto didnt work or charge station' : [
+                DashboardPiechart(
+                  title: AppLocalizations.of(context).autoDidntWorkOnChargeStation,
+                  series: <PieSeries<dynamic, String>> [
+                    /// Shows if robot worked in auto, and if it did, if it was
+                    /// on the charge station or not.
+                    PieSeries<dynamic, String>(
+                      dataSource: DashboardFuncs2023
+                        .autoDidntWorkOrChargeStation(data['scoutingTables']),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      dataLabelSettings: DataLabelSettings(
+                        isVisible: true,
+                        labelPosition: ChartDataLabelPosition.inside,
+                        useSeriesColor: true,
+                        builder: (_data, point, series, pointIndex, seriesIndex) {
+                          return Text(
+                            DashboardFuncs2023.dataLabelPrecent(series, pointIndex, data),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          );
+                        },
                       ),
-                    )
-                  ]
-                }
-              ),
-              DashboardContainer<DashboardPiechart>(  
-                height: 370,
-                width: 450,
-                children: {
-                  'auto didnt work or charge station' : [
-                    DashboardPiechart(
-                      title: 'auto didnt work or charge station',
-                      series: <PieSeries<dynamic, String>> [
-                        /// Shows if robot worked in auto, and if it did, if it was
-                        /// on the charge station or not.
-                        PieSeries<dynamic, String>(
-                          dataSource: [],
-                          xValueMapper: (datum, index) => 'lol',
-                          yValueMapper: (datum, index) => 0,
-                          animationDuration: 0,
-                          dataLabelSettings: DataLabelSettings(
-                            isVisible: true,
-                            labelPosition: ChartDataLabelPosition.inside,
-                            useSeriesColor: true,
-                            builder: (_data, point, series, pointIndex, seriesIndex) {
-                              return Text(
-                                DashboardFuncs2023.dataLabelPrecent(series, pointIndex, data),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
                     ),
                   ],
-                  'did auto work' : [
-                    DashboardPiechart(
-                      title: 'did auto work',
-                      series: <PieSeries<dynamic, String>> [
-                        PieSeries<dynamic, String>(
-                          dataSource: DashboardFuncs2023
-                            .autoWorked(data['scoutingTables']),
-                          xValueMapper: (datum, index) => datum.key,
-                          yValueMapper: (datum, index) => datum.value,
-                          animationDuration: 0,
-                          dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            labelPosition: ChartDataLabelPosition.inside,
-                            useSeriesColor: true,
-                          ),
-                        ),
-                      ],
+                ),
+              ],
+              'did auto work' : [
+                DashboardPiechart(
+                  title: AppLocalizations.of(context).didPhaseWork(
+                    AppLocalizations.of(context).auto
+                  ),
+                  series: <PieSeries<dynamic, String>> [
+                    PieSeries<dynamic, String>(
+                      dataSource: DashboardFuncs2023
+                        .autoWorked(data['scoutingTables']),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                        labelPosition: ChartDataLabelPosition.inside,
+                        useSeriesColor: true,
+                      ),
                     ),
                   ],
-
-                  'Charge Station Status' : [
-                    DashboardPiechart(
-                      title: 'Charge Station Status',
-                      series: <PieSeries<dynamic, String>> [
-                        PieSeries<dynamic, String>(
-                          dataSource: DashboardFuncs2023
-                            .chargeStationStatusAuto(data['scoutingTables']),
-                          xValueMapper: (datum, index) => datum.key,
-                          yValueMapper: (datum, index) => datum.value,
-                          animationDuration: 0,
-                          dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            labelPosition: ChartDataLabelPosition.inside,
-                            useSeriesColor: true,
-                          ),
-                        ),
-                      ],
+                ),
+              ],
+          
+              'Charge Station Status' : [
+                DashboardPiechart(
+                  title: AppLocalizations.of(context).chargeStationStatus,
+                  series: <PieSeries<dynamic, String>> [
+                    PieSeries<dynamic, String>(
+                      dataSource: DashboardFuncs2023
+                        .chargeStationStatusAuto(data['scoutingTables']),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                        labelPosition: ChartDataLabelPosition.inside,
+                        useSeriesColor: true,
+                      ),
                     ),
                   ],
-
-                  'Starting Position' : [
-                    DashboardPiechart(
-                      title: 'Starting Position',
-                      series: <PieSeries<dynamic, String>> [
-                        PieSeries<dynamic, String>(
-                          dataSource: DashboardFuncs2023
-                            .startingPosition(data['scoutingTables']),
-                          xValueMapper: (datum, index) => datum.key,
-                          yValueMapper: (datum, index) => datum.value,
-                          animationDuration: 0,
-                          dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            labelPosition: ChartDataLabelPosition.inside,
-                            useSeriesColor: true,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ], 
-
-                  'Game Item on Start of Game' : [
-                    DashboardPiechart(
-                      title: 'Game Item on Start of Game',
-                      series: <PieSeries<dynamic, String>> [
-                        PieSeries<dynamic, String>(
-                          dataSource: DashboardFuncs2023
-                            .gameItemsOnRobot(data['scoutingTables']),
-                          xValueMapper: (datum, index) => datum.key,
-                          yValueMapper: (datum, index) => datum.value,
-                          animationDuration: 0,
-                          dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                            labelPosition: ChartDataLabelPosition.inside,
-                            useSeriesColor: true,
-                          ),
-                        ),
-                      ],
+                ),
+              ],
+          
+              'Starting Position' : [
+                DashboardPiechart(
+                  title: AppLocalizations.of(context).startingPos,
+                  series: <PieSeries<dynamic, String>> [
+                    PieSeries<dynamic, String>(
+                      dataSource: DashboardFuncs2023
+                        .startingPosition(data['scoutingTables']),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                        labelPosition: ChartDataLabelPosition.inside,
+                        useSeriesColor: true,
+                      ),
                     ),
                   ],
-                }
-              ),
-            ],
+                ),
+              ], 
+          
+              'Game Item on Start of Game' : [
+                DashboardPiechart(
+                  title: AppLocalizations.of(context).gameItemOnStartOfGame,
+                  series: <PieSeries<dynamic, String>> [
+                    PieSeries<dynamic, String>(
+                      dataSource: DashboardFuncs2023
+                        .gameItemsOnRobot(data['scoutingTables']),
+                      xValueMapper: (datum, index) => datum.key,
+                      yValueMapper: (datum, index) => datum.value,
+                      animationDuration: 0,
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                        labelPosition: ChartDataLabelPosition.inside,
+                        useSeriesColor: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            }
           ),
         ),
         Padding(
@@ -246,7 +290,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
             children: {
               'Row One Cubes by Round' : [
                 DashboardGraph(
-                  title: 'Row One Cubes by Round',
+                  title: AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).low,
+                    AppLocalizations.of(context).cube
+                  ),
                   series: [
                     /// This line shows the actual amount of CUBES scored 
                     /// in row one.
@@ -289,7 +336,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 ),
 
                 DashboardColumn(
-                  title: 'Row One Cubes by Round',
+                  title: AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).low,
+                    AppLocalizations.of(context).cube
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CUBES scored 
                     /// in row one.
@@ -327,7 +377,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
               ],
               'Row Two Cubes by Round' : [
                 DashboardGraph(
-                  title: 'Row Two Cubes by Round',
+                  title: AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).mid,
+                    AppLocalizations.of(context).cube
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CUBES scored 
                     /// in row two.
@@ -373,7 +426,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 ),
 
                 DashboardColumn(
-                  title: 'Row Two Cubes by Round',
+                  title: AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).mid,
+                    AppLocalizations.of(context).cube
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CUBES scored 
                     /// in row two.
@@ -411,7 +467,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
               ],
               'Row Three Cubes by Round' : [
                 DashboardGraph(
-                  title: 'Row Three Cubes by Round',
+                  title: AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).high,
+                    AppLocalizations.of(context).cube
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CUBES scored 
                     /// in row three.
@@ -457,7 +516,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 ),
 
                 DashboardColumn(
-                  title: 'Row Three Cubes by Round',
+                  title: AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).high,
+                    AppLocalizations.of(context).cube
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CUBES scored 
                     /// in row three.
@@ -495,7 +557,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
               ],
               'Row One Cones by Round' : [
                 DashboardGraph(
-                  title : 'Row One Cones by Round',
+                  title : AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).low,
+                    AppLocalizations.of(context).cone
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CONES scored 
                     /// in row one.
@@ -532,7 +597,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 ),
 
                 DashboardColumn(
-                  title : 'Row One Cones by Round',
+                  title : AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).low,
+                    AppLocalizations.of(context).cone
+                  ),
                   series: <ChartSeries>[
                     /// This column shows the actual amount of CONES scored 
                     /// in row one.
@@ -570,7 +638,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
               ],
               'Row Two Cones by Round' : [
                 DashboardGraph(
-                  title : 'Row Two Cones by Round',
+                  title : AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).mid,
+                    AppLocalizations.of(context).cone
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CONES scored 
                     /// in row two.
@@ -607,7 +678,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 ),
 
                 DashboardColumn(
-                  title : 'Row Two Cones by Round',
+                  title : AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).mid,
+                    AppLocalizations.of(context).cone
+                  ),
                   series: <ChartSeries>[
                     /// This column shows the actual amount of CONES scored 
                     /// in row two.
@@ -645,7 +719,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
               ],
               'Row Three Cones by Round' : [
                 DashboardGraph(
-                  title : 'Row Three Cones by Round',
+                  title : AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).high,
+                    AppLocalizations.of(context).cone
+                  ),
                   series: <ChartSeries>[
                     /// This line shows the actual amount of CONES scored 
                     /// in row three.
@@ -682,7 +759,10 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 ),
 
                 DashboardColumn(
-                  title : 'Row Three Cones by Round',
+                  title : AppLocalizations.of(context).rowItemByRound(
+                    AppLocalizations.of(context).high,
+                    AppLocalizations.of(context).cone
+                  ),
                   series: <ChartSeries>[
                     /// This column shows the actual amount of CONES scored 
                     /// in row three.
@@ -702,7 +782,7 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                     /// This column shows the amount of CONES that were attempted
                     /// to be scored in row three.
                     ColumnSeries<dynamic, int>(
-                      name: 'Attempted',
+                      name: AppLocalizations.of(context).attempted,
                       dataSource: DashboardFuncs2023.valueByRound(
                         data['scoutingTables'],
                         data['matches'],
@@ -720,7 +800,8 @@ class AutoDashboardDesktop2023 extends DashboardPage {
               ],
               'Number Of Seconds Until Balanced' : [
                 DashboardGraph(
-                  title: 'Number Of Seconds Until Balanced',
+                  title: AppLocalizations.of(context)
+                    .numOfSecsUntilBalancedOnChargeStation,
                   series: <ChartSeries>[
                     /// This line shows the number of seconds until the robot
                     /// was balanced depending on match.
@@ -784,7 +865,7 @@ class AutoDashboardDesktop2023 extends DashboardPage {
 
               'Number of Seconds Before The End That Robot Pivoted' : [
                 DashboardGraph(
-                  title: 'Number of Seconds Before The End That Robot Pivoted',
+                  title: AppLocalizations.of(context).numOfSecsBeforeTheEndRobotPivotedToChargeStation,
                   series: <ChartSeries>[
                     /// Shows the number of seconds before the end of the match
                     /// that the robot pivoted depending on match.
@@ -807,6 +888,6 @@ class AutoDashboardDesktop2023 extends DashboardPage {
           ),
         )
       ],
-    );
+    ); 
   }
 }

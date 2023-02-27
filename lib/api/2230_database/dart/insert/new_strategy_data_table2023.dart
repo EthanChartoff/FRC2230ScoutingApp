@@ -32,7 +32,7 @@ class InsertStrategyDataTable2023 {
             'drivers': '$drivers',
             'comments': '$comments',
           });
-        print(response.body);
+        // print(response.body);
     } catch (err) {
       // print('$err lol');
       throw Exception('$err');
@@ -65,7 +65,7 @@ class InsertStrategyDataTable2023 {
             'drivers': '$drivers',
             'comments': '$comments',
           });
-        print(response.body);
+        // print(response.body);
     } catch (err) {
       // print('$err lol');
       throw Exception('$err');

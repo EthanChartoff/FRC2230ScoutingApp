@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 
 class DashboardTitle extends StatefulWidget {
   const DashboardTitle({
-    required this.filters,
     required this.title,
+    this.filters,
     this.subtitle,
     this.onTap,
   });
 
-  final Widget filters;
   final String title;
   
+  final Widget? filters;
   final String? subtitle;
   final VoidCallback? onTap;
 
@@ -45,7 +45,7 @@ class _DashboardTitleState extends State<DashboardTitle> {
               width: max(MediaQuery.of(context).size.width - 950, 0),
             ),
 
-            widget.filters  
+            widget.filters ?? const SizedBox.shrink(),  
           ],
         ),
       ),

@@ -35,14 +35,20 @@ class StrategyFormDesktop extends StatefulWidget {
   State<StatefulWidget> createState() => _StrategyFormDesktopState();
 }
 
-class _StrategyFormDesktopState extends State<StrategyFormDesktop> 
-  with AutomaticKeepAliveClientMixin<StrategyFormDesktop>{
+class _StrategyFormDesktopState extends State<StrategyFormDesktop> {
 
   List<StrategyExpandableTextField> cards = List.generate(
     STRATEGY_CATEGORIES2023.length,
     (index) => StrategyExpandableTextField(
       title: STRATEGY_CATEGORIES2023[index],
     )
+  );
+
+  late final List<TextEditingController> controllers;
+
+  List<String> controllersTexts = List.generate(
+    STRATEGY_CATEGORIES2023.length,
+    (index) => '',
   );
 
   Future<List> get strategyDataByRound async {
@@ -60,13 +66,32 @@ class _StrategyFormDesktopState extends State<StrategyFormDesktop>
     }).toList();
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  /// using the controllers text to send can cause errors, its better to do it 
+  /// this way. 
+  void onTextFieldChanged(String text, int index) {
+    setState(() {
+      controllersTexts[index] = text;
+    });
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    controllers = List.generate(cards.length, (index) => 
+      TextEditingController()
+    );
+  }
+
+  @override
+  void dispose() {
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {  
-    super.build(context); 
    
     return Container(
       color: Theme.of(context).backgroundColor,
@@ -89,29 +114,30 @@ class _StrategyFormDesktopState extends State<StrategyFormDesktop>
                             onPressed: () {
                               if(widget.relatedToMatch) {
                                 InsertStrategyDataTable2023.newTable(
-                                  matchId: widget.matchId, 
-                                  teamId: widget.teamId, 
-                                  alliance: widget.alliance, 
-                                  gathering: cards[0].controller.text, 
-                                  cargo: cards[1].controller.text, 
-                                  scoring: cards[2].controller.text, 
-                                  defenceOnOtherRobots: cards[3].controller.text, 
-                                  defenceOnThemselves: cards[4].controller.text, 
-                                  drivers: cards[5].controller.text, 
-                                  comments: cards[6].controller.text
-                                );
-                              } else {
-                                InsertStrategyDataTable2023.newTableNoMatch(
-                                  teamId: widget.teamId, 
-                                  gathering: cards[0].controller.text, 
-                                  cargo: cards[1].controller.text, 
-                                  scoring: cards[2].controller.text, 
-                                  defenceOnOtherRobots: cards[3].controller.text, 
-                                  defenceOnThemselves: cards[4].controller.text, 
-                                  drivers: cards[5].controller.text, 
-                                  comments: cards[6].controller.text
-                                );
-                              }
+                                matchId: widget.matchId, 
+                                teamId: widget.teamId, 
+                                alliance: widget.alliance, 
+                                gathering: controllersTexts[0], 
+                                cargo: controllersTexts[1], 
+                                scoring: controllersTexts[2], 
+                                defenceOnOtherRobots: controllersTexts[3], 
+                                defenceOnThemselves: controllersTexts[4], 
+                                drivers: controllersTexts[5], 
+                                comments: controllersTexts[6]
+                              );
+                            } else {
+                              InsertStrategyDataTable2023.newTableNoMatch(
+                                teamId: widget.teamId, 
+                                gathering: controllersTexts[0], 
+                                cargo: controllersTexts[1], 
+                                scoring: controllersTexts[2], 
+                                defenceOnOtherRobots: controllersTexts[3], 
+                                defenceOnThemselves: controllersTexts[4], 
+                                drivers: controllersTexts[5], 
+                                comments: controllersTexts[6]
+                              );
+                            }
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 ScoutingSnackbar(
                                   message: AppLocalizations.of(context)

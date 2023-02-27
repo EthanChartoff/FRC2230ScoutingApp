@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_data_navigator.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_data_navigator.dart';
 
 
 class DashboardContainer<T extends Widget> extends StatelessWidget {

@@ -50,7 +50,6 @@ class _StrategyExpandableTextFieldState extends State<StrategyExpandableTextFiel
 
   @override
   void dispose() {
-    widget.controller.dispose();
     debounce?.cancel();
     super.dispose();
   }

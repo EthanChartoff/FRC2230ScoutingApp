@@ -1,12 +1,11 @@
 import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
+import 'package:scoute_prime/widgets/common/dashboard/dashboard_page.dart';
+import 'package:scoute_prime/widgets/common/dashboard/dashboard_title.dart';
+import 'package:scoute_prime/widgets/common/dashboard/filters_dialog.dart';
 
-import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_title.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/filters_dialog.dart';
 import 'package:scoute_prime/widgets/common/searchboxes.dart';
-import 'package:scoute_prime/misc/enums.dart';
 import 'package:scoute_prime/misc/teams_data.dart';
 
 
@@ -64,11 +63,9 @@ class _DashboardState extends State<Dashboard>{
   void didChangeDependencies() {
     super.didChangeDependencies();
     _title = DashboardTitle(
-      filters: filtersCard, 
       title: '${widget.teamNumber} ${TeamsData.allTeams
         .where((element) => element.number == widget.teamNumber)
         .first.name}',
-      subtitle: widget.dashboardPages[_currentPage].title,
     );
   }
 
@@ -105,9 +102,9 @@ class _DashboardState extends State<Dashboard>{
       /// wait for all data to be fetched
       /// TODO: THIS IS BAD, FIX THIS
       while(_futureData!.any((element) => 
-        element.values.any((value) => value.isEmpty)) && counter < 10) {
-        await Future.delayed(const Duration(milliseconds: 100));
-        counter++;      
+        element.values.any((value) => value.isEmpty && counter < 10000))) {
+          await Future.delayed(const Duration(milliseconds: 100));
+          counter++;      
       }
       return _futureData;
     }
@@ -170,17 +167,20 @@ class _DashboardState extends State<Dashboard>{
       child: FutureBuilder(
         future: getPageData,
         builder: (context, snapshot) {
-          if(_futureData!.first['scoutingTables']!.isEmpty) {
+          if(_futureData!.any((element) => element.values.isEmpty)) {
+            /// set state to rebuild the page when data is fetched
+            WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
             return const Center(child: CircularProgressIndicator());
           }
 
-          else if(snapshot.connectionState == ConnectionState.done 
-            && _futureData!.last.values.isNotEmpty
-          ) {
+          else if(snapshot.connectionState == ConnectionState.done) {
             /// The widget displayed when there's data to display.
             return Column(
               children: [
-                _title,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: _title,
+                ),
                      
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -196,14 +196,15 @@ class _DashboardState extends State<Dashboard>{
                         }
                       }
                     ),
+                    
     
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 172,
-                      height: MediaQuery.of(context).size.height - 74,
+                      height: MediaQuery.of(context).size.height - 54,
                       child: PageView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: _pageController,
-                        itemBuilder: (context, index) {   
+                        itemBuilder: (context, index) { 
                           return SingleChildScrollView(
                             child: widget.dashboardPages
                               [index % widget.dashboardPages.length]

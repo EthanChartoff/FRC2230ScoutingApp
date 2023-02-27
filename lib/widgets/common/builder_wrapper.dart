@@ -50,37 +50,40 @@ class BuilderWrapper extends StatelessWidget {
         )).toList();
 
 
-        return Scaffold(
-          key: scaffoldKey,
-
-          /// The drawer is a panel that slides in from the side 
-          /// of the screen. It is typically used to display 
-          /// navigation links in an application.
-          /// https://api.flutter.dev/flutter/material/Scaffold/drawer.html
-          drawer: AdaptiveDrawer(
-            router: router,
-            bottom: isMobile,
-            onDestinationSelected: () {
-              scaffoldKey.currentState!.closeDrawer();
-            },
-
-            children: drawerDestinations
-          ),
-
-          /// The body of the app, the main content of the app.
-          /// https://api.flutter.dev/flutter/material/Scaffold/body.html
-          body: AdaptiveMenu(
-            router: router,
-            bottom: isMobile,
-            bottomOnSwipeUp: () {
-              scaffoldKey.currentState!.openDrawer();
-            },
-
-            sideDestinations: sideDestinationsLocale,
-
-            bottomDestinations: bottomDestinationsLocale,
-
-            child: child,
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child: Scaffold(
+            key: scaffoldKey,
+        
+            /// The drawer is a panel that slides in from the side 
+            /// of the screen. It is typically used to display 
+            /// navigation links in an application.
+            /// https://api.flutter.dev/flutter/material/Scaffold/drawer.html
+            // drawer: AdaptiveDrawer(
+            //   router: router,
+            //   bottom: isMobile,
+            //   onDestinationSelected: () {
+            //     // scaffoldKey.currentState!.closeDrawer();
+            //   },
+        
+            //   children: drawerDestinations
+            // ),
+        
+            /// The body of the app, the main content of the app.
+            /// https://api.flutter.dev/flutter/material/Scaffold/body.html
+            body: AdaptiveMenu(
+              router: router,
+              bottom: isMobile,
+              bottomOnSwipeUp: () {
+                // scaffoldKey.currentState!.openDrawer();
+              },
+        
+              sideDestinations: sideDestinationsLocale,
+        
+              bottomDestinations: bottomDestinationsLocale,
+        
+              child: child,
+            ),
           ),
         ); 
       }                  

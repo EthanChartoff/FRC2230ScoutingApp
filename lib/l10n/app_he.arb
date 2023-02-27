@@ -46,8 +46,60 @@
 
     "cube": "קוּבִּיָה",
     "cone": "קוֹנוּס",
+    "none": "כלום",
+
+    "docked": "DOCKED",
+    "engaged": "ENGAGED",
+
+    "community": "קהילה",
+    "out": "מִחוּץ לְ",
 
     "dataSavedMsg": "הנתונים נשמרו בהצלחה",
+    "noData": "אין נתונים זמינים",
+
+    "worked": "עבד",
+    "outOfCommunity": "יצא מהקהילה",
+    "onChargeStation": "על עמדת טעינה",
+
+    "scored": "קלעו",
+    "attemped": "ניסו",
+
+    "autoDidntWorkOnChargeStation": "באוטומטי לא עבד בעמדת טעינה",
+    "chargeStationStatus": "סטטוס חניה עמדת טעינה",
+    "gameItemOnStartOfGame": "פריט בהתחלת המשחק",
+    "numOfSecsUntilBalancedOnChargeStation": "מספר שניות עד לאיזון על חניה עמדת טעינה",
+    "numOfSecsBeforeTheEndRobotPivotedToChargeStation": "מספר שניות לפני סוף אוטומטי שהרובוט סע לעמדת טעינה",
+
+    "didDefend": "האם הגן?",
+    "didGetDefended": "האם הוגן?",
+    "didFeed": "האם עשה פיד?",
+
+
+    "didPhaseWork": "{phase}האם הרובוט עבד ב",
+    "@didPhaseWork": {
+        "description": "did the robot work in a specific phase",
+        "placeholders": {
+            "phase": {
+                "type": "String",
+                "example": "אוטומטי"
+            }
+        }
+    },
+
+    "rowItemByRound": "קלעו {gameItem} ל{row}",
+    "@rowItemByRound": {
+        "description": "row item by round",
+        "placeholders": {
+            "row": {
+                "type": "String",
+                "example": "נמוך"
+            },
+            "gameItem": {
+                "type": "String",
+                "example": "קוּבִּיָה"
+            }
+        }
+    },
 
     "attempedItemCounterTitle": "ניסה לקלוע {gameItem} ב-{row}",
     "@attempedItemCounterTitle": {

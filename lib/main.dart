@@ -9,7 +9,7 @@ import 'package:scoute_prime/api/2230_database/dart/get/teams.dart';
 import 'package:scoute_prime/widgets/common/builder_wrapper.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/mobile/strategy_form_mobile.dart';
 import 'package:scoute_prime/widgets/common/matches/matches_page_strategy.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/no_team_page.dart';
+import 'package:scoute_prime/widgets/common/dashboard/no_team_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/strategy.dart';
 import 'package:scoute_prime/widgets/desktop/all_teams/all_teams_page.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/endgame.dart';
@@ -19,15 +19,21 @@ import 'package:scoute_prime/widgets/common/device_builder.dart';
 import 'package:scoute_prime/widgets/common/matches/matches_page_scouting.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/scouter/scouting_form2023.dart';
 import 'package:scoute_prime/widgets/common/matches/forms/strategy/2023/desktop/strategy_form_desktop.dart';
+import 'package:scoute_prime/widgets/mobile/dashboards/team_dashboard/2023/pages/endgame.dart';
+import 'package:scoute_prime/widgets/mobile/dashboards/team_dashboard/2023/pages/strategy.dart';
+import 'package:scoute_prime/widgets/mobile/dashboards/team_dashboard/2023/pages/teleop.dart';
 import 'package:scoute_prime/widgets/mobile/login/login_page_mobile.dart';
 import 'package:scoute_prime/widgets/desktop/pick_list/pick_list_page.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/dashboard.dart';
+import 'package:scoute_prime/widgets/common/dashboard/dashboard.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/auto.dart';
 import 'package:scoute_prime/misc/routing.dart';
 import 'package:scoute_prime/widgets/common/user_type_builder.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/misc/user_types.dart';
-import 'package:scoute_prime/widgets/mobile/pick_list/pick_list_page.dart';
+import 'package:scoute_prime/widgets/mobile/pick_list/pick_list_page_scouting.dart';
+import 'package:scoute_prime/widgets/mobile/pick_list/pick_list_page_strategy.dart';
+
+import 'widgets/mobile/dashboards/team_dashboard/2023/pages/auto.dart';
 
 
 
@@ -96,8 +102,6 @@ class _AppState extends State<App> {
               final alliance = state.queryParams['alliance'];
               final matchNum = state.queryParams['matchNum'];
 
-              print(state.queryParams['match']);
-
               if(relatedToMatch) {
                 return UserTypeBuilder(
                   user: _user, 
@@ -130,7 +134,6 @@ class _AppState extends State<App> {
                 );
               } 
               else {
-                print(false);
                 return UserTypeBuilder(
                   user: _user, 
                   viewerPage: MatchesPageScouting(),
@@ -167,7 +170,7 @@ class _AppState extends State<App> {
                 teamNumber: 2230,
                 matchKey: matchKey,
                 dashboardPages: [
-                  AutoDashboard2023()
+                  AutoDashboardDesktop2023()
                 ],
               );
             },
@@ -184,36 +187,57 @@ class _AppState extends State<App> {
 
           if(teamId == null) return const DashboardNoTeamPage();
 
-          final dashboard = [
-            AutoDashboard2023(
+          final dashboardDesktop = [
+            AutoDashboardDesktop2023(
               teamId: teamId
             ),
-            TeleopDashboard2023(
+            TeleopDashboardDesktop2023(
               teamId: teamId
             ),
-            EndgameDashboard2023(
+            EndgameDashboardDesktop2023(
               teamId: teamId
             ),
-            StrategyDashboard2023(
+            StrategyDashboardDesktop2023(
               teamId: teamId
             )
           ];
 
-          return UserTypeBuilder(
-            user: _user, 
-            viewerPage: Dashboard(
-              teamNumber: int.parse(teamId),
-              dashboardPages: dashboard,
+          final dashboardMobile = [
+            AutoDashboardMobile2023(
+              teamId: teamId
             ),
-            scouterPage: Dashboard(
-              teamNumber: int.parse(teamId),
-              matchKey: '2022aroz_f1m1',
-              dashboardPages: dashboard,
+            TeleopDashboardMobile2023(
+              teamId: teamId
             ),
-            adminPage: Dashboard(
-              teamNumber: int.parse(teamId),
-              dashboardPages: dashboard,
+            EndgameDashboardMobile2023(
+              teamId: teamId
+            ),
+            StrategyDashboardMobile2023(
+              teamId: teamId
             )
+          ];
+
+          return DeviceBuilder(
+            desktop: UserTypeBuilder(
+              user: _user, 
+              viewerPage: Dashboard(
+                teamNumber: int.parse(teamId),
+                dashboardPages: dashboardDesktop,
+              ),
+              scouterPage: Dashboard(
+                teamNumber: int.parse(teamId),
+                matchKey: '2022aroz_f1m1',
+                dashboardPages: dashboardDesktop,
+              ),
+              adminPage: Dashboard(
+                teamNumber: int.parse(teamId),
+                dashboardPages: dashboardDesktop,
+              )
+            ),
+            mobile: Dashboard(
+              teamNumber: int.parse(teamId),
+              dashboardPages: dashboardMobile,
+            ),
           );
         }
       ),
@@ -221,8 +245,18 @@ class _AppState extends State<App> {
       GoRoute(
         path: Routing.PICK_LIST,
         builder: (context, state) => DeviceBuilder(
-          mobile: const PickListPageMobile(
-            teamsFromDb: GetTeamsData.all,
+          mobile: UserTypeBuilder(
+            user: _user, 
+            viewerPage: const PickListPageScoutingMobile(
+              teamsFromDb: GetTeamsData.all,
+            ),
+            scouterPage: const PickListPageScoutingMobile(
+              teamsFromDb: GetTeamsData.all,
+            ),
+            adminPage: const PickListPageStrategyMobile(
+              teamsFromDb: GetTeamsData.all,
+            ),
+            
           ),
           desktop: const PickListPageDesktop(
             teamsFromDb: GetTeamsData.all,

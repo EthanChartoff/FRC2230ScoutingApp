@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/get_strategy_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/misc/constants.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_no_data_page.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_text_card.dart';
+import 'package:scoute_prime/widgets/common/dashboard/dashboard_page.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_no_data_page.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_text_card.dart';
 
 
 /// The strategy page in [Dashboard], shows strategy data.
-class StrategyDashboard2023 extends DashboardPage {
-  StrategyDashboard2023({
+class StrategyDashboardDesktop2023 extends DashboardPage {
+  StrategyDashboardDesktop2023({
     Map<String, dynamic Function()>? data,
     String? title,
     String? teamId,
@@ -28,7 +28,7 @@ class StrategyDashboard2023 extends DashboardPage {
     required double width, 
     Key? key
   }) {
-
+    
     /// If there is no data, return [DashboardNoDataPage].
     if (data['strategyTables'].isEmpty) {
       return const DashboardNoDataPage();

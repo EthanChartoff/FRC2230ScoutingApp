@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/dashboard_page.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_container.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_no_data_page.dart';
-import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/widgets/dashboard_piechart.dart';
+import 'package:scoute_prime/widgets/common/dashboard/2023/dashboard_funcs2023.dart';
+import 'package:scoute_prime/widgets/common/dashboard/dashboard_page.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_container.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_no_data_page.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_piechart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 /// The endgame page in [Dashboard], shows endgame data.
-class EndgameDashboard2023 extends DashboardPage {
-  EndgameDashboard2023({
+class EndgameDashboardDesktop2023 extends DashboardPage {
+  EndgameDashboardDesktop2023({
     Map<String, dynamic Function()>? data,
     String? title,
     String? teamId,
@@ -19,64 +20,8 @@ class EndgameDashboard2023 extends DashboardPage {
       'scoutingTables' : [GetScoutingData.fromTeamId, teamId],
       'matches' : [GetMatches.ofTeam, teamId],
     }
-  );
+  );  
 
-  /// # Data orginization getters
-  
-  /// Returns a map of if robot worked in teleop, if it did, in that key return 
-  /// if robot was on the charge station or not. If it didn't work in teleop, 
-  /// return in that key that it did not work. 
-  List<MapEntry<String, int>> endgameDidntWorkOrChargeStation(List data) {    
-    final listWithAllStates = List.generate(data.length, (index) => 
-      data[index]['didRobotWorkInTeleOp'] == '1' ? 
-        data[index]['autoChargeStationStatus'] == 'DOCKED' 
-        || data[index]['autoChargeStationStatus'] == 'ENGAGED'? 
-          'On Charge Station' 
-          : 'Off Charge Station' 
-          : 'Didnt Work'
-    );
-
-    return [
-      MapEntry('On Charge Station', listWithAllStates.where((element) => 
-        element == 'On Charge Station').length),
-      MapEntry('Off Charge Station', listWithAllStates.where((element) => 
-        element == 'Off Charge Station').length),
-      MapEntry('Didnt Work', listWithAllStates.where((element) => 
-        element == 'Didnt Work').length),
-    ].where((element) => element.value != 0).toList();
-  }
-
-  /// Returns number of robot charge station statuses.
-  List<MapEntry<String, int>> chargeStationStatus(List data) {
-    final listWithAllStates = List<String>.generate(data.length, (index) => 
-      data[index]['endGameChargeStationStatus']
-    );
-
-    return [
-      MapEntry('DOCKED', listWithAllStates.where((element) => 
-        element == 'DOCKED').length),
-      MapEntry('ENGAGED', listWithAllStates.where((element) => 
-        element == 'ENGAGED').length),
-      MapEntry('PARKED', listWithAllStates.where((element) => 
-        element == 'PARKED').length),
-      MapEntry('NONE', listWithAllStates.where((element) => 
-        element == 'NONE').length),
-    ].where((element) => element.value != 0).toList();
-  }
-
-  /// Returns number of where robot drove to charge station.
-  List<MapEntry<String, int>> fromWhereRobotDroveToChargeStation(List data) {
-    final listWithAllStates = List<String>.generate(data.length, (index) => 
-      data[index]['fromWhereRobotDroveToChargeStation']
-    );
-
-    return [
-      MapEntry('COMUNITY', listWithAllStates.where((element) => 
-        element == 'COMUNITY').length),
-      MapEntry('OUT', listWithAllStates.where((element) => 
-        element == 'OUT').length),
-    ].where((element) => element.value != 0).toList();
-  }
   
   @override
   Widget buildDashboard({
@@ -119,7 +64,10 @@ class EndgameDashboard2023 extends DashboardPage {
                         /// Shows if robot worked in endgame, and if it did, if it was
                         /// on the charge station or not.
                         PieSeries<dynamic, String>(
-                          dataSource: endgameDidntWorkOrChargeStation(data['scoutingTables']),
+                          dataSource: DashboardFuncs2023
+                            .endgameDidntWorkOrChargeStation(
+                              data['scoutingTables']
+                            ),
                           xValueMapper: (datum, _) => datum.key,
                           yValueMapper: (datum, _) => datum.value,
                           animationDuration: 0,
@@ -136,7 +84,8 @@ class EndgameDashboard2023 extends DashboardPage {
                       series: [
                         /// Shows number of robot charge station statuses.
                         PieSeries<dynamic, String>(
-                          dataSource: chargeStationStatus(data['scoutingTables']),
+                          dataSource: DashboardFuncs2023
+                            .chargeStationStatusEndgame(data['scoutingTables']),
                           xValueMapper: (datum, _) => datum.key,
                           yValueMapper: (datum, _) => datum.value,
                           animationDuration: 0,
@@ -153,8 +102,10 @@ class EndgameDashboard2023 extends DashboardPage {
                       series: [
                         /// Shows number of robot charge station statuses.
                         PieSeries<dynamic, String>(
-                          dataSource: fromWhereRobotDroveToChargeStation(
-                            data['scoutingTables']),
+                          dataSource: DashboardFuncs2023
+                            .autoDidntWorkOrChargeStation(
+                              data['scoutingTables']
+                            ),
                           xValueMapper: (datum, _) => datum.key,
                           yValueMapper: (datum, _) => datum.value,
                           animationDuration: 0,

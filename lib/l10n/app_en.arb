@@ -46,8 +46,61 @@
 
     "cube": "CUBE",
     "cone": "CONE",
+    "none": "NONE",
+
+    "docked": "DOCKED",
+    "engaged": "ENGAGED",
+
+    "community": "COMMUNITY",
+    "out": "OUT",
 
     "dataSavedMsg": "Data has been saved",
+    "noData": "No Data",
+
+    "worked": "Worked",
+    "outOfCommunity": "Out Of Community",
+    "onChargeStation": "On Charge Station",
+
+    "scored": "Scored",
+    "attempted": "Attempted",
+
+    "autoDidntWorkOnChargeStation": "Auto didn't work on charge station",
+    "chargeStationStatus": "Charge Station Status",
+    "gameItemOnStartOfGame": "Game Item On Start Of Game",
+    "numOfSecsUntilBalancedOnChargeStation": "Number Of Seconds Until Balanced On Charge Station",
+    "numOfSecsBeforeTheEndRobotPivotedToChargeStation": "Number Of Seconds Before The End Robot Pivoted To Charge Station",
+
+    "didDefend": "Did Defend",
+    "didGetDefended": "Did Get Defended",
+    "didFeed": "Did Feed",
+
+
+
+    "didPhaseWork": "Did robot work in {phase}",
+    "@didPhaseWork": {
+        "description": "title of did phase work",
+        "placeholders": {
+            "phase": {
+                "type": "String",
+                "example": "AUTO"
+            }
+        }
+    },
+
+    "rowItemByRound": "{row} {gameItem} By Round",
+    "@rowItemByRound": {
+        "description": "title of row item by round",
+        "placeholders": {
+            "row": {
+                "type": "String",
+                "example": "LOW"
+            },
+            "gameItem": {
+                "type": "String",
+                "example": "Cubes"
+            }
+        }
+    },
 
 
     "attempedItemCounterTitle": "Attempted to score {gameItem} on {row}",

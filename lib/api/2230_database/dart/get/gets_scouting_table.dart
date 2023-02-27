@@ -40,8 +40,11 @@ class GetScoutingData {
     var jsonData = [];
     
     try {
-      final response = await http
-          .get(Uri.parse("$websiteUrl/php/scouting_tables_of_team.php?teamId=$teamId"));
+      final response = await http.get(Uri.http(
+        websiteAddress,
+        '/php/scouting_tables_of_team.php',
+        {'teamId': teamId},
+      ));
       jsonData = jsonDecode(response.body);
     } catch (err) {
       // print('$err lol');
