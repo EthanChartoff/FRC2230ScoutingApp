@@ -33,7 +33,7 @@ class _SidemenuDesktopState extends State<SidemenuDesktop> {
   Widget build(BuildContext context) {
     return NavigationRail(
       backgroundColor: Theme.of(context).primaryColorDark,
-
+    
       selectedIndex: selectedIndex,
       onDestinationSelected: (value) {
         setState(() {
@@ -41,15 +41,15 @@ class _SidemenuDesktopState extends State<SidemenuDesktop> {
           widget.destinations[value].route != null ? 
             widget.router.go(widget.destinations[value].route!) : null;
         });
-
+    
         if(value == 0) {
           widget.onLeadingSelected?.call();
         }
-
+    
         widget.onDestinationSelected?.call();
         widget.destinations[value].onSelected?.call();
       },
-
+    
       destinations: widget.destinations,
     );
   }

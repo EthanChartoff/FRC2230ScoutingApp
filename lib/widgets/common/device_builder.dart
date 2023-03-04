@@ -38,7 +38,8 @@ class DeviceBuilder extends Builder {
           } else if (tablet != null){
             return tablet;
           } else if (desktop != null && mobile != null) {
-            return MediaQuery.of(context).size.width > 600 ? 
+            return MediaQuery.of(context).size.width > 600 && 
+              MediaQuery.of(context).size.height > 500 ? 
               desktop : 
               mobile;
           } 

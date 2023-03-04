@@ -194,6 +194,8 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                   ],
                 ),
                 /// TODO: add also non related strategy to match strategy data
+                
+                snapshot.data!['strategyByRound'].isNotEmpty ? 
                 ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) => StrategySideComment(
@@ -204,6 +206,14 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                       value.isExpandedValue,
                     )),
                   ),
+                ) : const Center(
+                  child: Text(
+                    'No data',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 NoMatchSideComments(
                   data: snapshot.data!['noMatchStrategy'],
@@ -212,7 +222,7 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                       [cards.indexOf(value)],
                     value.isExpandedValue,
                   )),
-                )
+                ) 
               ],
             );
           } else {

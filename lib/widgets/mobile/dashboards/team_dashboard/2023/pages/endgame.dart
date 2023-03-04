@@ -34,17 +34,17 @@ class EndgameDashboardMobile2023 extends DashboardPage {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DashboardContainer(
-            height: 100,
-            children: {
-              'example' : List.generate(4, (index) => const Text(
-                'Example text',
-              ))
-            }
-          ), 
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: DashboardContainer(
+        //     height: 100,
+        //     children: {
+        //       'example' : List.generate(4, (index) => const Text(
+        //         'Example text',
+        //       ))
+        //     }
+        //   ), 
+        // ),
         Padding(
           padding: const EdgeInsets.all(8.0), 
           child: DashboardContainer<DashboardPiechart>(
@@ -112,16 +112,16 @@ class EndgameDashboardMobile2023 extends DashboardPage {
             }
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: DashboardContainer<Widget>(
-            height: 300,
-            width: double.infinity,
-            children: {
+        // const Padding(
+        //   padding: EdgeInsets.all(8.0),
+        //   child: DashboardContainer<Widget>(
+        //     height: 300,
+        //     width: double.infinity,
+        //     children: {
               
-            },
-          ),
-        )
+        //     },
+        //   ),
+        // )
       ],
     );
   }

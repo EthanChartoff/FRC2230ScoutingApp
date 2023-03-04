@@ -54,7 +54,7 @@ class AutoDashboardDesktop2023 extends DashboardPage {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               DashboardContainer<Widget>(
-                height: 370,
+                height: 300,
                 width: width - 474, // screen width - 474
                 children: {
                   'Game item %' : [
@@ -122,7 +122,7 @@ class AutoDashboardDesktop2023 extends DashboardPage {
                 }
               ),
               DashboardContainer<DashboardPiechart>(  
-                height: 370,
+                height: 300,
                 width: 450,
                 children: {
                   'auto didnt work or charge station' : [
