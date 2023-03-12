@@ -143,7 +143,7 @@
     },
 
 
-    "getStrategyCategotyName": "{category, select, gathering{איסוף} cargo{מטען}, scoring{ניקוד}, defenceOnOtherRobots{הגנה על רובוטים אחרים}, defenceOnThemselves{הגנה שעשו על עצמם} drivers{נהגים} comments{הערות} other{אחר}}",
+    "getStrategyCategotyName": "{category, select, gathering{איסוף} cargo{מטען} scoring{ניקוד} defenceOnOtherRobots{הגנה על רובוטים אחרים} defenceOnThemselves{הגנה שעשו על עצמם} drivers{נהגים} auto{אוטונומי} chargeStation{עמדת } comments{הערות} other{אחר}}",
     "@getStrategyCategotyName": {
         "description": "gets the name of strategy category by its DB accurate name",
         "placeholders": {

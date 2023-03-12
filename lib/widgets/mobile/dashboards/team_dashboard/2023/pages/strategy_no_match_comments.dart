@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:scoute_prime/api/2230_database/dart/get/get_strategy_table.dart';
-import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/no_match_strategy.dart';
 import 'package:scoute_prime/misc/constants.dart';
 import 'package:scoute_prime/widgets/common/dashboard/dashboard_page.dart';
@@ -26,13 +23,14 @@ class StrategyNoMatchDashboardMobile2023 extends DashboardPage {
     Key? key
   }) {
     return SizedBox(
-      width: width / 2 - 1,
+      width: width,
       child: Column(
         children: List.generate(data['noMatchesStrategyTables'].length, (index) =>
           InkWell(
             onLongPress: () => showDialog(
               context: context,
               builder: (context) => AlertDialog(
+                backgroundColor: Theme.of(context).primaryColorDark,
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: List.generate(DB_ACCURATE_STRATEGY_CATEGORIES2023.length, (index2) => 
@@ -67,11 +65,20 @@ class StrategyNoMatchDashboardMobile2023 extends DashboardPage {
                   List.generate(DB_ACCURATE_STRATEGY_CATEGORIES2023.length, (index2) => 
                     Row(
                       children: [
-                        Text('${STRATEGY_CATEGORIES2023[index2]}: '),
+                        Text(
+                          '${STRATEGY_CATEGORIES2023[index2]}: ',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         Flexible(
                           child: Text(
                             data['noMatchesStrategyTables'][index][DB_ACCURATE_STRATEGY_CATEGORIES2023[index2]].toString(),
                             overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                            ),
                           ),
                         )
                       ],

@@ -2,22 +2,22 @@ import 'package:http/http.dart' as http;
 import 'package:scoute_prime/misc/constants.dart';
 
 class InsertStrategyDataTable2023 {
-  static void newTable({
-    required matchId,
-    required teamId,
-    required alliance,
-    required gathering,
-    required cargo,
-    required scoring,
-    required defenceOnOtherRobots,
-    required defenceOnThemselves,
-    required drivers,
-    required comments,
-  }) async {
+  static void newTable(
+      {required matchId,
+      required teamId,
+      required alliance,
+      required gathering,
+      required cargo,
+      required scoring,
+      required defenceOnOtherRobots,
+      required defenceOnThemselves,
+      required drivers,
+      required comments,
+      required auto,
+      required chargeStation}) async {
     try {
       final response = await http.post(
-          Uri.parse(
-              '$websiteUrl/php/new_strategy_data_table.php'),
+          Uri.parse('$websiteUrl/php/new_strategy_data_table.php'),
           body: {
             'id': '',
             'lastChangedAt': '',
@@ -31,8 +31,10 @@ class InsertStrategyDataTable2023 {
             'defenceOnThemselves': '$defenceOnThemselves',
             'drivers': '$drivers',
             'comments': '$comments',
+            'auto': '$auto',
+            'chargeStation': '$chargeStation',
           });
-        // print(response.body);
+      // print(response.body);
     } catch (err) {
       // print('$err lol');
       throw Exception('$err');
@@ -48,11 +50,12 @@ class InsertStrategyDataTable2023 {
     required defenceOnThemselves,
     required drivers,
     required comments,
-  }) async {
+    required auto,
+    required chargeStation
+    }) async {
     try {
       final response = await http.post(
-          Uri.parse(
-              '$websiteUrl/php/new_no_match_strategy_data_table.php'),
+          Uri.parse('$websiteUrl/php/new_no_match_strategy_data_table.php'),
           body: {
             'id': '',
             'lastChangedAt': '',
@@ -64,8 +67,10 @@ class InsertStrategyDataTable2023 {
             'defenceOnThemselves': '$defenceOnThemselves',
             'drivers': '$drivers',
             'comments': '$comments',
+            'auto': '$auto',
+            'chargeStation': '$chargeStation'
           });
-        // print(response.body);
+      // print(response.body);
     } catch (err) {
       // print('$err lol');
       throw Exception('$err');

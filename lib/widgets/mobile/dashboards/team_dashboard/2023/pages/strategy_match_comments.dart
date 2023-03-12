@@ -34,7 +34,7 @@ class StrategyDashboardMobile2023 extends DashboardPage {
     );
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height - 150,
+      height: MediaQuery.of(context).size.height + 200,
       child: Column(
         children: List.generate(data['strategyTables'].length, (index) => 
           InkWell(
@@ -97,7 +97,7 @@ class StrategyDashboardMobile2023 extends DashboardPage {
                           color: Colors.white70,
                           fontWeight: FontWeight.bold,
                         ),
-                        ),
+                      ),
                       Flexible(
                         child: Text(
                           strategyByRound[index]['strategy'][DB_ACCURATE_STRATEGY_CATEGORIES2023[index2]].toString(),

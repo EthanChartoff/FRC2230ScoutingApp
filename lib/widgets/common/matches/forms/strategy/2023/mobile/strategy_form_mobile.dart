@@ -22,7 +22,9 @@ class StrategyFormMobile extends StatefulWidget {
     this.alliance,
     this.matchNum,
   }) : 
-  assert(!relatedToMatch || !(matchId == null || alliance == null ||       matchNum == null)  ,'when relatedToMatch is true, matchId, alliance and matchNum must not be null');
+  assert(!relatedToMatch || 
+        !(matchId == null || alliance == null || matchNum == null),
+        'when relatedToMatch is true, matchId, alliance and matchNum must not be null');
 
   final bool relatedToMatch;
   final void Function() exit;
@@ -57,13 +59,6 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
     final strategy = await GetStrategyData.ofTeam(widget.teamId);
     final strategyNoMatches = await GetNoMatchStrategyData.ofTeam(widget.teamId); 
     final matches = await GetMatches.ofTeam(widget.teamId);
-
-    // print('''
-    //     teamId: ${widget.teamId}
-    //     strategy: $strategy
-    //     strategyNoMatches: $strategyNoMatches
-    //     matches: $matches
-    //   ''');
 
     final strategyByRound = strategy.map((e) {
       final matchOfStrategyData = 
@@ -135,7 +130,9 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                                 defenceOnOtherRobots: controllersTexts[3], 
                                 defenceOnThemselves: controllersTexts[4], 
                                 drivers: controllersTexts[5], 
-                                comments: controllersTexts[6]
+                                comments: controllersTexts[6],
+                                auto: controllersTexts[7],
+                                chargeStation: controllersTexts[8]
                               );
                             } else {
                               InsertStrategyDataTable2023.newTableNoMatch(
@@ -146,7 +143,9 @@ class _StrategyFormDesktopState extends State<StrategyFormMobile> {
                                 defenceOnOtherRobots: controllersTexts[3], 
                                 defenceOnThemselves: controllersTexts[4], 
                                 drivers: controllersTexts[5], 
-                                comments: controllersTexts[6]
+                                comments: controllersTexts[6],
+                                auto: controllersTexts[7],
+                                chargeStation: controllersTexts[8]
                               );
                             }
 

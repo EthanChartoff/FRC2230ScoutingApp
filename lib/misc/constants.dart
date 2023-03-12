@@ -33,7 +33,9 @@ const List<String> STRATEGY_CATEGORIES2023 = [
   'Defence On Other Robots',
   'Defence On Themselves',
   'Drivers',
-  'Comments'
+  'Comments',
+  'Auto',
+  'Charge Station',
 ];
 
 const List<String> DB_ACCURATE_STRATEGY_CATEGORIES2023 = [
@@ -43,7 +45,9 @@ const List<String> DB_ACCURATE_STRATEGY_CATEGORIES2023 = [
   'defenceOnOtherRobots',
   'defenceOnThemselves',
   'drivers',
-  'comments'
+  'comments',
+  'auto',
+  'chargeStation',
 ];
 
 const websiteUrl = 'https://gascouting.000webhostapp.com';

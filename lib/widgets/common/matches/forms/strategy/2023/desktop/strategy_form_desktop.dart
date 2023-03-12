@@ -123,7 +123,9 @@ class _StrategyFormDesktopState extends State<StrategyFormDesktop> {
                                 defenceOnOtherRobots: controllersTexts[3], 
                                 defenceOnThemselves: controllersTexts[4], 
                                 drivers: controllersTexts[5], 
-                                comments: controllersTexts[6]
+                                comments: controllersTexts[6],
+                                auto: controllersTexts[7],
+                                chargeStation: controllersTexts[8]
                               );
                             } else {
                               InsertStrategyDataTable2023.newTableNoMatch(
@@ -134,7 +136,9 @@ class _StrategyFormDesktopState extends State<StrategyFormDesktop> {
                                 defenceOnOtherRobots: controllersTexts[3], 
                                 defenceOnThemselves: controllersTexts[4], 
                                 drivers: controllersTexts[5], 
-                                comments: controllersTexts[6]
+                                comments: controllersTexts[6],
+                                auto: controllersTexts[7],
+                                chargeStation: controllersTexts[8]
                               );
                             }
 
