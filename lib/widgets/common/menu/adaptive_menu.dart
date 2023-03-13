@@ -6,7 +6,6 @@ import 'package:scoute_prime/widgets/desktop/sidemenue/sidemenu_destination.dart
 import 'package:scoute_prime/widgets/mobile/sidemenu/sidemenu.dart';
 import 'package:scoute_prime/widgets/mobile/sidemenu/sidemenu_destination.dart';
 
-
 class AdaptiveMenu extends Builder {
   AdaptiveMenu({
     Key? key,
@@ -14,43 +13,40 @@ class AdaptiveMenu extends Builder {
     required bool bottom,
     required List<SidemenuDesktopDestination> sideDestinations,
     required List<SidemenuMobileDestination> bottomDestinations,
-
     Widget? child,
     VoidCallback? onDestinationSelected,
     VoidCallback? onDestinationUnselected,
-
     VoidCallback? bottomOnSwipeUp,
-  }) : 
-  super(
-    key: key,
-    builder: (context) {
-      if(router.location == Routing.LOGIN) {
-        return child ?? ErrorWidget('child is null');
-      }
-      else if (!bottom) {
-        return Row(
-          children: [
-            SidemenuDesktop(
-              destinations: sideDestinations,
-              router: router,
-              onDestinationSelected: onDestinationSelected,
-            ),
-            Expanded(child: child ?? ErrorWidget('child is null'))
-          ]
+  }) : super(
+          key: key,
+          builder: (context) {
+            if (router.location == Routing.LOGIN) {
+              return child ?? ErrorWidget('child is null');
+            } else if (!bottom) {
+              return Row(children: [
+                SidemenuDesktop(
+                  destinations: sideDestinations,
+                  router: router,
+                  onDestinationSelected: onDestinationSelected,
+                ),
+                Expanded(child: child ?? ErrorWidget('child is null'))
+              ]);
+            } else {
+              return Column(children: [
+                Expanded(child: child ?? ErrorWidget('child is null')),
+                Builder(builder: (context) {
+                  if (WidgetsBinding.instance.window.viewInsets.bottom <= 0) {
+                    return SidemenuMobile(
+                      destinations: bottomDestinations,
+                      router: router,
+                      onDestinationSelected: onDestinationSelected,
+                      onSwipeUp: bottomOnSwipeUp,
+                    );
+                  }
+                  return const SizedBox.shrink();
+                })
+              ]);
+            }
+          },
         );
-      } else {
-        return Column(
-          children: [
-            Expanded(child: child ?? ErrorWidget('child is null')),
-            SidemenuMobile(
-              destinations: bottomDestinations,
-              router: router,
-              onDestinationSelected: onDestinationSelected,
-              onSwipeUp: bottomOnSwipeUp,
-            )
-          ]
-        );
-      }
-    },
-  );
 }

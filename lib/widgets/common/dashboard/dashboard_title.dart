@@ -31,27 +31,46 @@ class _DashboardTitleState extends State<DashboardTitle> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SizedBox(
                 width: 550,
-                child: Text('${widget.title}${widget.subtitle != null ? ' - ${widget.subtitle}' : ''}',
+                child: Text(
+                  '${widget.title}${widget.subtitle != null ? ' - ${widget.subtitle}' : ''}',
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
             ),
-
             SizedBox(
               width: max(MediaQuery.of(context).size.width - 950, 0),
             ),
-
-            SingleChildScrollView(
-
-            ),
-
-            widget.filters ?? const SizedBox.shrink(),  
+            widget.matches != null
+                ? SizedBox(
+                    width: 400,
+                    height: 30,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.matches!.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              widget.matches![index]['matchNumber'].toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            widget.filters ?? const SizedBox.shrink(),
           ],
         ),
       ),

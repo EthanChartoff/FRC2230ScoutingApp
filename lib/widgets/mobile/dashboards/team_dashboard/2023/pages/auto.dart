@@ -49,7 +49,7 @@ class AutoDashboardMobile2023 extends DashboardPage {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: DashboardContainer<Widget>(
-            height: 10,
+            height: 150,
             children: {
               'Game item %' : [
                 Center(
