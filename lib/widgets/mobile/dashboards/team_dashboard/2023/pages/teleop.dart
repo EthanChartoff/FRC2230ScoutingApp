@@ -1,9 +1,11 @@
 import 'dart:math';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:scoute_prime/api/2230_database/dart/get/gets_match_table.dart';
 import 'package:scoute_prime/api/2230_database/dart/get/gets_scouting_table.dart';
 import 'package:scoute_prime/misc/constants.dart';
@@ -15,6 +17,7 @@ import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_containe
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_graph.dart';
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_no_data_page.dart';
 import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_piechart.dart';
+import 'package:scoute_prime/widgets/common/dashboard/widgets/dashboard_table.dart';
 import 'package:scoute_prime/widgets/desktop/dashboards/team_dashboard/2023/pages/teleop.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -47,32 +50,70 @@ class TeleopDashboardMobile2023 extends DashboardPage {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: DashboardContainer(
-            height: 100,
+            height: 150,
             children: {
-              'Tiro de Bolas' : [
-                Container(
-                  color: Colors.red,
-                  height: 100,
-                  width: 100,
-                ),
-                Container(
-                  color: Colors.blue,
-                  height: 100,
-                  width: 100,
-                ),
-              ],
-              'Tiro de Bolas' : [
-                Container(
-                  color: Colors.red,
-                  height: 100,
-                  width: 100,
-                ),
-                Container(
-                  color: Colors.blue,
-                  height: 100,
-                  width: 100,
-                ),
-              ],
+              'Game item %' : [
+                Center(
+                  child: DashboardTable.textTable(
+                    lerpValues: true,
+                    children: [
+                      [
+                        '',
+                        AppLocalizations.of(context).low,
+                        AppLocalizations.of(context).mid,
+                        AppLocalizations.of(context).high,
+                      ],
+                      [
+                      AppLocalizations.of(context).cube,
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'rowOneCubes', 
+                            'tryRowOneCubes'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'rowTwoCubes', 
+                            'tryRowTwoCubes'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'rowThreeCubes', 
+                            'tryRowThreeCubes'
+                          )
+                      )}%',
+                    ],
+                    [
+                      AppLocalizations.of(context).cone,
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'rowOneCones', 
+                            'tryRowOneCones'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'rowTwoCones', 
+                            'tryRowTwoCones'
+                          )
+                      )}%',
+                      '${DashboardFuncs2023.valOrNan(
+                          DashboardFuncs2023.ratioOfTwoKeys(
+                            data['scoutingTables'], 
+                            'rowThreeCones', 
+                            'tryRowThreeCones'
+                          )
+                      )}%'
+                    ]]
+                  ),
+                )
+              ]
             },
           ),
         ),

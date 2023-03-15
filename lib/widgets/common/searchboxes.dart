@@ -61,7 +61,6 @@ class TeamSearchbox extends TypeAheadField<TeamsData> {
         ),
       ),
       tileColor: Theme.of(context).primaryColorDark,
-      
     ),
 
     noItemsFoundBuilder: noItemsFoundBuilder ?? (final BuildContext context) => Container(
